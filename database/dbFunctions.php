@@ -27,7 +27,6 @@
 			else {
 				return False;
 			}
-		return True;
 
         }
         else {
