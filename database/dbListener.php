@@ -1,9 +1,9 @@
 <?php
 	require_once("dbFunctions.php");
-	require_once('../rabbitmq/rabbitmqphp_example/path.inc'); //This is an extra place for php to look for files. Important because of AMQP
-	require_once('../rabbitmq/rabbitmqphp_example/get_host_info.inc'); //Sole purpose is to read .ini config files like host.ini and turns 
+	require_once('../nvdigestmq/path.inc'); //This is an extra place for php to look for files. Important because of AMQP
+	require_once('../nvdigestmq/get_host_info.inc'); //Sole purpose is to read .ini config files like host.ini and turns 
 							       //into a usable PHP array (host, port, username, password, vhost, exchange, queue)
-	require_once('../rabbitmq/rabbitmqphp_example/rabbitMQLib.inc');
+	require_once('../nvdigestmq/rabbitMQLib.inc');
 
 
 	function requestRouter($request){   //This listens for a request whether it be login or register
@@ -15,7 +15,7 @@
 		}
 	}
 
-	$server = new rabbitMQServer("../rabbitmq/rabbitmqphp_example/testRabbitMQ.ini", "testServer"); //This line grabs server infromation
+	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "testServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
 
 	/*$login = doLogin("bryan", "password");

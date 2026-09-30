@@ -22,7 +22,7 @@
 				if($stmt = $db->prepare($updateSql)){
 					$stmt->bind_param("ss", $hex, $username);
 					$stmt->execute();
-						return True;
+						return $hex;
 			}
 			else {
 				return False;
