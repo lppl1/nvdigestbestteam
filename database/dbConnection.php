@@ -1,7 +1,7 @@
 <?php
 
 	function dbConnection(){
-		$mysqli = new mysqli("localhost","bryan","password","personaldb");
+		$mysqli = new mysqli("localhost","nvd","universal14$","nvdb");
 
 		// Check connection
 		if ($mysqli -> connect_errno) {
