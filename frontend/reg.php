@@ -1,5 +1,5 @@
 <?php
-require_once('nvdigestbestteam/database/dbListener.php')
+require_once('rabbitmq/rabbitmqphp_example/testrabbitmq.ini')
 $username=$_POST["reguser"]
 $password=$_POST["regpass"]
 
