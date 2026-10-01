@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
 <h1>Log In</h1>
 <form method="post" action="login.php">
+<input type=hidden name="action" value="login">
 <label>Username:</label>
-<input>
+<input name="username">
 <br>
 <br>
 <label>Password:</label>
-<input type=password>
+<input type=password name="password">
 <br>
-<button type=submit>
+<button type=submit value="Login" style="height:35px; width: 85px;">
 </form>
