@@ -1,21 +1,7 @@
 <?php
-
-
-if (!isset($_POST))
-{
-	$msg = "NO POST MESSAGE SET, POLITELY FUCK OFF";
-	echo json_encode($msg);
-	exit(0);
-}
+require_once("../nvdigestmq/rabbitMQLib.inc");
+require_once("../nvdigestmq/nvRabbitMQ.ini");
 $request = $_POST;
-$response = "unsupported request type, politely FUCK OFF";
-switch ($request["type"])
-{
-	case "login":
-		$response = "login, yeah we can do that";
-	break;
-}
-echo json_encode($response);
-exit(0);
-
+$client = new rabbitMQClient("../nvdigestmq/nvRabbitMQ.ini","testServer");
+$response=$client->send_request($request);
 ?>
