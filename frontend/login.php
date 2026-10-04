@@ -3,5 +3,9 @@ require_once("../nvdigestmq/rabbitMQLib.inc");
 require_once("../nvdigestmq/nvRabbitMQ.ini");
 $request = $_POST;
 $client = new rabbitMQClient("../nvdigestmq/nvRabbitMQ.ini","testServer");
+if(isset($request["action"]) and $request["action"]=="login"){
+	header("Location: reg.html");
+	exit;
+}
 $response=$client->send_request($request);
 ?>
