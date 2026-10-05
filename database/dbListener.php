@@ -11,11 +11,11 @@
 			return doLogin($request['username'], $request['password']);  //It would run through the login function
 		}
 		else if ($request ['type'] == 'register') {  //If request type was register
-			return doRegister($request['username'], $request['password']); //It would go through register logic
+			return doRegister($request['username'], $request['password'], $request['email']); //It would go through register logic
 		}
 	}
 
-	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "testServer"); //This line grabs server infromation
+	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
 
 	/*$login = doLogin("bryan", "password");
