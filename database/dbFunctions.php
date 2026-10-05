@@ -4,7 +4,7 @@
 
 	function doLogin($username, $password){
 		$db = dbConnection();
-		$selectSql = "SELECT username, password FROM app_users WHERE username=?";
+		$selectSql = "SELECT username, password FROM users WHERE username=?";
 	    		if($stmt = $db->prepare($selectSql)) {
         			$stmt->bind_param("s", $username);
         			$stmt->execute();
@@ -18,7 +18,7 @@
 		//If the password was correct a unique randomly generated key will be added to the session_key column of the database
 			$session_key = random_bytes(32);
 			$hex = bin2hex($session_key);
-			$updateSql = "UPDATE app_users SET session_key = ? WHERE username = ?";
+			$updateSql = "UPDATE users SET session_key = ?, session_created = NOW()  WHERE username = ?";
 				if($stmt = $db->prepare($updateSql)){
 					$stmt->bind_param("ss", $hex, $username);
 					$stmt->execute();
@@ -41,7 +41,7 @@
 		$db = dbConnection();
 		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 		//This line will add the hashedpassword into password column
-		$insertSql = "INSERT INTO app_users (username, password, email) VALUES (?, ?, ?)";
+		$insertSql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
 			if($stmt = $db->prepare($insertSql)) {
 		$stmt->bind_param("sss", $username, $hashedPassword, $email);
 			try {
