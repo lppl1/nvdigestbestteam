@@ -1,8 +1,8 @@
 <?php
-require_once("../nvdigestmq/rabbitMQLib.inc");
-require_once("../nvdigestmq/nvRabbitMQ.ini");
+require_once("nvdigestmq/rabbitMQLib.inc");
+require_once("nvdigestmq/nvRabbitMQ.ini");
 $request = $_POST;
-$client = new rabbitMQClient("../nvdigestmq/nvRabbitMQ.ini","nvdServer");
+$client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini","nvdServer");
 if(isset($request["account"]))
 {
 	$response=$client->send_request($request);
