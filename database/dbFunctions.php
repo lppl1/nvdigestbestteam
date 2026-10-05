@@ -37,13 +37,13 @@
         return False;
 }		
 
-	function doRegister($username, $password){
+	function doRegister($username, $password, $email){
 		$db = dbConnection();
 		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 		//This line will add the hashedpassword into password column
-		$insertSql = "INSERT INTO app_users (username, password) VALUES (?, ?)";
+		$insertSql = "INSERT INTO app_users (username, password, email) VALUES (?, ?, ?)";
 			if($stmt = $db->prepare($insertSql)) {
-		$stmt->bind_param("ss", $username, $hashedPassword);
+		$stmt->bind_param("sss", $username, $hashedPassword, $email);
 			try {
 				$stmt->execute();
 				return True;

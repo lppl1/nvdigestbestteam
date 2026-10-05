@@ -11,7 +11,7 @@
 			return doLogin($request['username'], $request['password']);  //It would run through the login function
 		}
 		else if ($request ['type'] == 'register') {  //If request type was register
-			return doRegister($request['username'], $request['password']); //It would go through register logic
+			return doRegister($request['username'], $request['password'], $request['email']); //It would go through register logic
 		}
 	}
 
