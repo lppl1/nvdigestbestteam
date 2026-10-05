@@ -9,7 +9,7 @@ if(isset($request["account"]))
 	if($request["account"]=="register")
 	{
 
-		header("Location: login.html");
+		header("Location: reg.html");
 		exit;
 	}
 	else if($request["account"]=="login"){
