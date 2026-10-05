@@ -15,7 +15,7 @@
 		}
 	}
 
-	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "testServer"); //This line grabs server infromation
+	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
 
 	/*$login = doLogin("bryan", "password");
