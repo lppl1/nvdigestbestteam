@@ -1,6 +1,5 @@
 <?php
 require_once("nvdigestmq/rabbitMQLib.inc");
-require_once("nvdigestmq/nvRabbitMQ.ini");
 $request = $_POST;
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini","nvdServer");
 if(isset($request["type"]))
@@ -13,6 +12,7 @@ if(isset($request["type"]))
 		exit;
 	}
 	else if($request["type"]=="login"){
+		
 		header("Location: index.html");
 		exit;
 
