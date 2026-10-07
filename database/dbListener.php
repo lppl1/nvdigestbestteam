@@ -13,6 +13,9 @@
 		else if ($request ['type'] == 'register') {  //If request type was register
 			return doRegister($request['username'], $request['password'], $request['email']); //It would go through register logic
 		}
+		else if ($request ['type'] == 'validate_session') {
+			return doValidate($request['session_key']);
+		}
 	}
 
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation

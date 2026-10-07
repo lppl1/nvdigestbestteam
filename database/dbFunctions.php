@@ -36,6 +36,24 @@
     else
         return False;
 }		
+function doValidate($session_key) {
+	$db = dbConnection();
+	$selectSql = "SELECT username FROM users WHERE session_key = ? AND session_created > NOW() - INTERVAL 2 HOUR";
+	if($stmt = $db->prepare($selectSql)){
+		$stmt->bind_param("s", $session_key);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_assoc();
+		if ($row == null) {
+			return False;
+		}
+			return True;
+	}
+	else {
+		return False;
+	}
+}
+
 
 	function doRegister($username, $password, $email){
 		$db = dbConnection();
