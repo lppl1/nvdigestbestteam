@@ -8,16 +8,33 @@ if(isset($request["type"]))
 	if($request["type"]=="register")
 	{
 
-		header("Location: login.html");
+		if(json_encode($response)=="true")
+		{header("Location: login.html");
 		exit;
+		}
+		
+		else if(json_encode($response)=="false"){
+			
+			echo "<h1>Account already exists.<h1>";
+			exit;
+		}
 	}
 	else if($request["type"]=="login"){
-		
+		if(json_encode($response)!="false")
+		{		
 		header("Location: index.html");
 		exit;
-
+		}
+		
+		else 
+		{
+		echo "<h1>Go away.<h1>";
+		exit;
+		}
 	}
-	
+ 
+ 
+
 
 }
 ?>
