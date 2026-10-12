@@ -1,7 +1,41 @@
 <html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="message.js" defer></script>
+
+<style>
+.popup{
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 200px;
+            text-align: center; 
+            background-color: #f4bab8;
+	          color:black;
+            box-sizing: border-box;
+            padding: 10px;
+            display: none;
+	          border: 4px solid black;
+        }
+#closePopup {
+position:absolute;
+right:20px;
+top:15px;
+background-color:#c70000;
+color:white;
+padding: 4px;
+border:2px solid black
+}
+
+</style>
+</head>
 <h1>Registration Page</h1>
 <body>
-<form action="login.php" method="post">
+<form action="login.php" method="post" id=info>
 <label>Username</label>
 <input type=login name="username">
 <label>Email</label>
@@ -10,10 +44,21 @@
 <label>Password:</label>
 <input type=password name=password>
 <br>
-<input type=submit name="type" value="register">
+<input type=hidden name="type" value="register"></input>
+<input type=submit name="submit" value="register">
 
 <!--OK SO maybe change "ACCOUNT" above this line to type, not sure if it influences the issue we had before-->
 
 </form>
+
+
+<div class=popup>
+	<button id=closePopup>X</button>
+	<h2>Error</h2>	
+	<p id=message>User already Exists! Please try again!</p>
+
+</div>
+
+
 </body>
 </html>
