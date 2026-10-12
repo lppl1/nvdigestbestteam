@@ -12,7 +12,7 @@ $.ajax({
 	dataType:"json",
 	success: function(data,status,jqXHR) 
 	{
-    console.log("Data received:",data);
+    //console.log("Data received:",data);
     testCredentials(data);
 
 	
@@ -61,7 +61,7 @@ function testCredentials(data){
 	if(data.type=="login")
 	{
 		if(data.validate!="false"){
-	window.location.replace("home.html");
+	window.location.replace("home.php");
 	document.cookie = "session_key="+data.validate;
 	}
 	else if(data.validate=="false"){
