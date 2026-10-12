@@ -33,9 +33,24 @@
             return False;
         }
     }
-    else
+        else
         return False;
-}		
+	
+}
+function doLogout($username, $password) {
+	$db = dbConnection();
+	$updateSql = "UPDATE users SET session_key = NULL WHERE session_key = ?";
+		if($stmt = $db->prepare($updateSql)) {
+			$stmt->bind_param("s", $session_key);
+			$stmt->execute();
+			return True;
+		}
+		else {
+			return False;
+		}
+}
+
+		
 function doValidate($session_key) {
 	$db = dbConnection();
 	$selectSql = "SELECT username FROM users WHERE session_key = ? AND session_created > NOW() - INTERVAL 2 HOUR";
