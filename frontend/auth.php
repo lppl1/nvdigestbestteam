@@ -8,10 +8,10 @@ if(isset($_COOKIE["session_key"])){
 $request=[
 "type"=> "validate_session",
 "session_key"=>$_COOKIE["session_key"]
-]
+];
 
 $response=$client->send_request($request);
-/*
+
  if($response=="true"){
 exit();
 }
@@ -25,5 +25,5 @@ exit();
 else{
 header("Location:login.html");
 exit();
-}*/
+}
 ?>
