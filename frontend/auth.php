@@ -11,7 +11,8 @@ $request=[
 ]
 
 $response=$client->send_request($request);
-if($response=="true"){
+/*
+ if($response=="true"){
 exit();
 }
 else if($response=="false"){
@@ -24,5 +25,5 @@ exit();
 else{
 header("Location:login.html");
 exit();
-}
+}*/
 ?>
