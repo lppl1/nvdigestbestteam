@@ -47,12 +47,13 @@ $(".popup").toggle();
 
 //Success
 function testCredentials(data){
+	
 	if(data.type=="register")
 	{
-	if(data.validate=="true"){
+	if(data.validate==true){
 	window.location.replace("login.html");
 	}
-	else if(data.validate=="false"){
+	else if(data.validate==false){
 	showPopup();
 	}
 	
@@ -60,11 +61,11 @@ function testCredentials(data){
 	
 	if(data.type=="login")
 	{
-		if(data.validate!="false"){
+		if(data.validate!=false){
 	window.location.replace("home.php");
 	document.cookie = "session_key="+data.validate;
 	}
-	else if(data.validate=="false"){
+	else if(data.validate==false){
 	showPopup();
 	}
 	
