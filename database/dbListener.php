@@ -16,8 +16,11 @@
 		else if ($request ['type'] == 'validate_session') {
 			return doValidate($request['session_key']);
 		}
-	}
-
+		else if ($request ['type'] == 'logout') {
+			return doLogout($request['session_key']); 
+		}
+		}
+	
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
 

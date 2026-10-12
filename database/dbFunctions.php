@@ -37,7 +37,7 @@
         return False;
 	
 }
-function doLogout($username, $password) {
+function doLogout($session_key) {
 	$db = dbConnection();
 	$updateSql = "UPDATE users SET session_key = NULL WHERE session_key = ?";
 		if($stmt = $db->prepare($updateSql)) {
