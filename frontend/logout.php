@@ -7,6 +7,6 @@ if (isset($_COOKIE["session_key"])) {
 }
 
 setcookie("session_key", "", time() - 3600, "/");   // delete the cookie
-header("Location: login.html");
+header("Location: index.html");
 exit;
 ?>

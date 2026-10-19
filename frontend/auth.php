@@ -13,17 +13,14 @@ $request=[
 $response=$client->send_request($request);
 
  if($response=="true"){
-exit();
 }
 else if($response=="false"){
 header("Location:login.html");
-exit();
 }
 
 }
 
 else{
 header("Location:login.html");
-exit();
 }
 ?>
