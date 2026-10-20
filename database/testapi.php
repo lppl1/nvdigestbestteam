@@ -15,14 +15,14 @@ foreach ($stores as $store){
 	$stmt = $db->prepare( //prepares insert in stores table and if store exists, just updates name
 		"INSERT INTO stores (id, name) VALUES (?, ?)
 		ON DUPLICATE KEY UPDATE name = VALUES(name)"
-	):
+	);
 	$stmt->bind_param("is", $store_id, $store_name);
 	$stmt->execute(); //runs it
 }
 //deal fetch for games and prices for multiple pages
 for ($page = 0; $page < 5; $page++){
 
-	$ch = curl_init("https://www.cheapshark.com/api/1.0/deals?pageSize=10"); //This initializes the connection to the url
+	$ch = curl_init("https://www.cheapshark.com/api/1.0/deals?pageSize=10" . $page); //This initializes the connection to the url
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //Returns result as string
 	curl_setopt($ch, CURLOPT_USERAGENT, "it490"); //Tells server who is requesting data
 	$response = curl_exec($ch);
@@ -55,6 +55,9 @@ for ($page = 0; $page < 5; $page++){
 		$stmt->execute();
 
 		//adding this to account for saving prices
+		$stmt = $db->prepare(
+			"SELECT id FROM games WHERE cheapshark_id =?"
+		);
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
 		$game_id = $stmt ->get_result()->fetch_assoc()['id']; //our native game id
@@ -65,12 +68,12 @@ for ($page = 0; $page < 5; $page++){
 		$deal_rating = $deal['dealRating']; //all this for giving us price, deal, cheapshark deal id, then deal score
 	//new prepare statement for game_prices table
 		$stmt = $db->prepare(
-			"INSERTS INTO game_prices (game_id, store_id, sale_price, normal_price, deal_id, deal_rating)
+			"INSERT INTO game_prices (game_id, store_id, sale_price, normal_price, deal_id, deal_rating)
 			VALUES (?, ?, ?, ?, ?, ?)
 			ON DUPLICATE KEY UPDATE sale_price = VALUES(sale_price), normal_price = VALUES(normal_price), deal_id = VALUES(deal_id), 
 			deal_rating = VALUES(deal_rating)"
 		);
-		$stmt->bind_param("iiisss", $game_id, $store_id, $sale_price, $normal_price, $deal_id, $deal_rating);
+		$stmt->bind_param("iiddsd", $game_id, $store_id, $sale_price, $normal_price, $deal_id, $deal_rating);
 		$stmt->execute();
 
     		echo "saved: " . $title . "\n";
