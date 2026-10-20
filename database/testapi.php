@@ -57,16 +57,24 @@ for ($page = 0; $page < 5; $page++){
 		//adding this to account for saving prices
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
-		$gameID = $stmt ->get_result()->fetch_assoc()['id']; //our native game id
+		$game_id = $stmt ->get_result()->fetch_assoc()['id']; //our native game id
 		$store_id = (int)$deal['storeID']; //which store deal is from
 		$sale_price = $deal['salePrice']; //discounted price
 		$normal_price = $deal['normalPrice'];
 		$deal_id = $deal['dealID'];
 		$deal_rating = $deal['dealRating']; //all this for giving us price, deal, cheapshark deal id, then deal score
-
-		
+	//new prepare statement for game_prices table
+		$stmt = $db->prepare(
+			"INSERTS INTO game_prices (game_id, store_id, sale_price, normal_price, deal_id, deal_rating)
+			VALUES (?, ?, ?, ?, ?, ?)
+			ON DUPLICATE KEY UPDATE sale_price = VALUES(sale_price), normal_price = VALUES(normal_price), deal_id = VALUES(deal_id), 
+			deal_rating = VALUES(deal_rating)"
+		);
+		$stmt->bind_param("iiisss", $game_id, $store_id, $sale_price, $normal_price, $deal_id, $deal_rating);
+		$stmt->execute();
 
     		echo "saved: " . $title . "\n";
 	}
+	sleep(1);
 }
 ?>
