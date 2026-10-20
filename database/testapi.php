@@ -11,12 +11,12 @@ $stores = json_decode($response, true); //turns json into php array
 
 foreach ($stores as $store){
 	$store_id = (int)$store['storeID']; //cheapshark store id
-	$store_name = $store['store_name']; // store name
+	$store_name = $store['storeName']; // store name
 	$stmt = $db->prepare( //prepares insert in stores table and if store exists, just updates name
 		"INSERT INTO stores (id, name) VALUES (?, ?)
 		ON DUPLICATE KEY UPDATE name = VALUES(name)"
 	):
-	$stmt->bind_param("is", $storeID, $store_name);
+	$stmt->bind_param("is", $store_id, $store_name);
 	$stmt->execute(); //runs it
 }
 //deal fetch for games and prices for multiple pages
@@ -32,15 +32,15 @@ for ($page = 0; $page < 5; $page++){
 	foreach ($deals as $deal) {
     		$id    = (int)$deal['gameID'];
 		$title = $deal['title'];
-		$steamAppID = (int)$deal['steamapp_id']; //steam id for game
+		$steamAppID = (int)$deal['steamAppID']; //steam id for game
 		if ($steamAppID == 0) 
-			$steamAPPID = null; //null better than 0 for unknown game id
+			$steamAppID = null; //null better than 0 for unknown game id
 
 		$metacritic = (int)$deal['metacriticScore']; // metacritic score
 		if ($metacritic == 0)
 			$metacritic = null; //same thing here
 
-		$imageURL = $deal['thumb']; //link to game's thumbnail image
+		$image_URL = $deal['thumb']; //link to game's thumbnail image
 
 		$released = null;
 		if ($deal['releaseDate'] > 0){ //defaults to null if no release date and only converts if real date given
@@ -48,11 +48,23 @@ for ($page = 0; $page < 5; $page++){
 		}
 
     		$stmt = $db->prepare(
-        		"INSERT INTO games (cheapshark_id, title) VALUES (?, ?)
+        		"INSERT INTO games (cheapshark_id, title, steamapp_id, metacritic, image_url, released) VALUES (?, ?, ?, ?, ?, ?) 
 	 		ON DUPLICATE KEY UPDATE title = VALUES(title), updated_at = NOW()"
-    		);
-    		$stmt->bind_param("is", $id, $title);
-    		$stmt->execute();
+    		); //updated this section
+    		$stmt->bind_param("isiiss", $id, $title, $steamAppID, $metacritic, $image_URL, $released);
+		$stmt->execute();
+
+		//adding this to account for saving prices
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$gameID = $stmt ->get_result()->fetch_assoc()['id']; //our native game id
+		$store_id = (int)$deal['storeID']; //which store deal is from
+		$sale_price = $deal['salePrice']; //discounted price
+		$normal_price = $deal['normalPrice'];
+		$deal_id = $deal['dealID'];
+		$deal_rating = $deal['dealRating']; //all this for giving us price, deal, cheapshark deal id, then deal score
+
+		
 
     		echo "saved: " . $title . "\n";
 	}
