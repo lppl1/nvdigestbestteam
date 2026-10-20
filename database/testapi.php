@@ -14,7 +14,7 @@ foreach ($deals as $deal) {
     $title = $deal['title'];
 
     $stmt = $db->prepare(
-        "INSERT INTO games (cheapshark_game_id, title) VALUES (?, ?)
+        "INSERT INTO games (cheapshark_id, title) VALUES (?, ?)
          ON DUPLICATE KEY UPDATE title = VALUES(title)"
     );
     $stmt->bind_param("is", $id, $title);
