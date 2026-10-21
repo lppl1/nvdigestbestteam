@@ -9,10 +9,10 @@ margin-right:auto;
 width:50%;
 }
 </style>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <h1 style="text-align:center">Market</h1>
 <br>
-<form name="gameSearch" id="gameSearch" method="POST" action="searchData.php">
+<form action="searchData.php" method="post" name="gameSearch" id="gameSearch"  >
 Search for games:
 <input type="text" placeholder="Search" name="term" id="term">
 <br>
@@ -36,3 +36,4 @@ Search for games:
 	<td>76</td>
 	</tr>
 </table>
+<script src="search.js" defer></script>
