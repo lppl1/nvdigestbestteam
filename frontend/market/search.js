@@ -2,7 +2,6 @@
 $("#gameSearch").on("submit",function(e)
 {
 e.preventDefault();
-var searchData=$(this).serialize();
 
 //Send form data without page reload
 $.ajax({
