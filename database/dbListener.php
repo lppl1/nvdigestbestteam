@@ -23,7 +23,7 @@
 			return doSearchGames($request['term'] ?? '');
 		}
 		else if ($request['type'] == 'get_game') {
-    			return doGetGames((int)($request['game_id'] ?? 0));
+    			return doGetGame((int)($request['game_id'] ?? 0));
 	}
 	}	
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
