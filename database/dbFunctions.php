@@ -91,7 +91,21 @@ function doValidate($session_key) {
 			return False;
 		}
 	}
+	function doSearchGames($term){
+		$db = dbConnection();
+		$like = "%" . $term . "%";
 
+		$sql = "SELECT id, title, image_url, metacritic FROM games WHERE title LIKE ? LIMIT 50";
+
+		        if($stmt = $db->prepare($sql)){
+                	$stmt->bind_param("s", $like);
+               		$stmt->execute();
+               		$result = $stmt->get_result();
+			return $result->fetch_all(MYSQLI_ASSOC);
+			}
+			return array();
+
+}
 ?>
 
 
