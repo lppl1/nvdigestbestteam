@@ -22,7 +22,7 @@ foreach ($stores as $store){
 //deal fetch for games and prices for multiple pages
 for ($page = 0; $page < 5; $page++){
 
-	$ch = curl_init("https://www.cheapshark.com/api/1.0/deals?pageSize=10" . $page); //This initializes the connection to the url
+	$ch = curl_init("https://www.cheapshark.com/api/1.0/deals?pageSize=10&pageNumber=" . $page); //This initializes the connection to the url
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //Returns result as string
 	curl_setopt($ch, CURLOPT_USERAGENT, "it490"); //Tells server who is requesting data
 	$response = curl_exec($ch);
@@ -49,7 +49,7 @@ for ($page = 0; $page < 5; $page++){
 
     		$stmt = $db->prepare(
         		"INSERT INTO games (cheapshark_id, title, steamapp_id, metacritic, image_url, released) VALUES (?, ?, ?, ?, ?, ?) 
-	 		ON DUPLICATE KEY UPDATE title = VALUES(title), updated_at = NOW()"
+	 		ON DUPLICATE KEY UPDATE title = VALUES(title), steamapp_id = VALUES(steamapp_id), metacritic = VALUES(metacritic), image_url = VALUES(image_url), released = VALUES(released), updated_at = NOW()"
     		); //updated this section
     		$stmt->bind_param("isiiss", $id, $title, $steamAppID, $metacritic, $image_URL, $released);
 		$stmt->execute();
