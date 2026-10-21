@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head><title>Profile</title></head>
+	<body>
+		<a href="search.html">Browse</a> | <a href="/market.html">Marketplace</a> | <a href="/library.html">My Library</a> |
+		<a href="forum.html">Discussion Forum</a> | <a href="profile.html">Profile</a>
+
+		<h1>
+		<!-- whatever username is, needs to be updated depending on user-->
+		</h1>
+		<p>Wallet: | Spent this month: </p> <!-- needs to be updated again based on user wallet preferences -->
+
+		<h2>Price Watch</h2>
+		<table border="1">
+			<tr><th>Game</th><th>Target</th><th>Current Best</th><th></th></tr>
+			<tr>
+				<td> <!-- game name --> </td><td> <!--target price--></td> <td> <!--best price-->
+				<td><form method="post"><input type="hidden" name="watch_id" value "1"> <button> Remove </button></form></td>
+			</tr>
+		</table>
+
+		<h2>Settings</h2>
+		<form method="post">
+			Monthly Budget: <input type="number" name="monthly_budget" step="0.01"> <br> <br>
+			<input type="checkbox" name="email_opt_in" checked>Email Alerts<br><br>
+			<button>Save Information</button>
+		</form>
+
+		<h2>Purchases</h2>
+		<p>
+		<!--whatever purchased games should be in here formatted like Game Name - prices, last update date-->
+		</p>
+	</body>
+</html>
