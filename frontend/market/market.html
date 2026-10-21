@@ -1,0 +1,38 @@
+<style>
+td{
+border: 2px solid black;
+}
+table{
+border-collapse:collapse;
+margin-left:auto;
+margin-right:auto;
+width:50%;
+}
+</style>
+
+<h1 style="text-align:center">Market</h1>
+<br>
+<form name="gameSearch" id="gameSearch" method="POST" action="searchData.php">
+Search for games:
+<input type="text" placeholder="Search" name="term" id="term">
+<br>
+<input type="submit">
+</form>
+
+<br>
+<br>
+<br>
+<table id=gamesTable>
+	<tr class="header">
+		
+		<td>
+			<h3>Game</h3>
+		</td>
+		<td>
+			<h3>Price</h3>
+	</tr>
+	<tr>
+	<td>Fallout</td>
+	<td>76</td>
+	</tr>
+</table>
