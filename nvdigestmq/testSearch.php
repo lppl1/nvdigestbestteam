@@ -16,7 +16,7 @@ else
 
 $request = array();
 $request['type'] = "search_games";
-$request['term'] = "witcher";
+$request['term'] = "FrOst";
 $response = $client->send_request($request);
 //$response = $client->publish($request);
 
