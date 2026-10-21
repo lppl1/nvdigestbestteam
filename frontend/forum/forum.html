@@ -1,0 +1,26 @@
+<!--DOCTYPE html-->
+	<html>
+	<head><title>Discussion Forum</title></head>
+	<body>
+	<a href="search.html">Browse</a> | <a href="market.html">Marketplace</a> | <a href="library.html">Library</a> |
+	<a href="forum.html">Forum</a> | <a href="profile.html">My Profile</a>
+
+	<h1>Deal Digest Discussion Forum</h1>
+	<ul>
+	<!-- basically the threads from forum_threads table in db will be here (will be linked to thread.html I hope)-->
+	</ul>
+	
+	<h2>New Thread</h2>
+	<form method="post">
+		<input type="text" name="title" placeholder="Title">
+		<select name="game_id">
+			<option value="">General</option>
+			<!-- other options later I think-->
+		</select>
+		<br>
+		<textarea name="body" placeholder="Message"></textarea>
+		<br>
+		<br><button>Post</button>
+	</body>
+	</html>
+
