@@ -1,20 +1,35 @@
 <?php
 require_once("nvdigestmq/rabbitMQLib.inc");
-$request = $_POST;
-//JQuery Response array
-$jqresponse=[];
-$client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini","nvdServer");
+header("Content-Type: application/json");
 
-if(isset($request["type"]))
-{
 
-$response=$client->send_request($request);
+$allowed = ["search_games", "get_game", "library_add"];
+$type = $_POST["type"] ?? "";
+
+if (!in_array($type, $allowed, true)) {
+    http_response_code(400);
+    echo json_encode(false);
+    exit();
+}
+
+$request = ["type" => $type];
+
+if ($type === "search_games") {
+    $request["term"] = $_POST["term"] ?? "";
+}
+if ($type === "get_game") {
+    $request["game_id"] = (int)($_POST["game_id"] ?? 0);
+}
+if ($type === "library_add") {
+    $request["session_key"] = $_COOKIE["session_key"] ?? "";
+    $request["game_id"] = (int)($_POST["game_id"] ?? 0);
+}
+
+$client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini", "nvdServer");
+$response = $client->send_request($request);
 
 echo json_encode($response);
 exit();
-}
-
-
 
 
 
