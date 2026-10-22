@@ -129,7 +129,39 @@ function doValidate($session_key) {
 
     return $game;
 }
-		
+	function sessionUser($db, $session_key){
+    		$sql = "SELECT username FROM users WHERE session_key = ? AND session_created > NOW() - INTERVAL 2 HOUR";
+    		if($stmt = $db->prepare($sql)){
+        		$stmt->bind_param("s", $session_key);
+        		$stmt->execute();
+        		$row = $stmt->get_result()->fetch_assoc();
+        	if ($row === null) {
+            	return null;
+        }
+        	return $row['username'];
+    }
+    	return null;
+}	
+	function doLibraryAdd($session_key, $game_id){
+    		$db = dbConnection();
+    		$username = sessionUser($db, $session_key);
+    		if ($username === null) {
+        		return False;                      
+    }
+    		$sql = "INSERT INTO user_library (username, game_id) VALUES (?, ?)";
+    		if($stmt = $db->prepare($sql)){
+        		$stmt->bind_param("si", $username, $game_id); 
+        	try {
+            		$stmt->execute();
+            		return True;
+        }
+        	catch (Exception $e) {
+            	return False;                   
+        }
+    }
+    	return False;
+}
+
 ?>
 
 
