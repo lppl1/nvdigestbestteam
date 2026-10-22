@@ -149,11 +149,19 @@ function doValidate($session_key) {
         		return False;                      
     }
     		$sql = "INSERT INTO user_library (user_id, game_id) VALUES (?, ?)";
+<<<<<<< HEAD
 			try {
 				$stmt = $db->prepare($sql);
 				$stmt->bind_param("ii", $user_id, $game_id);
 				$stmt->execute();
             			return True;
+=======
+    		if($stmt = $db->prepare($sql)){
+        		$stmt->bind_param("si", $username, $game_id); 
+        	try {
+            		$stmt->execute();
+            		return True;
+>>>>>>> 1b21c49906bc4031bdeabbfed7a8611ca89fe327
         }
         	catch (Exception $e) {
             	return False;                   
