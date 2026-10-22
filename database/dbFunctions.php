@@ -148,7 +148,7 @@ function doValidate($session_key) {
     		if ($username === null) {
         		return False;                      
     }
-    		$sql = "INSERT INTO user_library (username, game_id) VALUES (?, ?)";
+    		$sql = "INSERT INTO user_library (user_id, game_id) VALUES (?, ?)";
     		if($stmt = $db->prepare($sql)){
         		$stmt->bind_param("si", $username, $game_id); 
         	try {
