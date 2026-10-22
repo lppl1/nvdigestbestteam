@@ -1,38 +1,52 @@
 <!DOCTYPE html>
 <html>
-	<head><title>Game</title></head>
-	<body>
-		<a href="search.html">Browse More</a> | <a href="market.html">Marketplace</a> | <a href="library.html">Library</a> |
-		<a href="forum.html">Discussion Forum</a> | <a href="profile.html">My Profile</a>
-		<h1> 
-		</h1>
-		<img src="" alt="cover">
-		<p>Developer: </p>
-		<p>Publisher: </p>
-		<p>Released: </p> 
-		<p>Metacritic: </p>
-		<br>
-		<br>
-		<h2>Prices</h2>
-		<table border="1">
-			<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
-			<!--one row per store from game_prices tables-->
-		</table>
+<head><title>Game</title></head>
+<body>
+	<a href="search.html">Browse More</a> | <a href="market.html">Marketplace</a> | <a href="library.html">Library</a> |
+	<a href="forum.html">Discussion Forum</a> | <a href="profile.html">My Profile</a>
+	<h1> 
+	</h1>
+	<img src="" alt="cover">
+	<p>Developer: </p>
+	<p>Publisher: </p>
+	<p>Released: </p> 
+	<p>Metacritic: </p>
+	<br>
+	<br>
+	<h2>Prices</h2>
+	<table border="1">
+		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
+	<!--one row per store from game_prices tables-->
+	</table>
 
-		<h2>Add To Your Library</h2>
-		<form method="post">
-			<select name="status">
-				<option value="plans">Plan on playing</option>
-				<option value="inprogress">Playing</option>
-				<option value="completed">Completed</option>
-				<option value="removed">Removed</option>
-			</select>
-			<button>Add</button>
-		</form>
-		<br>
-		<h2>Reviews</h2>
-		<!--this will be where reviews from reviews table go-->
-		<form method="post">
-	</body>	
+	<h2>Add To Your Library</h2>
+	<form method="post">
+		<select name="status">
+			<option value="plans">Plan on playing</option>
+			<option value="inprogress">Playing</option>
+			<option value="completed">Completed</option>
+			<option value="removed">Removed</option>
+		</select>
+		<button>Add</button>
+	</form>
 
+	<h2>Watch Price</h2>
+	<form method="post">
+		<input type="number" name="target_price" step="0.01" placeholder="Target Price">
+		<button>Watch</button>
+	</form>
+
+	<br>
+	<h2>Reviews</h2>
+	<!--this will be where reviews from reviews table go-->
+	<form method="post">
+		<select name="rating">
+			<option>5</option<option>4</option<option>3</option><option>2</option><option>1</option>
+		</select>
+		<br>
+		<textarea name="body" placeholder="Your review"></textarea>
+		<br>
+		<button>Submit Review</button>
+	</form>
+</body>	
 </html>
