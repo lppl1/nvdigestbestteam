@@ -9,9 +9,9 @@ function loadGame()
 const urlParam=new URLSearchParams(window.location.search);
 const id= urlParam.get("id");
 const getDetails={
-rid: id,
+id: id,
 type: "get_game"
-}
+};
 
 console.log(getDetails);
 //Grabbing data
@@ -61,5 +61,7 @@ rating.innerHTML+=data.metacritic;
 
 }
 
-function updateTable(data){}
+function updateTable(data){
+
+}
 

@@ -13,12 +13,13 @@ $jqresponse=
 
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini","nvdServer");
 if(isset($request["type"]))
-{
+{	
 	$jqresponse["type"]=$_POST["type"];
+	//request was successful
 	$jqresponse["success"]="true";
 
 	$response=$client->send_request($request);
-	
+	//Credentials are valid
  	$jqresponse["validate"]=$response;
  	
  	echo json_encode($jqresponse);
