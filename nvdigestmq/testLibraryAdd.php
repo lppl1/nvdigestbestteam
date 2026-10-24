@@ -16,8 +16,8 @@ else
 
 $request = array();
 $request['type'] = "library_add";
-$request['session_key'] = "   "; //PICK A SESSION KEY AND ADD IT HERE WHATEVER GAME ID YOU SELECT WILL BE SAVED UNDER THAT USER
-$request['game_id'] = 1; //Add a game ID
+$request['session_key'] = "92c6f676588491f4dcfd2a04a939a13e52d64503cda427616ee8ca62570b022c"; //PICK A SESSION KEY AND ADD IT HERE WHATEVER GAME ID YOU SELECT WILL BE SAVED UNDER THAT USER
+$request['game_id'] = 66; //Add a game ID
 $response = $client->send_request($request);
 //$response = $client->publish($request);
 
