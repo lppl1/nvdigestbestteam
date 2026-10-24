@@ -1,3 +1,5 @@
+const urlParam=new URLSearchParams(window.location.search);
+const id= urlParam.get("id");
 $(document).ready(function() 
 {
 loadGame();
@@ -6,8 +8,6 @@ loadGame();
 
 function loadGame()
 {
-const urlParam=new URLSearchParams(window.location.search);
-const id= urlParam.get("id");
 const getDetails={
 id: id,
 type: "get_game"
@@ -16,8 +16,8 @@ type: "get_game"
 console.log(getDetails);
 //Grabbing data
 $.ajax({
-        url:"getGame.php", 
-        type:"GET", 
+        url:"searchData.php", 
+        type:"POST", 
         data: getDetails, 
         dataType:"json",
         success: function(data,status,jqXHR) 
@@ -45,11 +45,11 @@ $.ajax({
 
 //Function to update the page with server data before load.
 function updatePage(data){
-var img=document.getElementById("gameImg");
-var dev=document.getElementById("gameDev");
-var pub= document.getElementById("gamePub");
-var released=document.getElementById("gameReleased");
-var rating=document.getElementById("gameRating");
+var img=$("#gameImg");
+var dev=$("#gameDev");
+var pub= $("#gamePub");
+var released=$("#gameReleased");
+var rating=$("#gameRating");
 
 img.src=data.image_url;
 dev.innerHTML+=data.developer;
@@ -60,8 +60,45 @@ rating.innerHTML+=data.metacritic;
 
 
 }
-
+//Table function. Will fix.
 function updateTable(data){
 
 }
 
+//Add to library function
+$("#addGame").on("click",function(e)
+{	e.preventDefault();
+	const getDetails={
+	id: id,
+	type: "library_add"
+	};
+
+
+$.ajax({
+        url:"searchData.php", 
+        type:"POST", 
+        data: getDetails, 
+        dataType:"json",
+        success: function(success,status,jqXHR) 
+        {
+    console.log("Data received:",success);
+	if(success){
+	alert("Successfully added to library!")
+	}
+	else{
+	alert("Something went wrong. Try again!")
+	}
+
+        },
+        error: function(jqXHR,textStatus,error){
+        console.log("ERROR: ",error);
+        console.log("ERROR: ",textStatus);
+        console.log("ERROR: ",jqXHR);
+
+        }
+
+
+});
+
+
+});
