@@ -23,15 +23,18 @@ function httpGet($url) {
 }
 
 //the frugal shark
-fetchStores()
-fetchDeals()
-fetchGamePrices()
-searchDeals()
-
+function fetchStores() {
+	return httpGet(CHEAPSHARK . "stores"); }
+function fetchDeals($page) {
+	return httpGet(CHEAPSHARK . "deals?pageSize=10&pageNumber=" . (int)$page); }
+function fetchGamePrices($id) {
+	return httpGet(CHEAPSHARK . "games?id=" . (int)$id); }
+function searchDeals($title){
+	return httpGet(CHEAPSHARK . "deals?pageSize=10&title=" . urlencode($title)); }
 
 //What's up RAWG
-fetchRawg
+function fetchRawg
 
 //annoying emails
-sendAlertEmail
+function sendAlertEmail
 ?>
