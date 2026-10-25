@@ -195,7 +195,7 @@ function doValidate($session_key) {
 			return False;
 		}
 	}
-	function doReviewAdd($session_id, $game_id, $rating, $body)
+	function doReviewAdd($session_id, $game_id, $rating, $body){
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
 		if ($user_id === null) {
@@ -204,4 +204,5 @@ function doValidate($session_key) {
 		if ($rating < 1 || $rating > 5) {
 			return False;
 		}
+	}
 ?>
