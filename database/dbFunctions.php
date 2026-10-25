@@ -143,29 +143,56 @@ function doValidate($session_key) {
     	return null;
 }	
 	function doLibraryAdd($session_key, $game_id){
-    		$db = dbConnection();
-    		$user_id = sessionUser($db, $session_key);
-    		if ($user_id === null) {
-        		return False;                      
-    }
-    		$sql = "INSERT INTO user_library (user_id, game_id) VALUES (?, ?)";
-			try {
-				$stmt = $db->prepare($sql);
-				$stmt->bind_param("ii", $user_id, $game_id);
-				$stmt->execute();
-				return True;
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null) {
+			return False;
+		}
+		$sql = "INSERT INTO user_library (user_id, game_id) VALUES (?, ?)";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param("ii", $user_id, $game_id);
+			$stmt->execute();
+			return True;
+		}
+		catch (Exception $e) {
+			return False;
+		}
+	}
 
-    		if($stmt = $db->prepare($sql)){
-        		$stmt->bind_param("si", $username, $game_id); 
-        	try {
-            		$stmt->execute();
-            		return True;
-        }
-        	catch (Exception $e) {
-            	return False;                   
-        }
-  }
+	function doLibraryRemove($session_key, $game_id){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null) {
+			return False;
+		}
+		$sql = "DELETE FROM user_library WHERE user_id = ? AND game_id = ?";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param("ii", $user_id, $game_id);
+			$stmt->execute();
+			return $stmt->affected_rows > 0;
+		}
+		catch (Exception $e) {
+			return False;
+		}
+	}
 
+	function doLibraryList($session_key){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null) {
+			return False;
+		}
+		$sql = "SELECT g.id, g.title, g.image_url, l.status FROM user_library l JOIN games g ON g.id = l.game_id WHERE l.user_id = ? ORDER BY l.added DESC";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param("i", $user_id);
+			$stmt->execute();
+			return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+		}
+		catch (Exception $e) {
+			return False;
+		}
+	}
 ?>
-
-

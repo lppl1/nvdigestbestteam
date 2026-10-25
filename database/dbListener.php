@@ -28,6 +28,12 @@
 		else if ($request['type'] == 'library_add') {
 			return doLibraryAdd($request['session_key'] ?? '', (int)($request['game_id'] ?? 0));
 		}
+		else if ($request['type'] == 'library_remove') {
+			return doLibraryRemove($request['session_key'] ?? '', (int)($request['game_id'] ?? 0));
+		}
+		else if ($request['type'] == 'library_list') {
+			return doLibraryList($request['session_key'] ?? '');
+		}
 	}	
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
