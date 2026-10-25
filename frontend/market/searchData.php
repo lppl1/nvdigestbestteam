@@ -3,7 +3,7 @@ require_once("nvdigestmq/rabbitMQLib.inc");
 header("Content-Type: application/json");
 
 
-$allowed = ["search_games", "get_game", "library_add"];
+$allowed = ["search_games", "get_game", "library_add", "library_list", "library_remove"];
 $type = $_POST["type"] ?? "";
 
 if (!in_array($type, $allowed, true)) {
@@ -20,11 +20,13 @@ if ($type === "search_games") {
 if ($type === "get_game") {
     $request["game_id"] = (int)($_POST["game_id"] ?? 0);
 }
-if ($type === "library_add") {
+if ($type === "library_add" || $type === "library_remove") {
     $request["session_key"] = $_COOKIE["session_key"] ?? "";
     $request["game_id"] = (int)($_POST["game_id"] ?? 0);
 }
-
+if ($type === "library_list") {
+	$request["session_key"] = $_COOKIE["session_key"] ?? "";
+}
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini", "nvdServer");
 $response = $client->send_request($request);
 
