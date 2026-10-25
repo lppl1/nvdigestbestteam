@@ -7,6 +7,13 @@ require_once("auth.php")
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <h1 id=title>Welcome to our club!</h1>
 <div id=welcome>Welcome!</div>
+
+<p>
+  <a href="market/market.html">Market</a> |
+  <a href="library/library.html">My Library</a>
+</p>
+
+
 <form action="logout.php" method="post">
   <button type="submit">Log out</button>
 </form>
