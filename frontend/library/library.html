@@ -1,21 +1,25 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 	<head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-	<title>Game Library</title></head>
+	<title>Game Library</title>
+	</head>
 	<body>
-		<a href="../search.html">Browse More</a> | <a href="/market.html">Marketplace</a> | <a href="library.html">My Library</a> | 
-		<a href="forum.html">Discussion Forum</a> | <a href="profile.html">Profile</a>
+		<a href="../market/market.html">Browse More</a> | <a href="../market/market.html">Marketplace</a> | <a href="library.html">My Library</a> | 
+		<a href="../forum/forum.html">Discussion Forum</a> | <a href="../profile.html">Profile</a>
 
 		<h1>My Game Library</h1>
-		<table border ="1">
-			<tr><th>Game</th><th>Status</th></tr>
-			<!--will be one row per user_library game, each with status dropdown: want to play, playing, completed, or removed-->
+		<p id="libraryMsg"></p>
+		<table border="1" id="libraryTable">
+			<thead>
+				<tr><th>Cover</th><th>Game</th><th>Status</th><th></th></tr>
+			</thead>
+			<tbody></tbody>
 		</table>
 
 		<h2>Recommended for You</h2>
 		<!--any recommended games-->
+
+		<script src="libraryData.js"></script>
 	</body>
-<script src="libraryData.js"></script>
 </html>
