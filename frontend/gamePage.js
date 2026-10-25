@@ -9,14 +9,14 @@ loadGame();
 function loadGame()
 {
 const getDetails={
-id: id,
+game_id: id,
 type: "get_game"
 };
 
 console.log(getDetails);
 //Grabbing data
 $.ajax({
-        url:"searchData.php", 
+        url:"market/searchData.php", 
         type:"POST", 
         data: getDetails, 
         dataType:"json",
@@ -51,31 +51,43 @@ var pub= $("#gamePub");
 var released=$("#gameReleased");
 var rating=$("#gameRating");
 
-img.src=data.image_url;
-dev.innerHTML+=data.developer;
-pub.innerHTML+=data.publisher;
-released.innerHTML+=data.release_date;
-rating.innerHTML+=data.metacritic;
+img.attr("src", data.image_url);
+dev.append(data.developer);
+pub.append(data.publisher);
+released.append(data.released);
+rating.append(data.metacritic);
 
 
 
 }
 //Table function. Will fix.
 function updateTable(data){
+	data.prices.forEach(function (p) {
+	var row = $("<tr>");
+		row.append($("<td>").text(p.store));
+		row.append($("<td>").text("$" + p.sale_price));
+		row.append($("<td>").text("$" + p.normal_price));
+		var buy = $("<a>")
+			.attr("href", "https://www.cheapshark.com/redirect?dealID=" + p.deal_id)
+			.text("Buy");
+		row.append($("<td>").append(buy));
+		$("#pricesTable").append(row);
+	});
 
 }
+
 
 //Add to library function
 $("#addGame").on("click",function(e)
 {	e.preventDefault();
 	const getDetails={
-	id: id,
+	game_id: id,
 	type: "library_add"
 	};
 
 
 $.ajax({
-        url:"searchData.php", 
+        url:"market/searchData.php", 
         type:"POST", 
         data: getDetails, 
         dataType:"json",
