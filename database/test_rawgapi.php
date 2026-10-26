@@ -45,7 +45,9 @@ foreach ($games as $game) {
 		$stmt->execute();
 		$genre_ID = $stmt->get_result()->fetch_assoc()['id'];
 
-		$stmt
+		$stmt = $db->prepare("INSERT IGNORE INTO game_genres (game_id, genre_id) VALUES (?, ?)");
+		$stmt->bind_param("ii", $game['id'], $genre_ID);
+		$stmt->execute();
 	}
 	echo "updated: " . $game['title'] . "/n";
 	sleep(1); //anti-api-spam method	
