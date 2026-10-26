@@ -37,6 +37,9 @@
 		else if ($request['type'] == 'review_add') {
 			return doReviewAdd($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['rating'] ?? 0), $request['body'] ?? '');
 		}
+		else if ($request['type'] == 'thread_list') {
+			return doThreadList((int)($request['game_id'] ?? 0));
+		}
 
 	}	
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
