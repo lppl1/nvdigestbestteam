@@ -38,9 +38,12 @@ foreach ($games as $game) {
 	
 	foreach ($details['genres'] as $genre) {
 		$stmt =$db->prepare("INSERT INTO genres (rawggenre_id, name) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)");
+		$stmt->bind_param("is", $genre['id'], $genre['name']);
+		$stmt->execute();
 
 	}
-		
+	echo "updated: " . $game['title'] . "/n";
+	sleep(1); //anti-api-spam method	
 }
 ?>
 
