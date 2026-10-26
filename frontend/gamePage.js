@@ -155,7 +155,7 @@ $.ajax({
 
 });
 
-
+/*
 
 $("#showReviews").on("click",function(){
 getReviews={
@@ -192,3 +192,4 @@ reviews.forEach();
 
 }
 
+*/
