@@ -213,8 +213,14 @@ function doValidate($session_key) {
 		} catch (exception $e) {
 			return false;
 		}
-	
 	}
-
+	function showReview($game_id){
+		$db = dbConnection();
+		$sql = "SELECT u.username, r.rating, r.body FROM reviews r JOIN users u ON u.id = r.user_id WHERE r.game_id = ?";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param("i", $game_id);
+		$stmt->executed();
+		return $stmt->get_result();->fetch_all(MYSQLI_ASSOC);
+	}
 
 ?>
