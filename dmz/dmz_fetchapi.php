@@ -23,5 +23,35 @@ for ($page = 0; $page < 5; $page++) {
 	}
 	sleep(1);
 }
+
+//tracked games price watch
+$tracked = $client->send_request(["type" => "get_tracked"]);
+if (is_array($tracked)) {
+	foreach ($tracked as $row) {
+		$info = fetchGamePrices($row['cheapshark_id']);
+		if ($info && !empty($info['deals'])) {
+			$client->send_request([
+				"type"	=> "save_prices",
+				"cheapshark_id"	=> $row['cheapshark_id'],
+				"deals"	=> $info['deals'],
+			]);
+		echo "price updates for " . $row['cheapshark_id'] . "\n";
+		}
+		sleep(1);
+	}
+}
+
+//RAWG description 
+$missing = $client->send_request(["type" => "get_missing_details"]);
+if (is_array($missing)) {
+	foreach ($missing as $g) {
+		$detals = fetchRawg($g['title']);
+		if ($details) {
+			$client->send_request(["type" => "save_details", "game_id" => $g['id'}, "details" => $details]);
+			echo "added details for" . $g['title'] . "\n";
+		}
+		sleep(1);
+	}
+}
 ?>
 
