@@ -41,12 +41,12 @@ di		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
 	<br>
 	<h2>Reviews</h2>
 	<!--this will be where reviews from reviews table go-->
-	<form method="post">
-		<select name="rating">
+	<form method="post" id="review">
+		<select name="rating" id="rating">
 			<option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
 		</select>
 		<br>
-		<textarea name="body" placeholder="Your review"></textarea>
+		<textarea name="body" id="body" placeholder="Your review"></textarea>
 		<br>
 		<button>Submit Review</button>
 	</form>
