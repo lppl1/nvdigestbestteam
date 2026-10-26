@@ -33,8 +33,50 @@ function searchDeals($title){
 	return httpGet(CHEAPSHARK . "deals?pageSize=10&title=" . urlencode($title)); }
 
 //What's up RAWG
-function fetchRawg
+function fetchRawg($title){
+	$key = dmzConfig()['RAWG_KEY'];
+	$found = httpGet(RAWG . "games?key=$key&page_size=1&search=" . urlencode($title));
+	if (empty($found['results'])) return null;
+	$id = $found ['results'][0]['id'];
+	$d = httpGet(RAWG . "games/$id?key=$key");
+	if(!$d) return null;
+	return [
+	"rawg_id"	=> $id,
+	"description"	=> $d['description_raw' ?? '',
+	"punlisher" 	=> $d['publishers'][0]['name'] ?? null,
+	"developer"	=> $d['developers'][0]['name'] ?? null,
+	"genres"	=> implode(",", array_column($d['genres'] ?? [], 'name')),
+	]; 
+}
 
 //annoying emails
-function sendAlertEmail
+function sendAlertEmail($to, $subject, $body) {
+	$autoload = __DIR__ . "/vendor/autoload.php";
+	if (!file_exist($autoload) {
+		echo "vendor/autoload.php missing; run composer require phpmailer/phpmailer\n";
+		return false;
+	}
+	require_once($autoload);
+	$cfg = dmzConfig();
+
+	$mail = new PHPMailer\PHPMailer\PHPMailer(true);
+	try {
+		$mail->isSMTP();
+		$mail->Host	= $cfg['SMTP_HOST'];
+		$mail->Port	= (int)$cfg['SMTP_PORT'];
+		$mail->SMTPAuth	= true;
+		$mail->Username = $cfg['SMTP_USER'];
+		$mail->Password = $cfg['SMTP_PASS'];
+		$mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+		$mail->setFRom($cfg['SMTP_FROM'], $cfg['SMTP_FROM_NAME'] ?? 'DealDigest');
+		$mail->addAddress($to);
+		$mail->Subject = $subject;
+		$mail->Body = $body;
+		$mail->send();
+		return true;
+	} catch (Exception $e) {
+		echo "Email failed:( " . $mail->ErrorInfo . "\n";
+		return false;
+	}
+}
 ?>
