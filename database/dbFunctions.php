@@ -217,10 +217,23 @@ function doValidate($session_key) {
 		}
 
 	}
-	function showReviews(){
+	function doAddReviews($session_key, $game_id, $rating, $body){
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		$sql = "INSERT INTO reviews (user_id, game_id, rating, body) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE rating = VALUES(rating), body = VALUES(body)" ;
+		try{
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param("iiis", $user_id, $game_id, $rating, $body);
+			$stmt->execute();
+			return true;
+		} catch (exception $e) {
+			return false;
+		}
 	
 	}
+
 
 ?>
