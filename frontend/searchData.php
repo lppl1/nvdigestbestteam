@@ -27,6 +27,12 @@ if ($type === "library_add" || $type === "library_remove") {
 if ($type === "library_list") {
 	$request["session_key"] = $_COOKIE["session_key"] ?? "";
 }
+if ($type === "submit_review"){
+	$request["session_key"]=$_COOKIE["session_key"] ?? "";
+	$request["game_id"]=$_POST["game_id"];
+	$request["rating"]=$_POST["rating"];
+	$request["body"]=$_POST["body"];
+}
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini", "nvdServer");
 $response = $client->send_request($request);
 
