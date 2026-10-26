@@ -195,35 +195,16 @@ function doValidate($session_key) {
 			return False;
 		}
 	}
-	function doReviewAdd($session_key, $game_id, $rating, $body){
-		$db = dbConnection();
-		$user_id = sessionUser($db, $session_key);
-		if ($user_id === null) {
-			return False;
-		}
-		if ($rating < 1 || $rating > 5) {
-			return False;
-		}
-				$sql = "INSERT INTO reviews (user_id, gaming_id, rating, body) VALUES (?, ?, ?, ?)";
-
-		try {
-			$stmt = $db->prepare($sql);
-			$stmt->bind_param("iiis", $user_id, $gaming_id, $rating, $body);
-			$stmt->execute();
-			return True;
-		}
-		catch(Exception $e) {
-			return False;
-		}
-
-	}
-	function doAddReviews($session_key, $game_id, $rating, $body){
+	function doAddReview($session_key, $game_id, $rating, $body){
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
 		if ($user_id === null){
 			return false;
 		}
-		$sql = "INSERT INTO reviews (user_id, game_id, rating, body) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE rating = VALUES(rating), body = VALUES(body)" ;
+		if ($rating < 1 || $rating > 5){
+			return false;
+		}
+		$sql = "INSERT INTO reviews (user_id, game_id, rating, body) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE rating = VALUES(rating), body = VALUES(body)";
 		try{
 			$stmt = $db->prepare($sql);
 			$stmt->bind_param("iiis", $user_id, $game_id, $rating, $body);
