@@ -34,6 +34,10 @@
 		else if ($request['type'] == 'library_list') {
 			return doLibraryList($request['session_key'] ?? '');
 		}
+		else if ($request['type'] == 'review_add') {
+			return doReviewAdd($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['rating'] ?? 0), $request['body'] ?? '');
+		}
+
 	}	
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
