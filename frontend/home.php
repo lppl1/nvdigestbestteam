@@ -11,6 +11,9 @@ require_once("auth.php")
 <p>
   <a href="market/market.html">Market</a> |
   <a href="library/library.html">My Library</a>
+  <a href="forum/forum.html">Discussion Forum</a> |
+  <a href="profile.html">My Profile</a>
+
 </p>
 
 

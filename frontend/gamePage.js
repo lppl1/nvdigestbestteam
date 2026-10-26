@@ -114,3 +114,43 @@ $.ajax({
 
 
 });
+
+//Submit Review
+$("#review").on("submit",function(e){
+e.preventDefault();
+
+const reviewData=
+{
+rating:$("#rating").val();
+game_id:id
+body:$("#body").val();
+}
+
+$.ajax({
+        url:"searchData.php", 
+        type:"POST", 
+        data: getDetails, 
+        dataType:"json",
+        success: function(success,status,jqXHR) 
+        {
+    console.log("Data received:",success);
+        if(success){
+        alert("Successfully submitted review!")
+        }
+        else{
+        alert("Something went wrong. Try again!")
+        }
+
+        },
+        error: function(jqXHR,textStatus,error){
+        console.log("ERROR: ",error);
+        console.log("ERROR: ",textStatus);
+        console.log("ERROR: ",jqXHR);
+
+        }
+
+
+});
+
+
+});

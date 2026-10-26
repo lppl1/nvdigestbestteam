@@ -4,7 +4,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-	<a href="market/search.html">Browse More</a> | <a href="market/market.html">Marketplace</a> | <a href="library/library.html">Library</a> |
+	<a href="market/market.html">Marketplace</a> | <a href="library/library.html">Library</a> |
 	<a href="forum/forum.html">Discussion Forum</a> | <a href="profile.html">My Profile</a>
 	<h1> 
 	</h1>
@@ -17,12 +17,12 @@
 	<br>
 	<h2>Prices</h2>
 	<table border="1" id="pricesTable">
-di		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
+		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
 	<!--one row per store from game_prices tables-->
 	</table>
 
 	<h2>Add To Your Library</h2>
-	<form method="post">
+	<form method="post" id="library_add">
 		<select name="status">
 			<option value="plans">Plan on playing</option>
 			<option value="inprogress">Playing</option>
@@ -33,9 +33,9 @@ di		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
 	</form>
 
 	<h2>Watch Price</h2>
-	<form method="post">
+	<form method="post" id="price_watch">
 		<input type="number" name="target_price" step="0.01" placeholder="Target Price">
-		<button>Watch</button>
+		<input type="submit" value="Watch">
 	</form>
 
 	<br>
@@ -43,12 +43,12 @@ di		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
 	<!--this will be where reviews from reviews table go-->
 	<form method="post" id="review">
 		<select name="rating" id="rating">
-			<option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+			<option value=5>5</option><option value=4>4</option><option value=3>3</option><option value=2>2</option><option value=1>1</option>
 		</select>
 		<br>
 		<textarea name="body" id="body" placeholder="Your review"></textarea>
 		<br>
-		<button>Submit Review</button>
+		<button id="submit_review">Submit Review</button>
 	</form>
 </body>	
 </html>
