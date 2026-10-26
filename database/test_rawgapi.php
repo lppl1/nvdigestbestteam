@@ -1,14 +1,14 @@
 <?php
+require_once("rawgKey.php");
 require_once("dbConnection.php");
 $db = dbConnection();
-require_once("rawgKey.php");
 
 //games that haven't been matched with rawg 
 	$games = $db->query("SELECT id, title FROM games WHERE rawgame_id IS NULL LIMIT 30")->fetch_all(MYSQLI_ASSOC);
 
 foreach ($games as $game) {
 	//search rawg by title to find rawg id
-	$url = "https://api.rawg.io/api/games?key=" .$key . "&search=" . urlencode($game['title']) . "&search_precise=true&page_size=1";
+	$url = "https://api.rawg.io/api/games?key=" . $key . "&search=" . urlencode($game['title']) . "&search_precise=true&page_size=1";
 	$ch = curl_init($url); 
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, "it490");
