@@ -40,7 +40,12 @@ foreach ($games as $game) {
 		$stmt =$db->prepare("INSERT INTO genres (rawggenre_id, name) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)");
 		$stmt->bind_param("is", $genre['id'], $genre['name']);
 		$stmt->execute();
+		$stmt = $db->prepare("SELECT id FROM genres WHERE rawggenre_id = ?"); //adds our own id
+		$stmt->bind_param("i", $genre['id']);
+		$stmt->execute();
+		$genre_ID = $stmt->get_result()->fetch_assoc()['id'];
 
+		$stmt
 	}
 	echo "updated: " . $game['title'] . "/n";
 	sleep(1); //anti-api-spam method	
