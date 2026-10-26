@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head><title>Discussion Forum</title></head>
+<head><title>Discussion Forum</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
 <body>
 	<a href="../market/search.html">Browse</a> | <a href="../market/market.html">Marketplace</a> | <a href="../library/library.html">Library</a> |
 	<a href="forum.html">Forum</a> | <a href="../profile.html">My Profile</a>
@@ -11,7 +13,7 @@
 	</ul>
 	
 	<h2>New Thread</h2>
-	<form method="post">
+	<form method="post" id="createThread">
 		<input type="text" name="title" placeholder="Title">
 		<select name="game_id">
 			<option value="">General</option>
