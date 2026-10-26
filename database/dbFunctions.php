@@ -219,8 +219,27 @@ function doValidate($session_key) {
 		$sql = "SELECT u.username, r.rating, r.body FROM reviews r JOIN users u ON u.id = r.user_id WHERE r.game_id = ?";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param("i", $game_id);
-		$stmt->executed();
-		return $stmt->get_result();->fetch_all(MYSQLI_ASSOC);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+	}
+	function doThreadList($game_id){
+		$db = dbConnection();
+
+		if ($game_id == 0){
+			$sql = "SELECT t.id, t.title, t.created_at, u.username FROM forum_threads t JOIN users u ON u.id = t.author_id WHERE t.game_id IS NULL ORDER BY t.created_at DESC";
+		} else {
+			$sql = "SELECT t.id, t.title, t.created_at, u.username FROM forum_threads t JOIN users u ON u.id = t.author_id WHERE t.game_id = ? ORDER BY t.created_at DESC";
+		}
+		try{
+			$stmt = $db->prepare($sql);
+			if ($game_id != 0){
+				$stmt->bind_param("i", $game_id);
+			}
+			$stmt->execute();
+			return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+		} catch (exception $e){
+			return false;
+		}	
 	}
 
 ?>
