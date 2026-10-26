@@ -41,6 +41,5 @@
 	/*$login = doLogin("bryan", "password");
 		var_dump($login);
 	*/
-
 ?>
 

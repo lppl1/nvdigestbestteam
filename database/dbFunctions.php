@@ -204,6 +204,7 @@ function doValidate($session_key) {
 		if ($rating < 1 || $rating > 5) {
 			return False;
 		}
+<<<<<<< HEAD
 				$sql = "INSERT INTO reviews (rating, body) VALUES (?, ?)";
 
 		try {
@@ -218,4 +219,7 @@ function doValidate($session_key) {
 
 	}
 
+=======
+	}
+>>>>>>> 1794aac55d138a733fce83e7b98e4b67655b155a
 ?>
