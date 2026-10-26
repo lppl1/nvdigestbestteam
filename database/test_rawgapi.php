@@ -23,7 +23,23 @@ foreach ($games as $game) {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERAGENT, "it490");
 	$details = json_decode(curl_exec($ch), true);
+	
+	$description = $details['description_raw'] ?? null;
+	$developer = $details['developers'][0]['name'] ?? null;
+	$publisher = $details['publishers'][0]['name'] ?? null;
 
+	$stmt = db->prepare("UPDATE games SET rawgame_id = ?, description = ?, developer = ?, publisher = ? WHERE id = ?");
+	$stmt->bind_param("isssi", $rawg_ID, $description, $developer, $publisher, $game['id']);
+	try {
+		$stmt->execute();
+	} catch (exception $e){
+		continue; //another edition uses the same rawg id
+	}
+	
+	foreach ($details['genres'] as $genre) {
+		$stmt =$db->prepare("INSERT INTO genres (rawggenre_id, name) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)");
+
+	}
 		
 }
 ?>
