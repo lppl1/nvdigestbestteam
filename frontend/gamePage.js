@@ -16,7 +16,7 @@ type: "get_game"
 console.log(getDetails);
 //Grabbing data
 $.ajax({
-        url:"market/searchData.php", 
+        url:"searchData.php", 
         type:"POST", 
         data: getDetails, 
         dataType:"json",
@@ -87,7 +87,7 @@ $("#addGame").on("click",function(e)
 
 
 $.ajax({
-        url:"market/searchData.php", 
+        url:"searchData.php", 
         type:"POST", 
         data: getDetails, 
         dataType:"json",

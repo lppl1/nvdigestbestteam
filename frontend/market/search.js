@@ -2,7 +2,7 @@ $("#gameSearch").on("submit", function (e) {
     e.preventDefault();
 
     $.ajax({
-        url: "searchData.php",
+        url: "../searchData.php",
         type: "POST",
         data: {
             type: "search_games",
@@ -10,6 +10,7 @@ $("#gameSearch").on("submit", function (e) {
         },
         dataType: "json",
         success: function (games) {
+	console.log("DATA:::"+games);
             var $table = $("#gamesTable");
             $table.find("tr.result").remove(); 
 

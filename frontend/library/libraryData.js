@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 function loadLibrary() {
     $.ajax({
-        url: "searchData.php",
+        url: "../searchData.php",
         type: "POST",              // use the same GET/POST as search.js
         data: { type: "library_list" },
         dataType: "json",
@@ -46,7 +46,7 @@ function loadLibrary() {
 
 function removeGame(gameId) {
     $.ajax({
-        url: "searchData.php",
+        url: "../searchData.php",
         type: "POST",
         data: { type: "library_remove", game_id: gameId },
         dataType: "json",
