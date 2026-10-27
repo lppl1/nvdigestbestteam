@@ -121,15 +121,16 @@ e.preventDefault();
 
 const reviewData=
 {
-rating:$("#rating").val();
-game_id:id
-body:$("#body").val();
+type: "submit_review",
+rating:$("#review").val(),
+game_id:id,
+body:$("#body").val(),
 }
 
 $.ajax({
         url:"searchData.php", 
         type:"POST", 
-        data: getDetails, 
+        data: reviewData, 
         dataType:"json",
         success: function(success,status,jqXHR) 
         {
@@ -154,3 +155,41 @@ $.ajax({
 
 
 });
+
+
+$("#showReviews").on("click",function(){
+const getReviews={
+type: "get_review", 
+game_id: id
+};
+$.ajax({
+        url:"searchData.php", 
+        type:"POST", 
+        data: getReviews, 
+        dataType:"json",
+        success: function(reviews,status,jqXHR) 
+        {
+	console.log("Data received:",reviews);
+  	viewReviews(reviews);
+        },
+        error: function(jqXHR,textStatus,error){
+        console.log("ERROR: ",error);
+        console.log("ERROR: ",textStatus);
+        console.log("ERROR: ",jqXHR);
+
+        }
+
+
+});
+
+
+
+
+});
+
+function viewReviews(reviews){
+reviews.forEach();
+
+}
+
+

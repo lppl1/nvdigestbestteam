@@ -3,7 +3,7 @@ require_once("nvdigestmq/rabbitMQLib.inc");
 header("Content-Type: application/json");
 
 
-$allowed = ["search_games", "get_game", "library_add", "library_list", "library_remove"];
+$allowed = ["search_games", "get_game", "library_add", "library_list", "library_remove","submit_review","show_reviews"];
 $type = $_POST["type"] ?? "";
 
 if (!in_array($type, $allowed, true)) {
