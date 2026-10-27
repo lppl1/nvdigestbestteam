@@ -41,7 +41,7 @@
 			return doThreadList((int)($request['game_id'] ?? 0));
 		}
 		else if ($request['type'] == 'create_thread'){
-			reutrn doCreateThread($request['session_key'], (int)($request['game_id'] ?? 0), $request['title'], $request['body']);
+			return doCreateThread($request['session_key'], (int)($request['game_id'] ?? 0), $request['title'], $request['body']);
 		}
 		else if ($request['type'] == 'thread_posts'){
 			return doThreadPosts((int)$request['thread_id']);
