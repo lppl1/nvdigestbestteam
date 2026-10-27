@@ -18,16 +18,15 @@
 	<h2>Prices</h2>
 	<table border="1" id="pricesTable">
 		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
-	<!--one row per store from game_prices tables-->
 	</table>
 
 	<h2>Add To Your Library</h2>
 	<form method="post" id="library_add">
 		<select name="status" id=status>
-			<option value="plans">Plan on playing</option>
-			<option value="inprogress">Playing</option>
+			<option value="backlog">Plan on playing</option>
+			<option value="playing">Playing</option>
 			<option value="completed">Completed</option>
-			<option value="removed">Removed</option>
+			<option value="dropped">Removed</option>
 		</select>
 		<button id="addGame">Add</button>
 	</form>
@@ -40,7 +39,8 @@
 
 	<br>
 	<h2>Reviews</h2>
-	<!--this will be where reviews from reviews table go-->
+	<button id="showReviews">Show Reviews</button>
+	<div id="reviewList"></div>
 	<form method="post" id="review">
 		<select name="rating" id="rating">
 			<option value=5>5</option><option value=4>4</option><option value=3>3</option><option value=2>2</option><option value=1>1</option>
