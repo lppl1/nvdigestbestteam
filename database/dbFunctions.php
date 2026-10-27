@@ -241,5 +241,49 @@ function doValidate($session_key) {
 			return false;
 		}	
 	}
+	
+	function doCreateThread($session_key, $game_id, $title, $body){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		if ($game_id == 0){
+			$game_id = null;
+		}
+		try {
+			$stmt = $db->prepare("INSERT INTO forum_threads (author_id, game_id, title) VALUES (?, ?, ?)");
+			$stmt->bind_param("iis", $user_id, $game_id, $title);
+			$stmt->execute();
+			return $thread_id;
+		} catch (exception $e){
+			return false;
+		}
+	}
+	
+	function doThreadPosts($thread_id){
+		$db = dbConnection();
+		$sql = "SELECT p.id, p.body, p.created_at, u.username FROM forum_posts p JOIN users u ON u.id = p.author_id WHERE p.thread_id = ? ORDER BY p.created_at ASC";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param("i", $thread_id);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+	}
+
+	function doThreadReply($session_key, $thread_id, $body){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		try {
+			$stmt = $db->prepare("INSERT INTO forum_posts (thread_id, author_id, body) VALUES (?, ?, ?)");
+			$stmt->bind_param("iis", $thread_id, $user_id, $body);
+			$stmt->execute();
+			return true;
+		} catch (exception $e){
+			return false;
+		}
+	}
 
 ?>
