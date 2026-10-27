@@ -56,7 +56,7 @@ dev.append(data.developer);
 pub.append(data.publisher);
 released.append(data.released);
 rating.append(data.metacritic);
-
+$("#gameTitle").text(data.title);
 
 
 }
@@ -122,7 +122,7 @@ e.preventDefault();
 const reviewData=
 {
 type: "submit_review",
-rating:$("#review").val(),
+rating:$("#rating").val(),
 game_id:id,
 body:$("#body").val(),
 }
@@ -159,7 +159,7 @@ $.ajax({
 
 $("#showReviews").on("click",function(){
 const getReviews={
-type: "get_review", 
+type: "show_reviews", 
 game_id: id
 };
 $.ajax({
@@ -188,7 +188,10 @@ $.ajax({
 });
 
 function viewReviews(reviews){
-reviews.forEach();
+$("#reviewList").empty();
+reviews.forEach(function(e)){
+	$("reviewList").append("<p><b>" + r.username = "</b> (" + r.rating + "/5): " + r.body + "</p>");
+});
 
 }
 
