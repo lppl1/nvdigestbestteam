@@ -184,7 +184,7 @@ function doValidate($session_key) {
 		if ($user_id === null) {
 			return False;
 		}
-		$sql = "SELECT g.id, g.title, g.image_url, l.status FROM user_library l JOIN games g ON g.id = l.game_id WHERE l.user_id = ? ORDER BY l.added DESC";
+		$sql = "SELECT g.id, g.title, g.image_url, l.status FROM user_library l JOIN games g ON g.id = l.game_id WHERE l.user_id = ? ORDER BY l.added_at DESC";
 		try {
 			$stmt = $db->prepare($sql);
 			$stmt->bind_param("i", $user_id);
