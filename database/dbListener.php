@@ -40,6 +40,15 @@
 		else if ($request['type'] == 'thread_list') {
 			return doThreadList((int)($request['game_id'] ?? 0));
 		}
+		else if ($request['type'] == 'create_thread'){
+			reutrn doCreateThread($request['session_key'], (int)($request['game_id'] ?? 0), $request['title'], $request['body']);
+		}
+		else if ($request['type'] == 'thread_posts'){
+			return doThreadPosts((int)$request['thread_id']);
+		}
+		else if ($request['type'] == 'reply'){
+			return doThreadReply($request['session_key'], (int)$request['thread_id'], $request['body'];
+		}
 
 	}	
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
