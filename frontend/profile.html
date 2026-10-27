@@ -30,14 +30,29 @@
 		<ul id="squadList"></ul>
 		<input type="text" id="squadName" placeholder="Squad Name">
 		<input type="number" id="squadBudget" step="0.01" placeholder="Monthly budget">
-		<button id="createSquad"> Create Squad</button>
+		<button id="createSquad">Create Squad</button>
 
 		<input type="text" id="joinCode" placeholder="Join code">
 		<button id="joinSquad">Join Squad</button>
+		<!--should be hidden until clicking button-->
+		<div id="squadDetails" style="display:none">
+			<h3 id="squadTitle"></h3>
+			<p id="joinCodeText"></p>
+			<p id="budgetText"></p>
+			<h4>Members</h4>
+			<ul id="memberList"</ul>
+			<h4>Nominated Games</h4>
+			<table border="1" id="gameTable"></table>
+			<h4>Can afford this month</h4>
+			<ul id="affordList"></ul>
+		</div>
 
 		<h2>Purchases</h2>
 		<p>
 		<!--whatever purchased games should be in here formatted like Game Name - prices, last update date-->
 		</p>
+
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<script src="squadData.js"></script>
 	</body>
 </html>
