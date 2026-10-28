@@ -313,7 +313,7 @@ function doValidate($session_key) {
 			$stmt = $db->prepare("INSERT INTO squad_members (squad_id, user_id) VALUES (?, ?)");
 			$stmt->bind_param("ii", $squad_ID, $user_id);
 			$stmt->execute();
-			return $code;
+			return $squad_ID;
 		} catch (exception $e){
 			return false;
 		}
