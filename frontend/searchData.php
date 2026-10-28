@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 
 
 $allowed = ["search_games", "get_game", "watch_add", "watch_remove", "watch_list", "library_add", "library_list", "library_remove","submit_review","show_reviews","thread_list","create_thread", "thread_posts","reply","my_squads", "create_squad", "join_squad", "squad_details", "squad_nominate"
-	, "purchase", "get_wallet"];
+	, "purchase", "get_wallet", "set_wallet"];
 $type = $_POST["type"] ?? "";
 
 if (!in_array($type, $allowed, true)) {
@@ -112,6 +112,10 @@ if ($type === "purchase"){
 }
 if ($type === "get_wallet"){
 	$request["session_key"] = $_COOKIE["session_key"] ?? "";
+}
+if ($type === "set_wallet") {
+	$request["session_key"] = $_COOKIE["session_key"] ?? "";
+	$request["amount"] = (float)($_POST["amount"] ?? 0);
 }
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini", "nvdServer");
 $response = $client->send_request($request);
