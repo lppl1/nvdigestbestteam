@@ -479,7 +479,14 @@ function doValidate($session_key) {
 				$db->rollback();
 				return false;
 			}
-
+			$stmt = $db->prepare("SELECT sale_price FROM game_prices WHERE game_id = ? AND store_id = ?");
+			$stmt->bind_param("ii", $game_id, $store_id);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			if ($row === null){
+				$db->rollback();
+				return false; //no price for that game/store
+			}
 			$price = (float)$row['sale_price']; //check balance
 			$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ? FOR UPDATE");
 			$stmt->bind_param("i", $user_id);
