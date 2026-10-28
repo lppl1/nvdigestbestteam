@@ -464,10 +464,13 @@ function doValidate($session_key) {
 
 	}
 	
-	function doPurchase($session_key, $game_id, $store_id){
+	function doPurchase($session_key, $game_id, $store_id, $squad_ID = null){
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
 		if ($user_id === null){
+			return false;
+		}
+		if ($squad_ID !== null && !isMember($db, $squad_ID, $user_id)){
 			return false;
 		}
 		try {
@@ -479,15 +482,27 @@ function doValidate($session_key) {
 				$db->rollback();
 				return false;
 			}
-			$stmt = $db->prepare("SELECT sale_price FROM game_prices WHERE game_id = ? AND store_id = ?");
-			$stmt->bind_param("ii", $game_id, $store_id);
-			$stmt->execute();
-			$row = $stmt->get_result()->fetch_assoc();
-			if ($row === null){
-				$db->rollback();
-				return false; //no price for that game/store
+			if ($store_id == 0){
+				$stmt = $db->prepare("SELECT store_id, sale_price FROM game_price WHERE game_id = ? ORDER BY sale_price ASC LIMIT 1");
+				$stmt->bind_param("i", $game_id);
+			} else {
+				$stmt = $db->prepare("SELECT store_id, sale_price FROM game_prices WHERE game_id = ? and store_id =?");
+				$stmt->bind_param("ii", $game_id, $store_id);
 			}
-			$price = (float)$row['sale_price']; //check balance
+			$price = (float)$row['sale_price'];
+			$store_id = (int)$row['store_id'];
+			//squad budget check
+			if ($squad_ID !== null){
+				$stmt = $db->prepare("SELECT s.monthly_budget, (SELECT COALESCE(SUM(price_paid), 0) FROM orders WHERE squad_id = s.id AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')) AS spent FROM squads s WHERE s.id = ?");
+				$stmt->bind_param("i", $squad_ID);
+				$stmt->execute();
+				$squad = $stmt->get_result()->fetch_assoc();
+				if ($squad['monthly_budget'] !== null && (float)$squad['spent'] + $price > (float)$squad['monthly_budget']){
+					$db->rollback();
+					return false;
+				}
+			}
+
 			$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ? FOR UPDATE");
 			$stmt->bind_param("i", $user_id);
 			$stmt->execute();
