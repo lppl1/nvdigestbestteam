@@ -8,7 +8,10 @@
 		<h1>
 		<!-- whatever username is, needs to be updated depending on user-->
 		</h1>
-		<p>Wallet: | Spent this month: </p> <!-- needs to be updated again based on user wallet preferences -->
+		<p id="walletText">Wallet: </p>
+		<input type="number" id="walletAmount" step="0.01" min="0" placeholder="Set wallet amount">
+		<button id="setWallet">Set Wallet</button>
+		<p id="spentText">Spent this month: </p>
 
 		<h2>Price Watch</h2>
 		<p id="watchMsg"></p>
