@@ -254,11 +254,11 @@ function doValidate($session_key) {
 		try {
 			$stmt = $db->prepare("INSERT INTO forum_threads (author_id, game_id, title) VALUES (?, ?, ?)");
 			$stmt->bind_param("iis", $user_id, $game_id, $title);
-			$stmt->execute();i
+			$stmt->execute();
 			$thread_id = $db->insert_id;
-			$stmt = $db->prepare("INSERT INTO forum_posts (thread_id, author_id, body) VALUES (?, ?, ?, ?");
+			$stmt = $db->prepare("INSERT INTO forum_posts (thread_id, author_id, body) VALUES (?, ?, ?)");
 			$stmt->bind_param("iis", $thread_id, $user_id, $body);
-			$stmt->execute;
+			$stmt->execute();
 			return $thread_id;
 		} catch (exception $e){
 			return false;
