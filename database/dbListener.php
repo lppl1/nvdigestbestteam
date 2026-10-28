@@ -47,7 +47,22 @@
 			return doThreadPosts((int)$request['thread_id']);
 		}
 		else if ($request['type'] == 'reply'){
-			return doThreadReply($request['session_key'], (int)$request['thread_id'], $request['body'];
+			return doThreadReply($request['session_key'], (int)$request['thread_id'], $request['body']);
+		}
+		else if ($request['type'] == 'create_squad'){
+			return doCreateSquad($request['session_key'], $request['name'], (float)($request['budget'] ?? 0));
+		}
+		else if ($request['type'] == 'join_squad'){
+			return doJoinSquad($request['session_key'], $request['code']);
+		}
+		else if ($request['type'] == 'my_squads'){
+			return doMySquads($request['session_key']);
+		}
+		else if ($request['type'] == 'squad_nominate'){
+			return doSNominate($request['session_key'], (int)$request['squad_id'], (int)$request['game_id'], $request['target_price'] ?? null); 
+		}
+		else if ($request['type'] == 'squad_details'){
+			return doSDetails($request['session_key'], (int)$request['squad_id']);
 		}
 
 	}	

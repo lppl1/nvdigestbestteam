@@ -352,5 +352,51 @@ function doValidate($session_key) {
 		return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 	}
 
+	function doSNominate($session_key, $squad_ID, $game_id, $target_price){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null || !isSquadMember($db, $squad_ID, $user_id)){
+			return false;
+		}
+		try { 
+			$stmt = $db->prepare("INSSERT INTO squad_games (squad_id, game_id, added_by, target_price VALUES (?, ?, ?, ?)");
+			$stmt->bind_param("iiid", $squad_ID, $game_id, $user_id, $target_price);
+			$stmt->execute();
+			return true;
+		} catch (exception $e) {
+			return false;
+		}
+	}
+
+	function doSDetails($session_key, $squad_ID){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null || !isSquadMember($db, $squad_ID, $user_id)){
+			return false;
+		}
+		$stmt = $db->prepare("SELECT id, name, join_code, monthly_budget FROM squads WHERE id = ?");
+		$stmt->bind_param("i", $squad_ID);
+		$stmt->execute();
+		$squad = $stmt->get_result()->fetch_assoc();
+		$squad['spent'] = 0;
+		$stmt = $db->prepare("SELECT u.username FROM squad_members m JOIN users u ON u.id = m.user_id WHERE m.squad_id = ?");
+		$stmt->bind_param("i", $squad_ID);
+		$stmt->execute();
+		$squad['members'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+		$sql = "SELECT g.id, g.title, (SELECT MIN(p.sale_price) FROM game_price p WHERE p.game_id = sg.game_id) AS best_price FROM squad_games sg JOIN games g ON g.id = sg.game_id WHERE sg.squad_id = ? ORDER BY best_price ASC";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param("i", $squad_ID);
+		$stmt->execute();
+		$squad['games'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+		$squad['can_afford'] = array();
+		$remaining  = (float)$squad['monthly_budget'];
+		foreach ($squad['games'] as $g){
+			if ($g['best_price'] !== null && (float)$g['best_price'] <= $remaining){
+				$squad['can_afford'][] = $g;
+				$remaining -= (float)$g['best_price'];
+			}
+		}
+		return $squad;
+	}
 
 ?>
