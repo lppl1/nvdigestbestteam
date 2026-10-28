@@ -4,7 +4,7 @@ require_once(__DIR__ . '/get_host_info.inc');
 require_once(__DIR__ . '/rabbitMQlib.inc');
 require_once(__DIR__ . '/dmzFunctions.php');
 
-$client = new rabbitMQClient("nvRabbitMQ.ini", "nvdServer");
+$client = new rabbitMQClient("nvRabbitMQ.ini", "dmzServer");
 
 //alert_id, email, username, title, store, sale_price, target_price, deal_id, alert_type ('price' | 'budget')
 $alerts = $client->send_request(["type" => "get_triggered_alerts"]);

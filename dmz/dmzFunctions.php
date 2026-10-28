@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 const CHEAPSHARK = "https://www.cheapshark.com/api/1.0/";
 const RAWG	 = "https://api.rawg.io/api/";
-const MQ_INI	 = __DIR__ . "../nvdigestmq/nvRabbitMQ.ini";
+const MQ_INI	 = __DIR__ . "/../nvdigestmq/nvRabbitMQ.ini";
 const USER_AGENT = "DealDigest/1.0 (IT490 Semester Project)";
 
 function dmzConfig() {
@@ -38,7 +38,7 @@ function fetchRawg($title){
 	if (empty($found['results'])) return null;
 	$id = $found ['results'][0]['id'];
 	$d = httpGet(RAWG . "games/$id?key=$key");
-	if(!$d) return null;
+	if (!$d) return null;
 	return [
 	"rawg_id"	=> $id,
 	"description"	=> $d['description_raw'] ?? '',
@@ -50,11 +50,9 @@ function fetchRawg($title){
 
 //annoying emails
 function sendAlertEmail($to, $subject, $html) {
-
 	$c = dmzConfig();
-
-	$mail = new PHPMAILER(true);
 	try {
+		$mail = new PHPMAILER(true);
 		$mail->isSMTP();
 		$mail->Host	= $c['SMTP_HOST'];
 		$mail->Port	= (int)$c['SMTP_PORT'];
@@ -62,11 +60,12 @@ function sendAlertEmail($to, $subject, $html) {
 		$mail->Username = $c['SMTP_USER'];
 		$mail->Password = $c['SMTP_PASS'];
 		$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-		$mail->setFrom($c['FROM_EMAIL'] ?? $c['SMTP_USER'], $c['FROM_NAME'] ?? 'DealDigest');
+		$mail->setFrom($c['FROM_EMAIL'], $c['FROM_NAME']);
 		$mail->addAddress($to);
 		$mail->isHTML(true);
 		$mail->Subject = $subject;
 		$mail->Body = $html;
+		$mail->AltBody = strip_tags($html);
 		return $mail->send();
 	} catch (Throwable $e) {
 		echo "Email failed:( " . $e->getMessage() . "\n";
