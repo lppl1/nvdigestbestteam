@@ -197,7 +197,7 @@ reviews.forEach(function(r){
 $("#price_watch").on("submit", function (e) {
 	e.preventDefault();
 	$.ajax({
-		url: "market/searchData.php",
+		url: "searchData.php",
 		type: "POST",
 		data: {
 			type: "watch_add",
