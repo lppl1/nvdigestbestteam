@@ -5,7 +5,7 @@ require_once(__DIR__ . '/get_host_info.inc');
 require_once(__DIR__ . '/rabbitMQLib.inc');
 require_once(__DIR__ . '/dmzFunctions.php');
 
-$mq = new rabbitMQClient(MQ_INI, "nvdServer");
+$mq = new rabbitMQClient(MQ_INI, "dmzServer");
 
 //stores 
 $stores = fetchStores();
