@@ -79,6 +79,8 @@ function doValidate($session_key) {
 		$stmt->bind_param("sss", $username, $hashedPassword, $email);
 			try {
 				$stmt->execute();
+				$new_id = $db->insert_id;
+				$db->query("INSERT INTO wallets (user_id, balance) VALUES (" . (int)$new_id . ", 100.00)");
 				return True;
 			}
 		catch (Exception $e) {
@@ -267,7 +269,7 @@ function doValidate($session_key) {
 	
 	function doThreadPosts($thread_id){
 		$db = dbConnection();
-		$sql = "SELECT p.id, p.body, p.created_at, u.username FROM forum_posts p JOIN users u ON u.id = p.author_id WHERE p.thread_id = ? ORDER BY p.created_at ASC";
+		$sql = "SELECT p.id, p.body, p.created_at, u.username FROM forum_posts p JOIN users u ON u.id = p.author_id WHERE p.thread_id = ? ORDER BY p.created ASC";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param("i", $thread_id);
 		$stmt->execute();
