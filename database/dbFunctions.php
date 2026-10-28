@@ -524,11 +524,11 @@ function doValidate($session_key) {
 		if ($user_id === null){
 			return false;
 		}
-		$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ?");
-		$stmt->bind_param("i", $user_id);
+		$stmt = $db->prepare("SELECT w.balance, us.monthly_budget, (SELECT COALESCE(SUM(price_paid), 0) FROM orders WHERE user_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')) AS spent FROM wallets w LEFT JOIN user_settings us ON us.user_id = w.user_id WHERE w.user_id = ?");
+		$stmt->bind_param("ii", $user_id, $user_id);
 		$stmt->execute();
 		$row = $stmt->get_result()->fetch_assoc();
-		return $row === null ? false : $row['balance'];
+		return $row === null ? false : $row;
 	}
 	
 	function doSetWallet($session_key, $amount){
