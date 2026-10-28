@@ -68,3 +68,6 @@ $(document).ready(function(){
 		});
 	});
 });
+squadRequest({type: "get_wallet"}, function(balance){
+        $("#walletText").text("Wallet: $" + (balance || "0.00"));
+    });

@@ -214,5 +214,13 @@ $("#price_watch").on("submit", function (e) {
 		}
 	});
 });
-
+$(document).on("click", ".buyGame", function(){
+    $.ajax({
+        url: "searchData.php",
+        type: "POST",
+        data: {type: "purchase", game_id: id, store_id: $(this).data("store")},
+        dataType: "json",
+        success: function(ok){
+            alert(ok ? "Purchased! Added to your library." : "Not enough money, or you already own it.");
+        }
 
