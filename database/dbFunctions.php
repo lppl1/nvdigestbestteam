@@ -479,7 +479,8 @@ function doValidate($session_key) {
 				$db->rollback();
 				return false;
 			}
-			$price = (float)$row['sale_price'] //check balance
+
+			$price = (float)$row['sale_price']; //check balance
 			$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ? FOR UPDATE");
 			$stmt->bind_param("i", $user_id);
 			$stmt->execute();
