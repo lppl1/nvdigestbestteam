@@ -42,6 +42,11 @@ if ($type=="create_thread"){
 	$request["title"]=$_POST["title"];
 	$request["body"]=$_POST["body"];
 }
+if($type=="thread_posts")
+{
+	$request["id"]=$_POST["id"];
+}
+
 if ($type === "my_squads"){
 	$request["session_key"] = $_COOKIE["session_key"] ?? "";
 }
