@@ -315,4 +315,42 @@ function doValidate($session_key) {
 		}
 	}
 
+	function doJoinSquad($session_key, $code){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		$stmt = $db->prepare("SELECT id from squads WHERE join_code = ?"); //finding squad with join code
+		$stmt->bind_param("s", $code);
+		$stmt->execute();
+		$row = $stmt->get_result()->fetch_assoc();
+		if ($row === null){
+			return false; //if no squad has this code
+		}
+		$squad_id = $row['id'];
+		try {
+			$stmt = $db->prepare("INSERT INTO squad_members (squad_id, user_id) VALUES (?, ?)");
+			$stmt->bind_param("ii", $squad_ID, $user_id);
+			$stmt->execute();
+			return $squad_ID;
+		} catch (exception $e) {
+			return false;
+		}
+	}
+
+	function doMySquads($session_key){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		$sql = "SELECTT s.id, s.name, s.join_code, s.monthly_budget FROM squads s JOIN squad_members m ON m.squad_id = s.id WHEREm.user_id = ? ORDER BY s.name";
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param("i", $user_id);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+	}
+
+
 ?>
