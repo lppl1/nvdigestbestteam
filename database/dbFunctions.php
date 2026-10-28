@@ -517,5 +517,16 @@ function doValidate($session_key) {
 			return false;
 		}
 	}
-
+	
+	function doSetWallet($session_key, $amount){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null || $amount < 0){
+			return false;
+		}
+		$stmt = $db->prepare("INSERT INTO wallers (user_id, balance) VALUES (?, ?) ON DUPLICATE KEY UPDATE balance = VALUES(balance)");
+		$stmt->bind_param("id", $user_id, $amount);
+		$stmt->execute();
+		return true;
+	}
 ?>
