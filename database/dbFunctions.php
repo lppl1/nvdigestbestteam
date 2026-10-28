@@ -494,8 +494,20 @@ function doValidate($session_key) {
 			$stmt->bind_param("di", $price, $user_id);
 			$stmt->execute();
 			//step 2,  record order happening
-			
+			$stmt = $db->prepare("INSERT INTO orders (user_id, game_id, store_id, price_paid) VALUES (?, ?, ?, ?)");
+			$stmt->bind_param("iiid", $user_id, $game_id, $store_id, $price);
+			$stmt->execute();
+			$order_id = $db->insert_id;
 			//step 3, add to user library
+			$stmt = $db->prepare("INSERT INTO user_library (user_id, game_id, source, order_id) VALUES (?, ?, 'purchase', ?) ON DUPLICATE KEY UPDATE source = 'purchase', order_id = VALUES(order_id)");
+			$stmt->bind_param("iii", $user_id, $game_id, $order_id);
+			$stmt->execute();
+			$db->commit(); //saves all 3 changes
+			return true;
+		} catch (exception $e){
+			$db->rollback(); //undo everything if any step failed
+			return false;
+		}
 	}
 
 ?>
