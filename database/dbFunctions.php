@@ -254,7 +254,11 @@ function doValidate($session_key) {
 		try {
 			$stmt = $db->prepare("INSERT INTO forum_threads (author_id, game_id, title) VALUES (?, ?, ?)");
 			$stmt->bind_param("iis", $user_id, $game_id, $title);
-			$stmt->execute();
+			$stmt->execute();i
+			$thread_id = $db->insert_id;
+			$stmt = $db->prepare("INSERT INTO forum_posts (thread_id, author_id, body) VALUES (?, ?, ?, ?");
+			$stmt->bind_param("iis", $thread_id, $user_id, $body);
+			$stmt->execute;
 			return $thread_id;
 		} catch (exception $e){
 			return false;
@@ -291,7 +295,7 @@ function doValidate($session_key) {
 		$stmt = $db->prepare("SELECT 1 FROM squad_members WHERE squad_id = ? AND user_id = ?");
 		$stmt->bind_param("ii", $squad_ID, $user_id);
 		$stmt->execute();
-		return $stmt->get_results()->fetch_assoc() !== null;
+		return $stmt->get_result()->fetch_assoc() !== null;
 	}
 
 	function doCreateSquad($session_key, $name, $budget){
@@ -328,7 +332,7 @@ function doValidate($session_key) {
 		if ($row === null){
 			return false; //if no squad has this code
 		}
-		$squad_id = $row['id'];
+		$squad_ID = $row['id'];
 		try {
 			$stmt = $db->prepare("INSERT INTO squad_members (squad_id, user_id) VALUES (?, ?)");
 			$stmt->bind_param("ii", $squad_ID, $user_id);
@@ -345,7 +349,7 @@ function doValidate($session_key) {
 		if ($user_id === null){
 			return false;
 		}
-		$sql = "SELECTT s.id, s.name, s.join_code, s.monthly_budget FROM squads s JOIN squad_members m ON m.squad_id = s.id WHEREm.user_id = ? ORDER BY s.name";
+		$sql = "SELECT s.id, s.name, s.join_code, s.monthly_budget FROM squads s JOIN squad_members m ON m.squad_id = s.id WHERE m.user_id = ? ORDER BY s.name";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param("i", $user_id);
 		$stmt->execute();
@@ -355,11 +359,11 @@ function doValidate($session_key) {
 	function doSNominate($session_key, $squad_ID, $game_id, $target_price){
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
-		if ($user_id === null || !isSquadMember($db, $squad_ID, $user_id)){
+		if ($user_id === null || !isMember($db, $squad_ID, $user_id)){
 			return false;
 		}
 		try { 
-			$stmt = $db->prepare("INSSERT INTO squad_games (squad_id, game_id, added_by, target_price VALUES (?, ?, ?, ?)");
+			$stmt = $db->prepare("INSERT INTO squad_games (squad_id, game_id, added_by, target_price) VALUES (?, ?, ?, ?)");
 			$stmt->bind_param("iiid", $squad_ID, $game_id, $user_id, $target_price);
 			$stmt->execute();
 			return true;
@@ -371,7 +375,7 @@ function doValidate($session_key) {
 	function doSDetails($session_key, $squad_ID){
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
-		if ($user_id === null || !isSquadMember($db, $squad_ID, $user_id)){
+		if ($user_id === null || !isMember($db, $squad_ID, $user_id)){
 			return false;
 		}
 		$stmt = $db->prepare("SELECT id, name, join_code, monthly_budget FROM squads WHERE id = ?");
@@ -383,7 +387,7 @@ function doValidate($session_key) {
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
 		$squad['members'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-		$sql = "SELECT g.id, g.title, (SELECT MIN(p.sale_price) FROM game_price p WHERE p.game_id = sg.game_id) AS best_price FROM squad_games sg JOIN games g ON g.id = sg.game_id WHERE sg.squad_id = ? ORDER BY best_price ASC";
+		$sql = "SELECT g.id, g.title, (SELECT MIN(p.sale_price) FROM game_prices p WHERE p.game_id = sg.game_id) AS best_price FROM squad_games sg JOIN games g ON g.id = sg.game_id WHERE sg.squad_id = ? ORDER BY best_price ASC";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
