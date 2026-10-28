@@ -37,9 +37,10 @@ $.ajax({
 
 //This is separate so I can test functionality.
 function updateBoard(threadData){
-//Will continue from here
-threadData.forEach(function(thread){
+//remove previous data
 var table=$("#Threads tbody");
+table.empty();
+threadData.forEach(function(thread){
 var row=$('<tr></tr>');
 var link = $("<a></a>").attr("href", "thread.html?id=" + encodeURIComponent(thread.id)).text(thread.title);
 row.append($("<td></td>").append(link));
@@ -67,7 +68,7 @@ $.ajax({
         success: function(threadData,status,jqXHR) 
         {
         console.log("Data received:",threadData);
-  
+	dispDiscussions();  
  
         },
         error: function(jqXHR,textStatus,error){
