@@ -1,11 +1,18 @@
 <!DOCTYPE html>
+<?php
+require_once("auth.php")
+?>
+
+
+
 <html>
-<head><title>Game</title>
+<head><title>Game
+</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-	<a href="market/market.html">Marketplace</a> | <a href="library/library.html">Library</a> |
-	<a href="forum/forum.html">Discussion Forum</a> | <a href="profile.html">My Profile</a>
+	<a href="market/market.php">Marketplace</a> | <a href="library/library.php">Library</a> |
+	<a href="forum/forum.php">Discussion Forum</a> | <a href="profile.php">My Profile</a>
 	<h1> 
 	</h1>
 	<img src="" alt="cover" id="gameImg">

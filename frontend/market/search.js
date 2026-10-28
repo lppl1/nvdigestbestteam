@@ -22,7 +22,7 @@ $("#gameSearch").on("submit", function (e) {
             games.forEach(function (g) {
                 var $row = $('<tr class="result"></tr>');
                 var $link = $("<a></a>")
-                    .attr("href", "../games.html?id=" + encodeURIComponent(g.id))
+                    .attr("href", "../games.php?id=" + encodeURIComponent(g.id))
                     .text(g.title);
 
                 $row.append($("<td></td>").append($link));

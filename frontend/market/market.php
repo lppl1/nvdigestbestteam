@@ -1,3 +1,7 @@
+<?php
+require_once("../auth.php")
+?>
+
 <style>
 td{
 border: 2px solid black;

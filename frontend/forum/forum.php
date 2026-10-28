@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+<?php
+require_once("../auth.php")
+?>
+
 
 <style>
 td{

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
+<?php
+require_once("auth.php")
+?>
+
+
 	<head><title>Profile</title></head>
 	<body>
-		<a href="market/market.html">Marketplace</a> | <a href="library/library.html">My Library</a> |
-		<a href="forum/forum.html">Discussion Forum</a> | <a href="profile.html">My Profile</a>
+		 <div id="banner"></div>
 
 		<h1>
 		<!-- whatever username is, needs to be updated depending on user-->
@@ -59,5 +63,6 @@
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 		<script src="squadData.js"></script>
 		<script src="watchList.js"></script>
+		<script src=../loadBanner.js></script>
 	</body>
 </html>

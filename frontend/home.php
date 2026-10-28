@@ -9,10 +9,10 @@ require_once("auth.php")
 <div id=welcome>Welcome!</div>
 
 <p>
-  <a href="market/market.html">Market</a> |
-  <a href="library/library.html">My Library</a>
-  <a href="forum/forum.html">Discussion Forum</a> |
-  <a href="profile.html">My Profile</a>
+  <a href="market/market.php">Market</a> |
+  <a href="library/library.php">My Library</a>
+  <a href="forum/forum.php">Discussion Forum</a> |
+  <a href="profile.php">My Profile</a>
 
 </p>
 

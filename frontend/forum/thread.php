@@ -1,5 +1,11 @@
 <!DOCTYPE HTML>
 <html>
+
+<?php
+require_once("../auth.php")
+?>
+
+
 	<head><title>Forum Threads</title>
 
 	<style>
@@ -22,7 +28,7 @@
 
 	</head>
 	<body>
-		<a href="forum.html">Back to Forums</a>
+		<a href="forum.php">Back to Forums</a>
 		
 			<!--posts from forum_posts will be within h1 element-->
 

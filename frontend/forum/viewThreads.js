@@ -54,7 +54,7 @@ var getPosts={
 type:"thread_posts",
 thread_id:id
 };
-/*
+
 $.ajax({
         url:"../searchData.php", 
         type:"POST", 
@@ -73,7 +73,7 @@ $.ajax({
         }
 
 
-});*/
+});
 
 
 var table = $("#all_posts tbody");

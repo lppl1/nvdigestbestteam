@@ -42,7 +42,7 @@ var table=$("#Threads tbody");
 table.empty();
 threadData.forEach(function(thread){
 var row=$('<tr></tr>');
-var link = $("<a></a>").attr("href", "thread.html?id=" + encodeURIComponent(thread.id)).text(thread.title);
+var link = $("<a></a>").attr("href", "thread.php?id=" + encodeURIComponent(thread.id)).text(thread.title);
 row.append($("<td></td>").append(link));
 table.append(row);
 	
