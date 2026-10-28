@@ -194,6 +194,25 @@ reviews.forEach(function(r){
 });
 
 }
-
+$("#price_watch").on("submit", function (e) {
+	e.preventDefault();
+	$.ajax({
+		url: "market/searchData.php",
+		type: "POST",
+		data: {
+			type: "watch_add",
+			game_id: id,
+			target_price: $("#targetPrice").val()
+		},
+		dataType: "json",
+		success: function (ok) {
+			if (ok === true) {
+				alert("Price watch saved!");
+			} else {
+				alert("Could not save. Are you logged in?");
+			}
+		}
+	});
+});
 
 
