@@ -3,7 +3,7 @@ require_once("nvdigestmq/rabbitMQLib.inc");
 header("Content-Type: application/json");
 
 
-$allowed = ["search_games", "get_game", "library_add", "library_list", "library_remove","submit_review","show_reviews","thread_list","create_thread", "thread_posts","reply","my_squads", "create_squad", "join_squad", "squad_details", "squad_nominate"];
+$allowed = ["search_games", "get_game", "watch_add", "watch_remove", "watch_list", "library_add", "library_list", "library_remove","submit_review","show_reviews","thread_list","create_thread", "thread_posts","reply","my_squads", "create_squad", "join_squad", "squad_details", "squad_nominate"];
 $type = $_POST["type"] ?? "";
 
 if (!in_array($type, $allowed, true)) {
@@ -63,6 +63,18 @@ if ($type === "squad_nominate"){
 	$request["squad_id"] = (int)($_POST["squad_id"] ?? 0);
 	$request["game_id"] = (int)($_POST["game_id"] ?? 0);
 	$request["target_price"] = $_POST["target_price"] ?? null;
+}
+if ($type === "watch_add") {
+	$request["session_key"] = $_COOKIE["session_key"] ?? "";
+	$request["game_id"] = (int)($_POST["game_id"] ?? 0);
+	$request["target_price"] = (float)($_POST["target_price"] ?? 0);
+}
+if ($type === "watch_list") {
+	$request["session_key"] = $_COOKIE["session_key"] ?? "";
+}
+if ($type === "watch_remove") {
+	$request["session_key"] = $_COOKIE["session_key"] ?? "";
+	$request["game_id"] = (int)($_POST["game_id"] ?? 0);
 }
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini", "nvdServer");
 $response = $client->send_request($request);
