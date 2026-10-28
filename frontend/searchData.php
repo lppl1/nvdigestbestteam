@@ -54,7 +54,7 @@ if ($type === "join_squad"){
 	$request["session_key"] = $_COOKIE["session_key"] ?? "";
 	$request["code"] = $_POST["code"] ?? "";
 }
-if ($type === "squads_details"){
+if ($type === "squad_details"){
 	$request["session_key"] = $_COOKIE["session_key"] ?? "";
 	$request["squad_id"] = (int)($_POST["squad_id"] ?? 0);
 }
