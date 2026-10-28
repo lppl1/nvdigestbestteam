@@ -269,7 +269,7 @@ function doValidate($session_key) {
 	
 	function doThreadPosts($thread_id){
 		$db = dbConnection();
-		$sql = "SELECT p.id, p.body, p.created_at, u.username FROM forum_posts p JOIN users u ON u.id = p.author_id WHERE p.thread_id = ? ORDER BY p.created ASC";
+		$sql = "SELECT p.id, p.body, p.created, u.username FROM forum_posts p JOIN users u ON u.id = p.author_id WHERE p.thread_id = ? ORDER BY p.created ASC";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param("i", $thread_id);
 		$stmt->execute();
