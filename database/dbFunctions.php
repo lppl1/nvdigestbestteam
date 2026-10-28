@@ -460,6 +460,42 @@ function doValidate($session_key) {
 		}
 		catch (Exception $e) {
 			return False;
-	}	
-}
+		}
+
+	}
+	
+	function doPurchase($session_key, $game_id, $store_id){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		try {
+			$db->begin_transaction(); //everything happens together or not at all
+			$stmt = $db->prepare("SELECT 1 FROM user_library WHERE user_id = ? AND game_id = ? AND source = 'purchase'");
+			$stmt->bind_param("ii", $user_id, $game_id);
+			$stmt->execute();
+			if ($stmt->get_result()->fetch_assoc() !== null){
+				$db->rollback();
+				return false;
+			}
+			$price = (float)$row['sale_price'] //check balance
+			$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ? FOR UPDATE");
+			$stmt->bind_param("i", $user_id);
+			$stmt->execute();
+			$wallet = $stmt->get_result()->fetch_assoc();
+			if ($wallet === null || (float)$wallet['balance'] < $price){
+				$db->rollback();
+				return false; //no wallet or not enough money
+			}
+
+			//step 1, take money
+			$stmt = $db->prepare("UPDATE wallets SET balance = balance - ? WHERE user_id = ?");
+			$stmt->bind_param("di", $price, $user_id);
+			$stmt->execute();
+			//step 2,  record order happening
+			
+			//step 3, add to user library
+	}
+
 ?>
