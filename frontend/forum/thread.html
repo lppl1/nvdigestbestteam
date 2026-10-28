@@ -1,17 +1,32 @@
 <!DOCTYPE HTML>
 <html>
-	<head><title>Forum Threads</title></head>
+	<head><title>Forum Threads</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+	</head>
 	<body>
 		<a href="forum.html">Back to Forums</a>
-		<h1>
+		
 			<!--posts from forum_posts will be within h1 element-->
-		</h1>
+
 		<h3>Reply?</h3>
 		<form method="post" id="reply">
 			<textarea name="body" id="body" placeholder"Message"></textarea>
 			<br>
 			<input type="submit" value="reply">
 		</form>
+	
+		<br>
+		<br>
+		<table id="all_posts>
+		<tbody>
+		<tr id="first"></tr>
+		</tbody>
+		</table>	
+
+
 	</body>
+<script src="viewThreads.js"></script>
+
 </html>
 
