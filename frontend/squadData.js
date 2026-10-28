@@ -67,7 +67,18 @@ $(document).ready(function(){
 			}
 		});
 	});
+	//showing wallet balance
+	squadRequest({type: "get_wallet"}, function(balance){
+		$("walletText").text("Wallet: $" + (balance || "0.00"));
+	});
+	//setting balance
+	$("#setWallet").on("click", function(){
+		squadRequest({type: "set_wallet", amount: $("#walletAmount").val()}, function(good){
+			if (good) {
+				location.reload();
+			} else {
+				alert("Please enter an amount of 0 or more.");
+			}
+		});
+	});
 });
-squadRequest({type: "get_wallet"}, function(balance){
-        $("#walletText").text("Wallet: $" + (balance || "0.00"));
-    });
