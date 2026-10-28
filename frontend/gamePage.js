@@ -67,9 +67,7 @@ function updateTable(data){
 		row.append($("<td>").text(p.store));
 		row.append($("<td>").text("$" + p.sale_price));
 		row.append($("<td>").text("$" + p.normal_price));
-		var buy = $("<a>")
-			.attr("href", "https://www.cheapshark.com/redirect?dealID=" + p.deal_id)
-			.text("Buy");
+		var buy = $("<button>").text("Buy").addClass("buyGame").attr("data-store", p.store_id);
 		row.append($("<td>").append(buy));
 		$("#pricesTable").append(row);
 	});
