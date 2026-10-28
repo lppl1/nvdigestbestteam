@@ -1,36 +1,33 @@
 <?php
 //dmz fetches the deals from cheapshark and sends to db through rabbitmq
-require_once('path.inc');
-require_once('get_host_inc.inc');
-require_once('rabbitMQLib.inc');
-require_once('dmzFunctions.php');
+require_once(__DIR__ . '/path.inc');
+require_once(__DIR__ . '/get_host_inc.inc');
+require_once(__DIR__ . '/rabbitMQLib.inc');
+require_once(__DIR__ . '/dmzFunctions.php');
 
-$client = new rabbitMQClient("nvRabbitMQ.ini", "nvdServer");
+$mq = new rabbitMQClient(MQ_INI, "nvdServer");
 
 //stores 
 $stores = fetchStores();
-if ($stores) {
-	$res = $client->send_request(["type" => "save_stores", "data", => $stores]);
-	echo "stores saved: " . var_export($res, true) . "\n";
+if ($stores = fetchStores()) {
+	echo "stores: " . json_encode($mq->send_request(["type" => "save_stores", "data" => $stores])) . "\n";
 }
 
 //whats the "deal"-io
 for ($page = 0; $page < 5; $page++) {
 	$deals = fetchDeals($page);
-	if ($deals) {
-	$res = $client->send_request(["type" => "save_deals", "data" => $deals]);
-	echo "deals page $page saved: " . var_export($res, true) . "\n";
+	if ($deals = fetchDeals($page)) {
+	echo "Dealio Page $page : " . json_encode($mq->send_request(["type" => "save_deals", "data" => $deals])) . "\n";
 	}
 	sleep(1);
 }
 
 //tracked games price watch
-$tracked = $client->send_request(["type" => "get_tracked"]);
-if (is_array($tracked)) {
-	foreach ($tracked as $row) {
+$tracked = $mq->send_request(["type" => "get_tracked"]);
+	foreach (is_array($tracked) ? $tracked : [] as $row) {
 		$info = fetchGamePrices($row['cheapshark_id']);
-		if ($info && !empty($info['deals'])) {
-			$client->send_request([
+		if (!empty($info['deals'])) {
+			$mq->send_request([
 				"type"	=> "save_prices",
 				"cheapshark_id"	=> $row['cheapshark_id'],
 				"deals"	=> $info['deals'],
@@ -39,19 +36,15 @@ if (is_array($tracked)) {
 		}
 		sleep(1);
 	}
-}
 
 //RAWG description 
-$missing = $client->send_request(["type" => "get_missing_details"]);
-if (is_array($missing)) {
-	foreach ($missing as $g) {
-		$detals = fetchRawg($g['title']);
-		if ($details) {
-			$client->send_request(["type" => "save_details", "game_id" => $g['id'}, "details" => $details]);
-			echo "added details for" . $g['title'] . "\n";
+$missing = $mq->send_request(["type" => "get_missing_details"]);
+foreach (is_array($missing) ? $missing : [] as $g) {
+		if ($detals = fetchRawg($g['title'])) {
+			$mq->send_request(["type" => "save_details", "game_id" => $g['id'], "details" => $details]);
+			echo "added details for " . $g['title'] . "\n";
 		}
 		sleep(1);
-	}
 }
 ?>
 
