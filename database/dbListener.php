@@ -81,6 +81,9 @@
 		}	
 		else if ($request['type'] == 'get_wallet'){
 			return doGetWallet($request['session_key'] ?? '');
+		} 
+		else if ($request['type'] == 'set_wallet'){
+			return doSetWallet($request['session_key'] ?? '', (float)($request['amount'] ?? 0));
 		}
 	}
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
