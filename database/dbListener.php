@@ -34,8 +34,11 @@
 		else if ($request['type'] == 'library_list') {
 			return doLibraryList($request['session_key'] ?? '');
 		}
-		else if ($request['type'] == 'review_add') {
-			return doReviewAdd($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['rating'] ?? 0), $request['body'] ?? '');
+		else if ($request['type'] == 'submit_review') {
+			return doAddReview($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['rating'] ?? 0), $request['body'] ?? '');
+		}
+		else if ($request['type'] == 'show reviews'){
+			return showReview((int)($request['game_id'] ?? 0));
 		}
 		else if ($request['type'] == 'thread_list') {
 			return doThreadList((int)($request['game_id'] ?? 0));
