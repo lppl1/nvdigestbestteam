@@ -1,6 +1,6 @@
 function squadRequest(data, callback){
 	$.ajax({
-		url: "searchdata.php",
+		url: "searchData.php",
 		type: "POST",
 		data: data,
 		dataType: "json",
@@ -13,16 +13,16 @@ function showSquad(squadID){
 	squadRequest({type: "squad_details", squad_id: squadID}, function(s){
 		if (!s) { alert("You are not in this squad!"); return; }
 		//important info
-		$("#squadTitle").text(s name);
+		$("#squadTitle").text(s.name);
 		$("#joinCodeText").text("Join code: " +  s.join_code);
 		$("#budgetText").text("Spent $" + s.spent + " of $" + (s.monthly_budget  || "no budget"));
 		//members list
-		$("memberList").empty();
+		$("#memberList").empty();
 		s.members.forEach(function(m){
 			$("memberList").append("<li>" + m.username + "</li>");
 		});
 		//nominated games
-		$("gameTable").html("<tr><th>Game</th><th>Best Price</th></tr>");
+		$("#gameTable").html("<tr><th>Game</th><th>Best Price</th></tr>");
 		s.games.forEach(function(k){
 			$("#gameTable").append("<tr><td>" + k.title + "</td><td>$" + (k.best_price || "-") + "</td></tr>");
 		});
@@ -33,12 +33,13 @@ function showSquad(squadID){
 		});
 		//make sure section isn't hidden
 		$("#squadDetails").show();
+});
 }
 $(document).ready(function(){
 	//list all of my squads
 	squadRequest({type: "my_squads"}, function(squads){
 		(squads || []).forEach(function(s){
-			$("#squadList").append('<li><a> href="#" class="opemSquad" data-id="' + s.id + '">' + s.name + '</a></li>');
+			$("#squadList").append('<li><a href="#" class="openSquad" data-id="' + s.id + '">' + s.name + '</a></li>');
 		});
 	});
 	$(document).on("click", ".openSquad", function(e){
@@ -52,7 +53,7 @@ $(document).ready(function(){
 				alert("Squad created! Share this join code: " + code);
 				location.reload(); //reloads to show new squad in list 
 			} else {
-				alert("Error! Failed to create squad."");
+				alert("Error! Failed to create squad.");
 			}
 		});
 	});
@@ -64,6 +65,6 @@ $(document).ready(function(){
 			} else {
 				alert("Error! Wrong code OR already a member.");
 			}
-		}
+		});
 	});
 });
