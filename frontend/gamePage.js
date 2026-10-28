@@ -189,8 +189,8 @@ $.ajax({
 
 function viewReviews(reviews){
 $("#reviewList").empty();
-reviews.forEach(function(e){
-	$("reviewList").append("<p><b>" + r.username + "</b> (" + r.rating + "/5): " + r.body + "</p>");
+reviews.forEach(function(r){
+	$("#reviewList").append("<p><b>" + r.username + "</b> (" + r.rating + "/5): " + r.body + "</p>");
 });
 
 }
