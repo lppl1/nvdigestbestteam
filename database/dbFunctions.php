@@ -402,5 +402,62 @@ function doValidate($session_key) {
 		}
 		return $squad;
 	}
+	function doWatchAdd($session_key, $game_id, $target_price){
+	$db = dbConnection();
+	$user_id = sessionUser($db, $session_key);
+	if ($user_id === null) {
+		return False;
+	}
+	if ($target_price <= 0) {
+		return False;
+	}
+	$sql = "INSERT INTO price_watch (user_id, game_id, target_price)
+	        VALUES (?, ?, ?)
+	        ON DUPLICATE KEY UPDATE target_price = VALUES(target_price)";
+	try {
+		$stmt = $db->prepare($sql);
+		$stmt->bind_param("iid", $user_id, $game_id, $target_price);
+		$stmt->execute();
+		return True;
+	}
+	catch (Exception $e) {
+		return False;
+	}
+}
 
+	function doWatchList($session_key){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null) {
+			return False;
+		}
+		$sql = "SELECT g.id, g.title, g.image_url, w.target_price, MIN(p.sale_price) AS current_price FROM price_watch w JOIN games g ON g.id = w.game_id LEFT JOIN game_prices p ON p.game_id = g.id WHERE w.user_id		     = ? GROUP BY g.id, g.title, g.image_url, w.target_price ORDER BY g.title";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param("i", $user_id);
+			$stmt->execute();
+			return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+		}	
+		catch (Exception $e) {
+			return False;
+		}
+}
+
+	function doWatchRemove($session_key, $game_id){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null) {
+			return False;
+		}
+		$sql = "DELETE FROM price_watch WHERE user_id = ? AND game_id = ?";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param("ii", $user_id, $game_id);
+			$stmt->execute();
+			return $stmt->affected_rows > 0;
+		}
+		catch (Exception $e) {
+			return False;
+	}	
+}
 ?>
