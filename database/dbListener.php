@@ -76,7 +76,13 @@
 		else if ($request['type'] == 'watch_remove') {
 			return doWatchRemove($request['session_key'] ?? '', (int)($request['game_id'] ?? 0));
 		}
-	}	
+		else if ($request['type'] == 'purchase'){
+			return doPurchase($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['store_id'] ?? 0));	
+		}	
+		else if ($request['type'] == 'get_wallet')){
+			return doGetWallet($request['session_key'] ?? '');
+		}
+	}
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
 
