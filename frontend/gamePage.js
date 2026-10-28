@@ -221,4 +221,5 @@ $(document).on("click", ".buyGame", function(){
         success: function(ok){
             alert(ok ? "Purchased! Added to your library." : "Not enough money, or you already own it.");
         }
-
+	});
+});
