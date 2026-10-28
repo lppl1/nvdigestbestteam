@@ -286,6 +286,33 @@ function doValidate($session_key) {
 		}
 	}
 
+	//is this person in teh squad
+	function isMember($db, $squad_ID, $user_id){
+		$stmt = $db->prepare("SELECT 1 FROM squad_members WHERE squad_id = ? AND user_id = ?");
+		$stmt->bind_param("ii", $squad_ID, $user_id);
+		$stmt->execute();
+		return $stmt->get_results()->fetch_assoc() !== null;
+	}
 
+	function doCreateSquad($session_key, $name, $budget){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		$code = strtoupper(bin2hex(random_bytes(3))); //random 6 character join code
+		try { 	
+			$stmt = $db->prepare("INSERT INTO squads (name, owner_id, join_code, monthly_budget) VALUES (?, ?, ?, ?)");
+			$stmt->bind_param("sisd", $name, $user_id, $code, $budget);
+			$stmt->execute();
+			$squad_ID = $db->insert_id;
+			$stmt = $db->prepare("INSERT INTO squad_members (squad_id, user_id) VALUES (?, ?)");
+			$stmt->bind_param("ii", $squad_ID, $user_id);
+			$stmt->execute();
+			return $code;
+		} catch (exception $e){
+			return false;
+		}
+	}
 
 ?>
