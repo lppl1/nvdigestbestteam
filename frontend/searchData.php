@@ -84,6 +84,14 @@ if ($type === "watch_remove") {
 if ($type === "get_wallet") {
     $request["session_key"] = $_COOKIE["session_key"] ?? "";
 }
+if ($type === "reply") {
+	$request["session_key"] = $_COOKIE["session_key"] ?? "";
+	$request["thread_id"] = (int)($_POST["thread_id"] ?? 0);
+	$request["body"] = $_POST["body"] ?? "";
+}
+if ($type === "thread_posts") {
+	$request["thread_id"] = (int)($_POST["thread_id"] ?? 0);
+}
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini", "nvdServer");
 $response = $client->send_request($request);
 
