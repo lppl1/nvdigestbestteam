@@ -76,6 +76,14 @@ if ($type === "watch_remove") {
 	$request["session_key"] = $_COOKIE["session_key"] ?? "";
 	$request["game_id"] = (int)($_POST["game_id"] ?? 0);
 }
+ if ($type === "purchase") {
+    $request["session_key"] = $_COOKIE["session_key"] ?? "";
+    $request["game_id"] = (int)($_POST["game_id"] ?? 0);
+    $request["store_id"] = (int)($_POST["store_id"] ?? 0);
+}
+if ($type === "get_wallet") {
+    $request["session_key"] = $_COOKIE["session_key"] ?? "";
+}
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini", "nvdServer");
 $response = $client->send_request($request);
 
