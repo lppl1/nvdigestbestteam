@@ -14,15 +14,15 @@
 	
 	<h2>New Thread</h2>
 	<form method="post" id="createThread">
-		<input type="text" name="title" placeholder="Title">
-		<select name="game_id">
-			<option value="">General</option>
+		<input type="text" name="title" id="title" placeholder="Title">
+		<select name="game_id" id="game_id">
+			<option value=0>General</option>
 			<!-- other options later I think-->
 		</select>
 		<br>
-		<textarea name="body" placeholder="Message"></textarea>
+		<textarea name="body" id="body" placeholder="Message"></textarea>
 		<br>
-		<br><button>Post</button>
+		<br><input type="submit" value="Post">
 	</form>
 	<!--Im guessing we're going to display existing threads? -->
 	<table id="Threads">
