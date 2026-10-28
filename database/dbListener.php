@@ -79,7 +79,7 @@
 		else if ($request['type'] == 'purchase'){
 			return doPurchase($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['store_id'] ?? 0));	
 		}	
-		else if ($request['type'] == 'get_wallet')){
+		else if ($request['type'] == 'get_wallet'){
 			return doGetWallet($request['session_key'] ?? '');
 		}
 	}
