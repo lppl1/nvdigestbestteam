@@ -68,8 +68,10 @@ $(document).ready(function(){
 		});
 	});
 	//showing wallet balance
-	squadRequest({type: "get_wallet"}, function(balance){
-		$("walletText").text("Wallet: $" + (balance || "0.00"));
+	squadRequest({type: "get_wallet"}, function(w){
+		if (!w) {return; }
+		$("#walletText").text("Wallet: $" + w.balance);
+		$("#spentText").text("Spent this month: $" + w.spent + (w.monthly_budget ? " of $" + w.monthly_budget : ""));
 	});
 	//setting balance
 	$("#setWallet").on("click", function(){
