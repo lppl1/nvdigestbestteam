@@ -36,6 +36,12 @@ if ($type === "submit_review"){
 if ($type === "show_reviews"){
 	$request["game_id"] = (int)($_POST["game_id"] ?? 0);
 }
+if ($type=="create_thread"){
+	$request["session_key"]=$_COOKIE["session_key"] ?? "";
+        $request["game_id"]=$_POST["game_id"];
+	$request["title"]=$_POST["title"];
+	$request["body"]=$_POST["body"];
+}
 if ($type === "my_squads"){
 	$request["session_key"] = $_COOKIE["session_key"] ?? "";
 }
