@@ -111,17 +111,17 @@ function doValidate($session_key) {
 	function doGetGame($game_id){
 		$db = dbConnection();
 		$sql = "SELECT * FROM games WHERE id = ?";
-    if($stmt = $db->prepare($sql)){
-        $stmt->bind_param("i", $game_id);
-        $stmt->execute();
-        $game = $stmt->get_result()->fetch_assoc();
-        if ($game === null) {
-            return False;
-        }
-    } else {
-        return False;
-    }
-    $sql = "SELECT s.name AS store, p.sale_price, p.normal_price, p.deal_id FROM game_prices p JOIN stores s ON s.id = p.store_id WHERE p.game_id = ? ORDER BY p.sale_price ASC";
+    		if($stmt = $db->prepare($sql)){
+        		$stmt->bind_param("i", $game_id);
+        		$stmt->execute();
+        		$game = $stmt->get_result()->fetch_assoc();
+       			if ($game === null) {
+            			return False;
+    			}
+    		} else {
+        		return False;
+    		}
+   		 $sql = "SELECT s.name AS store, p.store_id, p.sale_price, p.normal_price, p.deal_id FROM game_prices p JOIN stores s ON s.id = p.store_id WHERE p.game_id = ? ORDER BY p.sale_price ASC";
     $game['prices'] = array();
     if($stmt = $db->prepare($sql)){
         $stmt->bind_param("i", $game_id);
