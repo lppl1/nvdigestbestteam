@@ -44,13 +44,14 @@ if ($type=="create_thread"){
 }
 if($type=="thread_posts")
 {
-	$request["id"]=$_POST["id"];
+	$request["thread_id"]=$_POST["thread_id"];
+
 }
+
 if($type=="reply"){
 $request["session_key"]=$_COOKIE["session_key"] ?? "";
-$reqyest["thread_id"]=$_POST["thread_id"];
+$request["thread_id"]=$_POST["thread_id"];
 $request["body"]=$_POST["body"];
-
 }
 
 if ($type === "my_squads"){
