@@ -79,6 +79,8 @@ function doValidate($session_key) {
 		$stmt->bind_param("sss", $username, $hashedPassword, $email);
 			try {
 				$stmt->execute();
+				$new_id = $db->insert_id;
+				$db->query("INSERT INTO wallets (user_id, balance) VALUES (" . (int)$new_id . ", 100.00)");
 				return True;
 			}
 		catch (Exception $e) {
@@ -109,17 +111,17 @@ function doValidate($session_key) {
 	function doGetGame($game_id){
 		$db = dbConnection();
 		$sql = "SELECT * FROM games WHERE id = ?";
-    if($stmt = $db->prepare($sql)){
-        $stmt->bind_param("i", $game_id);
-        $stmt->execute();
-        $game = $stmt->get_result()->fetch_assoc();
-        if ($game === null) {
-            return False;
-        }
-    } else {
-        return False;
-    }
-    $sql = "SELECT s.name AS store, p.sale_price, p.normal_price, p.deal_id FROM game_prices p JOIN stores s ON s.id = p.store_id WHERE p.game_id = ? ORDER BY p.sale_price ASC";
+    		if($stmt = $db->prepare($sql)){
+        		$stmt->bind_param("i", $game_id);
+        		$stmt->execute();
+        		$game = $stmt->get_result()->fetch_assoc();
+       			if ($game === null) {
+            			return False;
+    			}
+    		} else {
+        		return False;
+    		}
+   		 $sql = "SELECT s.name AS store, p.store_id, p.sale_price, p.normal_price, p.deal_id FROM game_prices p JOIN stores s ON s.id = p.store_id WHERE p.game_id = ? ORDER BY p.sale_price ASC";
     $game['prices'] = array();
     if($stmt = $db->prepare($sql)){
         $stmt->bind_param("i", $game_id);
@@ -267,7 +269,7 @@ function doValidate($session_key) {
 	
 	function doThreadPosts($thread_id){
 		$db = dbConnection();
-		$sql = "SELECT p.id, p.body, p.created_at, u.username FROM forum_posts p JOIN users u ON u.id = p.author_id WHERE p.thread_id = ? ORDER BY p.created_at ASC";
+		$sql = "SELECT p.id, p.body, p.created, u.username FROM forum_posts p JOIN users u ON u.id = p.author_id WHERE p.thread_id = ? ORDER BY p.created ASC";
 		$stmt = $db->prepare($sql);
 		$stmt->bind_param("i", $thread_id);
 		$stmt->execute();
@@ -458,6 +460,86 @@ function doValidate($session_key) {
 		}
 		catch (Exception $e) {
 			return False;
-	}	
-}
+		}
+
+	}
+	
+	function doPurchase($session_key, $game_id, $store_id){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		try {
+			$db->begin_transaction(); //everything happens together or not at all
+			$stmt = $db->prepare("SELECT 1 FROM user_library WHERE user_id = ? AND game_id = ? AND source = 'purchase'");
+			$stmt->bind_param("ii", $user_id, $game_id);
+			$stmt->execute();
+			if ($stmt->get_result()->fetch_assoc() !== null){
+				$db->rollback();
+				return false;
+			}
+			$stmt = $db->prepare("SELECT sale_price FROM game_prices WHERE game_id = ? AND store_id = ?");
+			$stmt->bind_param("ii", $game_id, $store_id);
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			if ($row === null){
+				$db->rollback();
+				return false; //no price for that game/store
+			}
+			$price = (float)$row['sale_price']; //check balance
+			$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ? FOR UPDATE");
+			$stmt->bind_param("i", $user_id);
+			$stmt->execute();
+			$wallet = $stmt->get_result()->fetch_assoc();
+			if ($wallet === null || (float)$wallet['balance'] < $price){
+				$db->rollback();
+				return false; //no wallet or not enough money
+			}
+
+			//step 1, take money
+			$stmt = $db->prepare("UPDATE wallets SET balance = balance - ? WHERE user_id = ?");
+			$stmt->bind_param("di", $price, $user_id);
+			$stmt->execute();
+			//step 2,  record order happening
+			$stmt = $db->prepare("INSERT INTO orders (user_id, game_id, store_id, price_paid) VALUES (?, ?, ?, ?)");
+			$stmt->bind_param("iiid", $user_id, $game_id, $store_id, $price);
+			$stmt->execute();
+			$order_id = $db->insert_id;
+			//step 3, add to user library
+			$stmt = $db->prepare("INSERT INTO user_library (user_id, game_id, source, order_id) VALUES (?, ?, 'purchase', ?) ON DUPLICATE KEY UPDATE source = 'purchase', order_id = VALUES(order_id)");
+			$stmt->bind_param("iii", $user_id, $game_id, $order_id);
+			$stmt->execute();
+			$db->commit(); //saves all 3 changes
+			return true;
+		} catch (exception $e){
+			$db->rollback(); //undo everything if any step failed
+			return false;
+		}
+	}
+
+	function doGetWallet($session_key){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ?");
+		$stmt->bind_param("i", $user_id);
+		$stmt->execute();
+		$row = $stmt->get_result()->fetch_assoc();
+		return $row === null ? false : $row['balance'];
+	}
+	
+	function doSetWallet($session_key, $amount){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null || $amount < 0){
+			return false;
+		}
+		$stmt = $db->prepare("INSERT INTO wallets (user_id, balance) VALUES (?, ?) ON DUPLICATE KEY UPDATE balance = VALUES(balance)");
+		$stmt->bind_param("id", $user_id, $amount);
+		$stmt->execute();
+		return true;
+	}
 ?>
