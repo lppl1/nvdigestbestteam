@@ -384,7 +384,10 @@ function doValidate($session_key) {
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
 		$squad = $stmt->get_result()->fetch_assoc();
-		$squad['spent'] = 0;
+		$stmt = $db->prepare("SELECT COALESCE(SUM(price_paid_, 0) AS spent FROM orders WHERE squad_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')");
+		$stmt->bind_param("i", $squad_ID);
+		$stmt->execute();
+		$squad['spent'] = (float)$stmt->get_result()->fetch_assoc()['spent'];
 		$stmt = $db->prepare("SELECT u.username FROM squad_members m JOIN users u ON u.id = m.user_id WHERE m.squad_id = ?");
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
@@ -395,7 +398,7 @@ function doValidate($session_key) {
 		$stmt->execute();
 		$squad['games'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 		$squad['can_afford'] = array();
-		$remaining  = (float)$squad['monthly_budget'];
+		$remaining  = (float)$squad['monthly_budget'] - $squad['spent'];
 		foreach ($squad['games'] as $g){
 			if ($g['best_price'] !== null && (float)$g['best_price'] <= $remaining){
 				$squad['can_afford'][] = $g;
