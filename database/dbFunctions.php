@@ -517,6 +517,19 @@ function doValidate($session_key) {
 			return false;
 		}
 	}
+
+	function doGetWallet($session_key){
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+		if ($user_id === null){
+			return false;
+		}
+		$stmt = $db->prepare("SELECT balance FROM wallets WHERE user_id = ?");
+		$stmt->bind_param("i", $user_id);
+		$stmt->execute();
+		$row = $stmt->get_result()->fetch_assoc();
+		return $row === null ? false : $row['balance'];
+	}
 	
 	function doSetWallet($session_key, $amount){
 		$db = dbConnection();
