@@ -689,4 +689,27 @@ function doValidate($session_key) {
 		}
 		return $saved;
 	}	
+	function doSaveStores($stores){
+		if (!is_array($stores)) { return false; }
+		$db = dbConnection();
+		$saved = 0;
+		try {
+			$stmt = $db->prepare("INSERT INTO stores (id, name) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)");
+		} catch (Exception $e) {
+			return false;
+		}
+		foreach ($stores as $s) {
+			try {
+				$id = (int)($s['storeID'] ?? 0);
+				$name = $s['storeName'] ?? '';
+				if ($id <= 0) { continue; }
+				$stmt->bind_param("is", $id, $name);
+				$stmt->execute();
+				$saved++;
+			} catch (Exception $e) {
+				error_log("doSaveStores: " . $e->getMessage());
+			}
+		}
+		return $saved;
+	}
 ?>
