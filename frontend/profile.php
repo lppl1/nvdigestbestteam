@@ -29,8 +29,8 @@ require_once("auth.php")
 		<h2>Settings</h2>
 		<form method="post">
 			Monthly Budget: <input type="number" id="monthly_budget" step="0.01"> <br> <br>
-			<input type="checkbox" name="email_opt_in" checked>Email Alerts<br><br>
-			<button id="info">Save Information</button>
+			<input type="checkbox" id="email_opt_in" checked>Email Alerts<br><br>
+			<button id="info" type="button">Save Information</button>
 		</form>
 
 		<h2>Squads</h2>
