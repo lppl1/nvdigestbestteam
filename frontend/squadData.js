@@ -89,8 +89,7 @@ $(document).ready(function(){
 	squadRequest({type:"settings", monthly_budget:$("#monthly_budget").val(),email_opt_in:$("#email_opt_in").is(":checked")}, function(set)
 		{
 		 if(set){
-			//location.reload();
-			alert("DATA SENT!     "+set);
+			alert("Saved Preferences!");
 			}
 		else {
                                 alert("Please enter a budget of 0 or more.");
