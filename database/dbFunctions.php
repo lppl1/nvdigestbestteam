@@ -560,17 +560,17 @@ function doValidate($session_key) {
 		$stmt->execute();
 		return true;
 	}
-	function doSettings($session_key,$monthly_budget,$email_opt_in){
-		$db=dbConnection();
+	function doSettings($session_key, $monthly_budget, $email_opt_in){
+		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
 		if ($user_id === null){
 			return false;
 		}
-		$stmt=db->prepare("INSERT INTO user_settings (user_id,monthly_budget,email_opt_in) VALUES (?,?,?) ON DUPLICATE KEY UPDATE monthly_budget = VALUES(monthly_budget), email_opt_in=VALUES(email_opt_in)");
-		$stmt.bind($user_id,$monthly_budget,$email_opt_in);
-		$stmt.execute();
-		return truel
-	}
-
-		
+		$monthly_budget = (float)$monthly_budget;
+		$email_opt_in = $email_opt_in ? 1 : 0;
+		$stmt = $db->prepare("INSERT INTO user_settings (user_id, monthly_budget, email_opt_in) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE monthly_budget = VALUES(monthly_budget), email_opt_in = VALUES(email_opt_in)");
+		$stmt->bind_param("idi", $user_id, $monthly_budget, $email_opt_in);
+		$stmt->execute();
+		return true;
+	}		
 ?>
