@@ -384,7 +384,7 @@ function doValidate($session_key) {
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
 		$squad = $stmt->get_result()->fetch_assoc();
-		$stmt = $db->prepare("SELECT COALESCE(SUM(price_paid_, 0) AS spent FROM orders WHERE squad_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')");
+		$stmt = $db->prepare("SELECT COALESCE(SUM(price_paid, 0) AS spent FROM orders WHERE squad_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')");
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
 		$squad['spent'] = (float)$stmt->get_result()->fetch_assoc()['spent'];
