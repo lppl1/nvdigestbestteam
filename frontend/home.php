@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php require_once("auth.php"); ?>
 <!DOCTYPE html>
 <html>
@@ -18,3 +19,28 @@
 </script>
 </body>
 </html>
+=======
+<?php
+require_once("auth.php")
+?>
+
+
+<script src="auth.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<h1 id=title>Welcome to our club!</h1>
+<div id=welcome>Welcome!</div>
+
+<p>
+  <a href="market/market.php">Market</a> |
+  <a href="library/library.php">My Library</a>
+  <a href="forum/forum.php">Discussion Forum</a> |
+  <a href="profile.php">My Profile</a>
+
+</p>
+
+
+<form action="logout.php" method="post">
+  <button type="submit">Log out</button>
+</form>
+
+>>>>>>> be59ee9dfc8380a038049c6c0b58266fd8455569

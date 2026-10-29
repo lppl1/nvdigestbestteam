@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<?php
+require_once("auth.php")
+?>
+
+
+	<head><title>Profile</title></head>
+	<body>
+		 <div id="banner"></div>
+
+		<h1>
+		<!-- whatever username is, needs to be updated depending on user-->
+		</h1>
+		<p id="walletText">Wallet: </p>
+		<input type="number" id="walletAmount" step="0.01" min="0" placeholder="Set wallet amount">
+		<button id="setWallet">Set Wallet</button>
+		<p id="spentText">Spent this month: </p>
+		<h2>Price Watch</h2>
+		<p id="watchMsg"></p>
+		<table border="1" id="watchTable">
+			<tr><th>Game</th><th>Target</th><th>Current Best</th><th></th></tr>
+			<tr>
+				<td> <!-- game name --> </td><td> <!--target price--></td> <td> <!--best price-->
+				<td><form method="post"><input type="hidden" name="watch_id" value "1"> <button> Remove </button></form></td>
+			</tr>
+		</table>
+
+		<h2>Settings</h2>
+		<form method="post">
+			Monthly Budget: <input type="number" id="monthly_budget" step="0.01"> <br> <br>
+			<input type="checkbox" id="email_opt_in" checked>Email Alerts<br><br>
+			<button id="info" type="button">Save Information</button>
+		</form>
+
+		<h2>Squads</h2>
+		<ul id="squadList"></ul>
+		<input type="text" id="squadName" placeholder="Squad Name">
+		<input type="number" id="squadBudget" step="0.01" placeholder="Monthly budget">
+		<button id="createSquad">Create Squad</button>
+
+		<input type="text" id="joinCode" placeholder="Join code">
+		<button id="joinSquad">Join Squad</button>
+		<!--should be hidden until clicking button-->
+		<div id="squadDetails" style="display:none">
+			<h3 id="squadTitle"></h3>
+			<p id="joinCodeText"></p>
+			<p id="budgetText"></p>
+			<h4>Members</h4>
+			<ul id="memberList"</ul>
+			<h4>Nominated Games</h4>
+			<table border="1" id="gameTable"></table>
+			<h4>Can afford this month</h4>
+			<ul id="affordList"></ul>
+		</div>
+
+		<h2>Purchases</h2>
+		<p>
+		<!--whatever purchased games should be in here formatted like Game Name - prices, last update date-->
+		</p>
+
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<script src="squadData.js"></script>
+		<script src="watchList.js"></script>
+		<script src=../loadBanner.js></script>
+	</body>
+</html>

@@ -15,6 +15,7 @@ if (!isset($request["type"])) {
 }
 
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini","nvdServer");
+<<<<<<< HEAD
 
 
 if ($request["type"] === "logout") {
@@ -29,6 +30,19 @@ if ($request["type"] === "logout") {
 	$jqresponse["success"]="true";
 	$jqresponse["validate"]= true;
 	echo json_encode($jqresponse);
+=======
+if(isset($request["type"]))
+{	
+	$jqresponse["type"]=$_POST["type"];
+	//request was successful
+	$jqresponse["success"]="true";
+
+	$response=$client->send_request($request);
+	//Credentials are valid
+ 	$jqresponse["validate"]=$response;
+ 	
+ 	echo json_encode($jqresponse);
+>>>>>>> be59ee9dfc8380a038049c6c0b58266fd8455569
  	exit();
 }
 

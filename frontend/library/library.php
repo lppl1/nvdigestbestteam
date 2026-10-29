@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<?php
+require_once("../auth.php")
+?>
+
+<html>
+	<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<title>Game Library</title>
+	</head>
+	<body>
+	<div id="banner"></div>
+
+		<h1>My Game Library</h1>
+
+		<p id="libraryMsg"></p>
+		<table border="1" id="libraryTable">
+			<thead>
+				<tr><th>Cover</th><th>Game</th><th>Status</th><th></th></tr>
+			</thead>
+			<tbody></tbody>
+
+		</table>
+
+		<h2>Recommended for You</h2>
+		<!--any recommended games-->
+
+		<script src="libraryData.js"></script>
+	</body>
+</html>
+<script src=../loadBanner.js></script>

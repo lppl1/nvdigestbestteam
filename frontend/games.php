@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<?php
+require_once("auth.php")
+?>
+
+
+
+<html>
+<head><title>Game
+</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+	<a href="market/market.php">Marketplace</a> | <a href="library/library.php">Library</a> |
+	<a href="forum/forum.php">Discussion Forum</a> | <a href="profile.php">My Profile</a>
+	<h1> 
+	</h1>
+	<img src="" alt="cover" id="gameImg">
+	<p id="gameDev">Developer: </p>
+	<p id="gamePub">Publisher: </p>
+	<p id="gameReleased">Released: </p> 
+	<p id="gameRating">Metacritic: </p>
+	<br>
+	<br>
+	<h2>Prices</h2>
+	<table border="1" id="pricesTable">
+		<tr><th>Store</th><th>Sale</th><th>Normal</th><th></th></tr>
+	</table>
+
+	<h2>Add To Your Library</h2>
+	<form method="post" id="library_add">
+		<select name="status" id=status>
+			<option value="backlog">Plan on playing</option>
+			<option value="playing">Playing</option>
+			<option value="completed">Completed</option>
+			<option value="dropped">Removed</option>
+		</select>
+		<button id="addGame">Add</button>
+	</form>
+
+	<h2>Watch Price</h2>
+	<form method="post" id="price_watch">
+		<input type="number" id="targetPrice" name="target_price"  step="0.01" placeholder="Target Price">
+		<input type="submit" value="Watch">
+	</form>
+
+	<br>
+	<h2>Reviews</h2>
+	<button id="showReviews">Show Reviews</button>
+	<div id="reviewList"></div>
+	<form method="post" id="review">
+		<select name="rating" id="rating">
+			<option value=5>5</option><option value=4>4</option><option value=3>3</option><option value=2>2</option><option value=1>1</option>
+		</select>
+		<br>
+		<textarea name="body" id="body" placeholder="Your review"></textarea>
+		<br>
+		<button id="submit_review">Submit Review</button>
+	</form>
+<br>
+<button id="showReviews", value="Show Reviews"></button>
+
+<table id="reviews">
+
+</table>
+
+</body>	
+</html>
+<script src="gamePage.js" defer></script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<?php
+require_once("../auth.php")
+?>
+
+
+<style>
+td{
+border: 2px solid black;
+text-align:center;
+}
+table{
+border-collapse:collapse;
+margin-right:auto;
+width:25%;
+}
+</style>
+
+<head><title>Discussion Forum</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="banner">
+
+</div>
+	<h1>Deal Digest Discussion Forum</h1>
+	<ul>
+	<!-- basically the threads from forum_threads table in db will be here (will be linked to thread.html I hope)-->
+	</ul>
+	
+	<h2>New Thread</h2>
+	<form method="post" id="createThread">
+		<input type="text" name="title" id="title" placeholder="Title">
+		<select name="game_id" id="game_id">
+			<option value=0>General</option>
+			<!-- other options later I think-->
+		</select>
+		<br>
+		<textarea name="body" id="body" placeholder="Message"></textarea>
+		<br>
+		<br><input type="submit" value="Post">
+	</form>
+	<!--Im guessing we're going to display existing threads? -->
+	<table id="Threads">
+	<tbody>
+	<tr>Current Threads</tr>
+	</tbody>
+	</table>
+</body>
+</html>
+
+<script src="../loadBanner.js"></script>
+<script src="forumHome.js" defer></script>
