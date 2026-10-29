@@ -572,5 +572,121 @@ function doValidate($session_key) {
 		$stmt->bind_param("idi", $user_id, $monthly_budget, $email_opt_in);
 		$stmt->execute();
 		return true;
-	}		
+	}
+		function doGetTracked(){
+		$db = dbConnection();
+		$sql = "SELECT DISTINCT g.cheapshark_id FROM price_watch w JOIN games g ON g.id = w.game_id WHERE w.is_active = 1 AND g.cheapshark_id IS NOT NULL";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+			return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+		} catch (Exception $e) {
+			return [];
+		}
+	}
+
+	function doGetMissingDetails(){
+		$db = dbConnection();
+		$sql = "SELECT id, title FROM games WHERE description IS NULL ORDER BY id LIMIT 20";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->execute();
+			return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+		} catch (Exception $e) {
+			return [];
+		}
+	}
+
+	function doSaveDetails($game_id, $details){
+		$db = dbConnection();
+		$game_id = (int)$game_id;
+		$rawg_id = (int)($details['rawg_id'] ?? 0);
+		$description = $details['description'] ?? '';
+		$developer = $details['developer'] ?? null;
+		$publisher = $details['publisher'] ?? null;
+		$sql = "UPDATE games SET rawgame_id = ?, description = ?, developer = ?, publisher = ? WHERE id = ?";
+		try {
+			$stmt = $db->prepare($sql);
+			$stmt->bind_param("isssi", $rawg_id, $description, $developer, $publisher, $game_id);
+			$stmt->execute();
+			return true;
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+		function doSaveDeals($deals){
+		if (!is_array($deals)) { return false; }
+		$db = dbConnection();
+		$saved = 0;
+		try {
+			$gameStmt = $db->prepare("INSERT INTO games (cheapshark_id, steamapp_id, title, image_url, released, metacritic) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE steamapp_id = VALUES(steamapp_id), title = VALUES(title), image_url = VALUES(image_url), metacritic = VALUES(metacritic)");
+			$findStmt = $db->prepare("SELECT id FROM games WHERE cheapshark_id = ?");
+			$priceStmt = $db->prepare("INSERT INTO game_prices (game_id, store_id, deal_id, sale_price, normal_price, deal_rating) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE deal_id = VALUES(deal_id), sale_price = VALUES(sale_price), normal_price = VALUES(normal_price), deal_rating = VALUES(deal_rating)");
+		} catch (Exception $e) {
+			return false;
+		}
+		foreach ($deals as $d) {
+			try {
+				$cs = (int)($d['gameID'] ?? 0);
+				if ($cs <= 0) { continue; }
+				$steam = ((int)($d['steamAppID'] ?? 0)) ?: null;
+				$title = $d['title'] ?? '';
+				$thumb = $d['thumb'] ?? null;
+				$released = (!empty($d['releaseDate']) && (int)$d['releaseDate'] > 0) ? date('Y-m-d', (int)$d['releaseDate']) : null;
+				$meta = ((int)($d['metacriticScore'] ?? 0)) ?: null;
+				$gameStmt->bind_param("iisssi", $cs, $steam, $title, $thumb, $released, $meta);
+				$gameStmt->execute();
+
+				$findStmt->bind_param("i", $cs);
+				$findStmt->execute();
+				$row = $findStmt->get_result()->fetch_assoc();
+				if (!$row) { continue; }
+				$game_id = (int)$row['id'];
+
+				$store_id = (int)($d['storeID'] ?? 0);
+				$deal_id = $d['dealID'] ?? '';
+				$sale = (float)($d['salePrice'] ?? 0);
+				$normal = (float)($d['normalPrice'] ?? 0);
+				$rating = isset($d['dealRating']) ? (float)$d['dealRating'] : null;
+				$priceStmt->bind_param("iisddd", $game_id, $store_id, $deal_id, $sale, $normal, $rating);
+				$priceStmt->execute();
+				$saved++;
+			} catch (Exception $e) {
+				error_log("doSaveDeals: " . $e->getMessage());
+			}
+		}
+		return $saved;
+	}
+
+	function doSavePrices($cheapshark_id, $deals){
+		if (!is_array($deals)) { return false; }
+		$db = dbConnection();
+		$cs = (int)$cheapshark_id;
+		$saved = 0;
+		try {
+			$findStmt = $db->prepare("SELECT id FROM games WHERE cheapshark_id = ?");
+			$findStmt->bind_param("i", $cs);
+			$findStmt->execute();
+			$row = $findStmt->get_result()->fetch_assoc();
+			if (!$row) { return false; }
+			$game_id = (int)$row['id'];
+			$priceStmt = $db->prepare("INSERT INTO game_prices (game_id, store_id, deal_id, sale_price, normal_price) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE deal_id = VALUES(deal_id), sale_price = VALUES(sale_price), normal_price = VALUES(normal_price)");
+		} catch (Exception $e) {
+			return false;
+		}
+		foreach ($deals as $d) {
+			try {
+				$store_id = (int)($d['storeID'] ?? 0);
+				$deal_id = $d['dealID'] ?? '';
+				$sale = (float)($d['price'] ?? 0);
+				$normal = (float)($d['retailPrice'] ?? 0);
+				$priceStmt->bind_param("iisdd", $game_id, $store_id, $deal_id, $sale, $normal);
+				$priceStmt->execute();
+				$saved++;
+			} catch (Exception $e) {
+				error_log("doSavePrices: " . $e->getMessage());
+			}
+		}
+		return $saved;
+	}	
 ?>
