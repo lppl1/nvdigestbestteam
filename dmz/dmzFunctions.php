@@ -29,7 +29,7 @@ function fetchDeals($page) {
 function fetchGamePrices($id) {
 	return httpGet(CHEAPSHARK . "games?id=" . (int)$id); }
 function searchDeals($title){
-	return httpGet(CHEAPSHARK . "deals?pageSize=10&title=" . urlxencode($title)); }
+	return httpGet(CHEAPSHARK . "deals?pageSize=10&title=" . urlencode($title)); }
 
 //What's up RAWG
 function fetchRawg($title){
