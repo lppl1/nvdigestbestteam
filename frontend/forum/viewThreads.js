@@ -5,6 +5,30 @@ const id= urlParam.get("id");
 
 $(document).ready(function() 
 {
+var getPosts={
+type:"thread_posts",
+thread_id:id
+};
+
+$.ajax({
+        url:"../searchData.php", 
+        type:"POST", 
+        data: getPosts, 
+        dataType:"json",
+        success: function(data,status,jqXHR) 
+        {
+    console.log("Data received:",data);
+	showReplies(data);
+         },
+        error: function(jqXHR,textStatus,error){
+        console.log("ERROR: ",error);
+        console.log("ERROR: ",textStatus);
+        console.log("ERROR: ",jqXHR);
+
+        }
+
+
+});
 
 
 
@@ -50,30 +74,7 @@ $.ajax({
 
 function showReplies(data){
 //Request for reply data
-var getPosts={
-type:"thread_posts",
-thread_id:id
-};
 
-$.ajax({
-        url:"../searchData.php", 
-        type:"POST", 
-        data: getPosts, 
-        dataType:"json",
-        success: function(data,status,jqXHR) 
-        {
-    console.log("Data received:",data);
-	showReplies(data);
-         },
-        error: function(jqXHR,textStatus,error){
-        console.log("ERROR: ",error);
-        console.log("ERROR: ",textStatus);
-        console.log("ERROR: ",jqXHR);
-
-        }
-
-
-});
 
 
 var table = $("#all_posts tbody");

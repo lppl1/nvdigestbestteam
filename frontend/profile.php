@@ -16,7 +16,6 @@ require_once("auth.php")
 		<input type="number" id="walletAmount" step="0.01" min="0" placeholder="Set wallet amount">
 		<button id="setWallet">Set Wallet</button>
 		<p id="spentText">Spent this month: </p>
-
 		<h2>Price Watch</h2>
 		<p id="watchMsg"></p>
 		<table border="1" id="watchTable">
@@ -29,9 +28,9 @@ require_once("auth.php")
 
 		<h2>Settings</h2>
 		<form method="post">
-			Monthly Budget: <input type="number" name="monthly_budget" step="0.01"> <br> <br>
+			Monthly Budget: <input type="number" id="monthly_budget" step="0.01"> <br> <br>
 			<input type="checkbox" name="email_opt_in" checked>Email Alerts<br><br>
-			<button>Save Information</button>
+			<button id="info">Save Information</button>
 		</form>
 
 		<h2>Squads</h2>

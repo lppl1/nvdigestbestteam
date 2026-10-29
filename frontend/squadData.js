@@ -72,6 +72,7 @@ $(document).ready(function(){
 		if (!w) {return; }
 		$("#walletText").text("Wallet: $" + w.balance);
 		$("#spentText").text("Spent this month: $" + w.spent + (w.monthly_budget ? " of $" + w.monthly_budget : ""));
+		$("#monthly_budget").val("Monthly Budget: $" + w.monthly_budget);
 	});
 	//setting balance
 	$("#setWallet").on("click", function(){
@@ -83,4 +84,20 @@ $(document).ready(function(){
 			}
 		});
 	});
+	//set settings
+	$("#info").on("click", function(){
+	squadRequest({type:"settings", monthly_budget:$("#monthly_budget").val(),email_opt_in:$("#email_opt_in").is(":checked")}, function(set)
+		{
+		 if(set){
+			//location.reload();
+			alert("DATA SENT!     "+set);
+			}
+		else {
+                                alert("Please enter a budget of 0 or more.");
+                }        
+		});
+
+
+	});
+
 });

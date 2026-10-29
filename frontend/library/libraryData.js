@@ -28,7 +28,7 @@ function loadLibrary() {
                 var img = $("<img>").attr("src", g.image_url).attr("width", 80);
                 row.append($("<td>").append(img));
 
-                var link = $("<a>").attr("href", "games.php?id=" + g.id).text(g.title);
+                var link = $("<a>").attr("href", "/../games.php?id=" + g.id).text(g.title);
                 row.append($("<td>").append(link));
 
                 row.append($("<td>").text(g.status));
