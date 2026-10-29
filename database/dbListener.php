@@ -85,7 +85,7 @@
 		else if ($request['type'] == 'set_wallet'){
 			return doSetWallet($request['session_key'] ?? '', (float)($request['amount'] ?? 0));
 		}
-		else if ($request['type']='settings'){
+		else if ($request['type'] == 'settings'){
 			return doSettings($request['session_key'] ?? '', (float)($request['monthly_budget'] ?? 0), $request['email_opt_in']);
 		}
 	}
