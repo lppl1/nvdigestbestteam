@@ -12,6 +12,9 @@ $stores = fetchStores();
 if ($stores) {
 	echo "stores: " . json_encode($mq->send_request(["type" => "save_stores", "data" => $stores])) . "\n";
 }
+	else {
+		echo 'fetchStores returned nothing\n';
+       	}
 
 //whats the "deal"-io
 for ($page = 0; $page < 5; $page++) {
@@ -20,6 +23,9 @@ for ($page = 0; $page < 5; $page++) {
 	echo "Dealio Page $page : " . json_encode($mq->send_request(["type" => "save_deals", "data" => $deals])) . "\n";
 	}
 	sleep(1);
+	else {
+		echo 'fetchDeals returned nothing\n'
+	}
 }
 
 //tracked games price watch
@@ -35,6 +41,7 @@ $tracked = $mq->send_request(["type" => "get_tracked"]);
 		echo "price updates for " . $row['cheapshark_id'] . "\n";
 		}
 		sleep(1);
+
 	}
 
 //RAWG description 
