@@ -315,7 +315,7 @@ function doValidate($session_key) {
 			$stmt = $db->prepare("INSERT INTO squad_members (squad_id, user_id) VALUES (?, ?)");
 			$stmt->bind_param("ii", $squad_ID, $user_id);
 			$stmt->execute();
-			return $squad_ID;
+			return ["id"=> $squad_ID, "join_code"=> $code];
 		} catch (exception $e){
 			return false;
 		}
@@ -384,7 +384,7 @@ function doValidate($session_key) {
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
 		$squad = $stmt->get_result()->fetch_assoc();
-		$stmt = $db->prepare("SELECT COALESCE(SUM(price_paid, 0) AS spent FROM orders WHERE squad_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')");
+		$stmt = $db->prepare("SELECT COALESCE(SUM(price_paid), 0) AS spent FROM orders WHERE squad_id = ? AND created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')");
 		$stmt->bind_param("i", $squad_ID);
 		$stmt->execute();
 		$squad['spent'] = (float)$stmt->get_result()->fetch_assoc()['spent'];
@@ -486,11 +486,17 @@ function doValidate($session_key) {
 				return false;
 			}
 			if ($store_id == 0){
-				$stmt = $db->prepare("SELECT store_id, sale_price FROM game_price WHERE game_id = ? ORDER BY sale_price ASC LIMIT 1");
+				$stmt = $db->prepare("SELECT store_id, sale_price FROM game_prices WHERE game_id = ? ORDER BY sale_price ASC LIMIT 1");
 				$stmt->bind_param("i", $game_id);
 			} else {
 				$stmt = $db->prepare("SELECT store_id, sale_price FROM game_prices WHERE game_id = ? and store_id =?");
 				$stmt->bind_param("ii", $game_id, $store_id);
+			}
+			$stmt->execute();
+			$row = $stmt->get_result()->fetch_assoc();
+			if ($row === null){
+				$db->rollback();
+				return false;
 			}
 			$price = (float)$row['sale_price'];
 			$store_id = (int)$row['store_id'];
@@ -520,8 +526,8 @@ function doValidate($session_key) {
 			$stmt->bind_param("di", $price, $user_id);
 			$stmt->execute();
 			//step 2,  record order happening
-			$stmt = $db->prepare("INSERT INTO orders (user_id, game_id, store_id, price_paid) VALUES (?, ?, ?, ?)");
-			$stmt->bind_param("iiid", $user_id, $game_id, $store_id, $price);
+			$stmt = $db->prepare("INSERT INTO orders (user_id, game_id, store_id, price_paid, squad_id) VALUES (?, ?, ?, ?, ?)");
+			$stmt->bind_param("iiidi", $user_id, $game_id, $store_id, $price, $squad_ID);
 			$stmt->execute();
 			$order_id = $db->insert_id;
 			//step 3, add to user library

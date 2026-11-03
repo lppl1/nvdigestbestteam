@@ -76,8 +76,8 @@
 		else if ($request['type'] == 'watch_remove') {
 			return doWatchRemove($request['session_key'] ?? '', (int)($request['game_id'] ?? 0));
 		}
-		else if ($request['type'] == 'purchase'){
-			return doPurchase($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['store_id'] ?? 0));	
+		else if ($request['type'] == 'purchase'){ //added squads to doPurchase so hopefully it works for squad purchases
+			return doPurchase($request['session_key'] ?? '', (int)($request['game_id'] ?? 0), (int)($request['store_id'] ?? 0), isset($request['squad_id']) ? (int)$request['squad_id'] : null);	
 		}	
 		else if ($request['type'] == 'get_wallet'){
 			return doGetWallet($request['session_key'] ?? '');
@@ -85,8 +85,8 @@
 		else if ($request['type'] == 'set_wallet'){
 			return doSetWallet($request['session_key'] ?? '', (float)($request['amount'] ?? 0));
 		}
-		else if ($request['type'] == 'settings'){
-			return doSettings($request['session_key'] ?? '', (float)($request['monthly_budget'] ?? 0), $request['email_opt_in']);
+		else if ($request['type'] == 'settings'){ //added ?? 0 to stop crashing if email_opt_in left blank hopefully works
+			return doSettings($request['session_key'] ?? '', (float)($request['monthly_budget'] ?? 0), $request['email_opt_in'] ?? 0);
 		}
 	}
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
