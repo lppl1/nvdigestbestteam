@@ -20,8 +20,17 @@ function routeDmz($request) {
 }
 
 function dmzRouter($request) {
-    try { return routeDmz($request); }
-    catch (Throwable $e) { error_log("dmz listener: " . $e->getMessage()); return false; }
+	error_log ("dmz request: " . ($request['type'] ?? '?'));
+	try { 
+		$result = routeDmz($request);
+		error_log("dmz result: " . jsoin_encode($result));
+		return $result
+		
+       	}
+	catch (Throwable $e) {
+		error_log("dmz listener: " . $e->getMessage());
+	       	return false; 
+	}
 }
 
 $server = new rabbitMQServer('../nvdigestmq/nvRabbitMQ.ini', 'dmzServer');
