@@ -22,10 +22,10 @@ for ($page = 0; $page < 5; $page++) {
 	if ($deals) {
 	echo "Dealio Page $page : " . json_encode($mq->send_request(["type" => "save_deals", "data" => $deals])) . "\n";
 	}
-	sleep(1);
 	else {
 		echo 'fetchDeals returned nothing\n'
 	}
+	sleep(1);
 }
 
 //tracked games price watch
