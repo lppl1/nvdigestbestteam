@@ -24,7 +24,7 @@ function dmzRouter($request) {
 	try { 
 		$result = routeDmz($request);
 		error_log("dmz result: " . jsoin_encode($result));
-		return $result
+		return $result;
 		
        	}
 	catch (Throwable $e) {
