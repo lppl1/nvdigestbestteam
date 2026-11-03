@@ -13,7 +13,7 @@ if ($stores) {
 	echo "stores: " . json_encode($mq->send_request(["type" => "save_stores", "data" => $stores])) . "\n";
 }
 	else {
-		echo 'fetchStores returned nothing\n';
+		echo "fetchStores returned nothing\n";
        	}
 
 //whats the "deal"-io
@@ -23,7 +23,7 @@ for ($page = 0; $page < 5; $page++) {
 	echo "Dealio Page $page : " . json_encode($mq->send_request(["type" => "save_deals", "data" => $deals])) . "\n";
 	}
 	else {
-		echo 'fetchDeals returned nothing\n';
+		echo "fetchDeals returned nothing\n";
 	}
 	sleep(1);
 }
