@@ -21,8 +21,8 @@ foreach ($stores as $store){
 }
 //deal fetch for games and prices for multiple pages
 for ($page = 0; $page < 5; $page++){
-
-	$ch = curl_init("https://www.cheapshark.com/api/1.0/deals?pageSize=10&pageNumber=" . $page); //This initializes the connection to the url
+								//adding a sort feature here so it doesn't just return hot 50 but most recent 300
+	$ch = curl_init("https://www.cheapshark.com/api/1.0/deals?pageSize=60&sortBy=Recent&pageNumber=" . $page); //This initializes the connection to the url
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //Returns result as string
 	curl_setopt($ch, CURLOPT_USERAGENT, "it490"); //Tells server who is requesting data
 	$response = curl_exec($ch);
