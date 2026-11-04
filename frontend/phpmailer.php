@@ -11,7 +11,7 @@ $mail = new PHPMailer(true);
 $mail->isSMTP();
 $mail->Host = 'smtp.gmail.com';
 $mail->SMTPAuth = true;
-$mail->Username = 'ADD YOUR GMAIL OR MAKE A NEW ONE FOR THIS PROJECT'
+$mail->Username = 'ADD YOUR GMAIL OR MAKE A NEW ONE FOR THIS PROJECT';
 $mail->Password = 'Generate app password on Gmail check the CodeLucky Video I sent';
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 $mail->Port = 587; //Check your firewall
