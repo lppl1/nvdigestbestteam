@@ -727,20 +727,20 @@ function doValidate($session_key) {
 			if ($user_id === null) {
 				return False;
 			}
-		$sql = "SELECT email FROM users WHERE id = ?"
+		$sql = "SELECT email FROM users WHERE id = ?";
 			try {
-				$smt = $db-.prepare($sql);
+				$stmt = $db->prepare($sql);
 				$stmt->bind_param("i", $user_id);
 				$stmt->execute();
 				$row = $stmt->get_result()->fetch_assoc();
 				if ($row === null) {
 					return False;
 				}
-				return $row['email'};
-	}
-	catch (Exception $e) {
-		return False;
-	}
+				return $row['email'];
+			}
+		catch (Exception $e) {
+			return False;
+		}
 	}
 
 ?>
