@@ -620,6 +620,7 @@ function doValidate($session_key) {
 			return false;
 		}
 	}
+
 		function doSaveDeals($deals){
 		if (!is_array($deals)) { return false; }
 		$db = dbConnection();
@@ -694,7 +695,8 @@ function doValidate($session_key) {
 			}
 		}
 		return $saved;
-	}	
+	}
+
 	function doSaveStores($stores){
 		if (!is_array($stores)) { return false; }
 		$db = dbConnection();
@@ -718,4 +720,27 @@ function doValidate($session_key) {
 		}
 		return $saved;
 	}
+
+	function doGetEmail($session_key) {
+		$db = dbConnection();
+		$user_id = sessionUser($db, $session_key);
+			if ($user_id === null) {
+				return False;
+			}
+		$sql = "SELECT email FROM users WHERE id = ?"
+			try {
+				$smt = $db-.prepare($sql);
+				$stmt->bind_param("i", $user_id);
+				$stmt->execute();
+				$row = $stmt->get_result()->fetch_assoc();
+				if ($row === null) {
+					return False;
+				}
+				return $row['email'};
+	}
+	catch (Exception $e) {
+		return False;
+	}
+	}
+
 ?>
