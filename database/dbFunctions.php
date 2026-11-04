@@ -721,7 +721,7 @@ function doValidate($session_key) {
 		return $saved;
 	}
 
-	function doGetEmail($session_key) {
+/**	function doGetEmail($session_key) {				//I WAS UNAWARE WE HAD THIS IN DMZFUNCTIONS IGNORE BUT I WILL KEEP HERE IN CASE WE NEED IT
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
 			if ($user_id === null) {
@@ -742,5 +742,5 @@ function doValidate($session_key) {
 			return False;
 		}
 	}
-
+	**/
 ?>
