@@ -23,7 +23,7 @@ function dmzRouter($request) {
 	error_log ("dmz request: " . ($request['type'] ?? '?'));
 	try { 
 		$result = routeDmz($request);
-		error_log("dmz result: " . jsoin_encode($result));
+		error_log("dmz result: " . json_encode($result));
 		return $result;
 		
        	}

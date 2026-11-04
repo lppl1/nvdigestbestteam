@@ -625,7 +625,7 @@ function doValidate($session_key) {
 		$db = dbConnection();
 		$saved = 0;
 		try {
-			$gameStmt = $db->prepare("INSERT INTO games (cheapshark_id, steamapp_id, title, image_url, released, metacritic) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE steamapp_id = VALUES(steamapp_id), title = VALUES(title), image_url = VALUES(image_url), metacritic = VALUES(metacritic)");
+			$gameStmt = $db->prepare("INSERT INTO games (cheapshark_id, steamapp_id, title, image_url, released, metacritic) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE steamapp_id = VALUES(steamapp_id), title = VALUES(title), image_url = VALUES(image_url), metacritic = VALUES(metacritic), updated_at = NOW()");
 			$findStmt = $db->prepare("SELECT id FROM games WHERE cheapshark_id = ?");
 			$priceStmt = $db->prepare("INSERT INTO game_prices (game_id, store_id, deal_id, sale_price, normal_price, deal_rating) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE deal_id = VALUES(deal_id), sale_price = VALUES(sale_price), normal_price = VALUES(normal_price), deal_rating = VALUES(deal_rating)");
 		} catch (Exception $e) {
