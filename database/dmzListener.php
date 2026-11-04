@@ -24,6 +24,7 @@ function dmzRouter($request) {
 	try { 
 		$result = routeDmz($request);
 		error_log("dmz result: " . json_encode($result));
+		error_log("dmz result: " . json_encode($result));
 		return $result;
 		
        	}
