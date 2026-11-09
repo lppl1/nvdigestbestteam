@@ -723,7 +723,8 @@ function doValidate($session_key) {
 
 	function refreshDetails($game_id, $title) {
     		try {
-        		$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzServer');
+			$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookUpServer'); //If we keep it as dmzServer that means database will need internet acces and thats a no no
+													 //So now we need dmzLookUpServer in dmz
         		$details = $client->send_request(["type" => "fetch_rawg", "title" => $title]);
         		if (is_array($details)) { doSaveDetails($game_id, $details); }
     		} catch (Throwable $e) {
