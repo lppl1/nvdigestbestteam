@@ -721,6 +721,17 @@ function doValidate($session_key) {
 		return $saved;
 	}
 
+	function refreshDetails($game_id, $title) {
+    		try {
+        		$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzServer');
+        		$details = $client->send_request(["type" => "fetch_rawg", "title" => $title]);
+        		if (is_array($details)) { doSaveDetails($game_id, $details); }
+    		} catch (Throwable $e) {
+        			error_log("refreshDetails: " . $e->getMessage());
+    		}
+	}
+	
+
 /**	function doGetEmail($session_key) {				//I WAS UNAWARE WE HAD THIS IN DMZFUNCTIONS IGNORE BUT I WILL KEEP HERE IN CASE WE NEED IT
 		$db = dbConnection();
 		$user_id = sessionUser($db, $session_key);
