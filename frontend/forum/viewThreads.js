@@ -99,7 +99,6 @@ table.append(row);
 
 data.forEach(function(reply){
 console.log(reply);
-
 });
 
 

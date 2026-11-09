@@ -10,11 +10,11 @@ $request=[
 "session_key"=>$_COOKIE["session_key"]
 ];
 
-//$response=$client->send_request($request); 
-$response=="true";
-if($response=="true"){
+$response=$client->send_request($request); 
+
+if($response=="True"){
 }
-else if($response=="false"){
+else if($response=="False"){
 header("Location:../login.html");
 }
 

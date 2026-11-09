@@ -43,14 +43,14 @@ $(document).ready(function(){
 		});
 	});
 	$(document).on("click", ".openSquad", function(e){
-		e.preventDefault(); //stops link from jumping to top of page
+		e.preventDefault(); 
 		showSquad($(this).data("id")); //loads squad that was selected
 	});
 	//creating a squad
 	$("#createSquad").on("click", function(){
 		squadRequest({type: "create_squad", name: $("#squadName").val(), budget: $("#squadBudget").val()}, function(code){
 			if (code){
-				alert("Squad created! Share this join code: " + code);
+				alert("Squad created! Share this join code: " + code.join_code);
 				location.reload(); //reloads to show new squad in list 
 			} else {
 				alert("Error! Failed to create squad.");
