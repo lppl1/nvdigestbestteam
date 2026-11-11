@@ -7,10 +7,16 @@ require_once(__DIR__ . '/dmzFunctions.php');
 
 function dmzRouter($req) {
 	switch ($req['type'] ?? '') {
-		case 'lookup_game':	return fetchGamePrices($req['cheapshark_id'] ?? 0);
-		case 'search_external':	return searchDeals($req['term'] ?? '');
-		case 'game_details':	return fetchRawg($req['title'] ?? '');
-		case 'fetch_rawg': return fetchRawg($req['title'] ?? '');
+	case 'lookup_game':	return fetchGamePrices($req['cheapshark_id'] ?? 0);
+	//maybe this will be the good fix
+	case 'search_external':	
+		$deals = searchDeals($req['term'] ?? '');
+		if (is_array($deals) && $deals){
+			(new rabbitMQClient(MQ_INI, 'dmzServer'))->publish
+		}
+		return true;
+	case 'game_details':	return fetchRawg($req['title'] ?? '');
+	case 'fetch_rawg': return fetchRawg($req['title'] ?? '');
 	}
 	return False;
 }
