@@ -1,7 +1,8 @@
 <?php
 require_once("../auth.php")
 ?>
-
+<!-- 
+eiofjwioamk
 <style>
 td{
 border: 2px solid black;
@@ -13,6 +14,7 @@ margin-right:auto;
 width:50%;
 }
 </style>
+-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <div id="banner"></div>
 <h1 style="text-align:center">Market</h1>
@@ -27,7 +29,7 @@ Search for games:
 <br>
 <br>
 <br>
-<table id=gamesTable>
+<table id=gamesTable class="table table-bordered">
 	<tr class="header">
 		
 		<td>
