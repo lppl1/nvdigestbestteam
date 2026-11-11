@@ -12,7 +12,7 @@ function dmzRouter($req) {
 	case 'search_external':	
 		$deals = searchDeals($req['term'] ?? '');
 		if (is_array($deals) && $deals){
-			(new rabbitMQClient(MQ_INI, 'dmzServer'))->publish
+			(new rabbitMQClient(MQ_INI, 'dmzServer'))->publish(['type' => 'save_deals', 'data' => $deals]);
 		}
 		return true;
 	case 'game_details':	return fetchRawg($req['title'] ?? '');
