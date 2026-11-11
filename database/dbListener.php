@@ -19,8 +19,17 @@
 		else if ($request ['type'] == 'logout') {
 			return doLogout($request['session_key']); 
 		}
-		else if ($request ['type'] == 'search_games') {
-			return doSearchGames($request['term'] ?? '');
+		else if ($request ['type'] == 'search_games') { //This is the code we originally had which was fine
+			$term = $request['term'] ?? '';
+			$results = doSearchGames($term); //This searches our database to check if the game is there
+			if (is_array($results) && count($results) === 0 && strlen(trim($term)) >= 3) { //IMPORTANT CODE WE WERE MISSING This checks the search and returns if it worked. If the list is empty database no
+			     									       //have game
+				if (AddOnSearch($term) > 0) { //Asks DMZ to search for game in cheapshark and if it returns something it saves
+					$results = doSearchGames($term); //checks database again to see if game was added
+		}
+		}
+			return $results; //Send list with new game back
+		}
 		}
 		else if ($request['type'] == 'get_game') {
     			return doGetGame((int)($request['game_id'] ?? 0));
@@ -87,7 +96,8 @@
 		}
 		else if ($request['type'] == 'settings'){ //added ?? 0 to stop crashing if email_opt_in left blank hopefully works
 			return doSettings($request['session_key'] ?? '', (float)($request['monthly_budget'] ?? 0), $request['email_opt_in'] ?? 0);
-		}
+		}		
+
 	}
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
@@ -96,4 +106,5 @@
 		var_dump($login);
 	*/
 ?>
+
 
