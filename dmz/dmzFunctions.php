@@ -4,7 +4,6 @@ if (file_exists(__DIR__ . '/vendor/autoload.php'))
 use PHPMailer\PHPMailer\PHPMailer;
 
 const CHEAPSHARK = "https://www.cheapshark.com/api/1.0/";
-const RAWG	 = "https://api.rawg.io/api/";
 const MQ_INI	 = __DIR__ . "/../nvdigestmq/nvRabbitMQ.ini";
 const USER_AGENT = "DealDigest/1.0 (IT490 Semester Project)";
 
@@ -31,22 +30,6 @@ function fetchGamePrices($id) {
 function searchDeals($title){
 	return httpGet(CHEAPSHARK . "deals?pageSize=10&title=" . urlencode($title)); }
 
-//What's up RAWG
-function fetchRawg($title){
-	$key = dmzConfig()['RAWG_KEY'];
-	$found = httpGet(RAWG . "games?key=$key&page_size=1&search=" . urlencode($title));
-	if (empty($found['results'])) return null;
-	$id = $found ['results'][0]['id'];
-	$d = httpGet(RAWG . "games/$id?key=$key");
-	if (!$d) return null;
-	return [
-	"rawg_id"	=> $id,
-	"description"	=> $d['description_raw'] ?? '',
-	"publisher" 	=> $d['publishers'][0]['name'] ?? null,
-	"developer"	=> $d['developers'][0]['name'] ?? null,
-	"genres"	=> implode(",", array_column($d['genres'] ?? [], 'name')),
-	]; 
-}
 
 //annoying emails
 function sendAlertEmail($to, $subject, $html) {

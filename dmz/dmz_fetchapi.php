@@ -43,15 +43,6 @@ $tracked = $mq->send_request(["type" => "get_tracked"]);
 		sleep(1);
 
 	}
-
-//RAWG description 
-$missing = $mq->send_request(["type" => "get_missing_details"]);
-foreach (is_array($missing) ? $missing : [] as $g) {
-		if ($details = fetchRawg($g['title'])) {
-			$mq->send_request(["type" => "save_details", "game_id" => $g['id'], "details" => $details]);
-			echo "added details for " . $g['title'] . "\n";
-		}
-		sleep(1);
 }
 ?>
 
