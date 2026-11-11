@@ -736,11 +736,13 @@ function doValidate($session_key) {
 		try {
 			$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookupServer'); //Initializes connection to RabbitMQ
 			$deals = $client->send_request(["type" => "search_external", "term" => $term]); //Checks deals
-		if (is_array($deals)) { return doSaveDeals($deals); }   // number of deals saved
-	} catch (Throwable $e) {
-		error_log("addFromExternal: " . $e->getMessage());
+			if (is_array($deals)) { return doSaveDeals($deals); }   // number of deals saved
+		} catch (Throwable $e) {
+			error_log("addFromExternal: " . $e->getMessage());
+		}
+			return 0;
 	}
-	return 0;
+
 
 /**	function doGetEmail($session_key) {				//I WAS UNAWARE WE HAD THIS IN DMZFUNCTIONS IGNORE BUT I WILL KEEP HERE IN CASE WE NEED IT
 		$db = dbConnection();
