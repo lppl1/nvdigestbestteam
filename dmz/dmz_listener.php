@@ -15,5 +15,5 @@ function dmzRouter($req) {
 	return False;
 }
 
-(new rabbitMQServer(MQ_INI, "dmzServer"))->process_requests('dmzRouter');
+(new rabbitMQServer(MQ_INI, "dmzLookUpServer"))->process_requests('dmzRouter');
 ?>
