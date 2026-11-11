@@ -732,7 +732,7 @@ function doValidate($session_key) {
     		}
 	}
 	
-	function AddOnSearch() {
+	function AddOnSearch($term) {
 		try {
 			$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookupServer'); //Initializes connection to RabbitMQ
 			$deals = $client->send_request(["type" => "search_external", "term" => $term]); //Checks deals
