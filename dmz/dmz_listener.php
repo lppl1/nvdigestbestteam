@@ -10,6 +10,7 @@ function dmzRouter($req) {
 		case 'lookup_game':	return fetchGamePrices($req['cheapshark_id'] ?? 0);
 		case 'search_external':	return searchDeals($req['term'] ?? '');
 		case 'game_details':	return fetchRawg($req['title'] ?? '');
+		case 'fetch_rawg': return fetchRawg($req['title'] ?? '');
 	}
 	return False;
 }
