@@ -735,7 +735,9 @@ function doValidate($session_key) {
 	function AddOnSearch($term) {
 		//maybe quick fix to our issues
 		$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookupServer');
-
+		$client->publish(["type" => "search_external", "term" => $term]);
+		return 0;
+		/* temp comment to test things
 		try {
 			$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookupServer'); //Initializes connection to RabbitMQ
 			$deals = $client->send_request(["type" => "search_external", "term" => $term]); //Checks deals
@@ -743,7 +745,7 @@ function doValidate($session_key) {
 		} catch (Throwable $e) {
 			error_log("addFromExternal: " . $e->getMessage());
 		}
-			return 0;
+		return 0;*/
 	}
 
 
