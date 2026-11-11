@@ -21,10 +21,30 @@ $mail->setFrom('send@example.com', 'Sender Name');
 $mail->addAddress('recipient@example.com');
 
 //This will be the email content
-$mail->isHTML(true);
-$mail->Subject = 'Email Subject';
-$mail->Body = '<h1>HTML Content</h1>';
-$mail->AltBody = 'Plain text content';
+foreach ($alerts as $a) {
+        $link = !empty($a['deal_id'])
+                ? "https://www.cheapshark.com/redirect?dealID=" . urlencode($a[>
+        if (($a['alert_type'] ?? 'price') === 'budget') {
+                $subject = "DealDigest: " . $a['title'] . " fits your budget";
+                $body = "Hey " . $a['username'] . ",\n\n"
+                        . $a['title'] . " is now \$" . $a['sale_price'] . " at >
+                        . ", which keeps you within your budget. \n";
+        } else {
+                $subject = "DealDigest: " . $a['title'] . " hit your target pri>
+                $body = "Hey " . $a['username'] . ",\n\n"
+                        . $a['title'] . " is now \$" . $a['target_price'] . ").>
+        }
+        if ($link !== "") {
+                $body .= "\nUnlock Your Deal Here ;) $link\n";
+        }
+        $body .= "\n- DealDigest\n";
+
+        if (sendEmail($a['email'], $subject, $body)) {
+                $client->send_request(["type" => "mark_alert_sent", "alert_id" >
+                echo "sent alert  " . $a['alert_id'] . " to " . $a['email'] . ">
+        }
+        sleep(1);
+}
 
 
 //Error logging and sending
