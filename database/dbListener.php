@@ -30,7 +30,6 @@
 		}
 			return $results; //Send list with new game back
 		}
-		}
 		else if ($request['type'] == 'get_game') {
     			return doGetGame((int)($request['game_id'] ?? 0));
 		}
