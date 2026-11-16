@@ -97,8 +97,8 @@
 			return doSettings($request['session_key'] ?? '', (float)($request['monthly_budget'] ?? 0), $request['email_opt_in'] ?? 0);
 		}
 		//for new email function so that hopefully it populates db		
-		else if (){
-
+		else if ($request['type'] == 'mark_alert_sent'){ 
+			return doMarkEmail((int)($request['alert_id']??0));
 		}
 	}
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
