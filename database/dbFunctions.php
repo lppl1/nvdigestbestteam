@@ -766,7 +766,11 @@ function doValidate($session_key) {
 		} catch (Exception $e) { return []; }
 	}
 
-
+	//maybe function to fix email stuff
+	function doMarkEmail($alert_id){
+		$db = dbConnection();
+		$stmt = $db->prepare("UPDATE price_watch SET notified_at = NOW() WHERE id = ?");
+	}
 
 /**	function doGetEmail($session_key) {				//I WAS UNAWARE WE HAD THIS IN DMZFUNCTIONS IGNORE BUT I WILL KEEP HERE IN CASE WE NEED IT
 		$db = dbConnection();
