@@ -43,6 +43,5 @@ $tracked = $mq->send_request(["type" => "get_tracked"]);
 		sleep(1);
 
 	}
-}
 ?>
 
