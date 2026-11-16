@@ -736,16 +736,33 @@ function doValidate($session_key) {
 		$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookupServer');
 		$client->publish(["type" => "search_external", "term" => $term]);
 		return 0;
-		/* temp comment to test things
-		try {
-			$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookupServer'); //Initializes connection to RabbitMQ
-			$deals = $client->send_request(["type" => "search_external", "term" => $term]); //Checks deals
-			if (is_array($deals)) { return doSaveDeals($deals); }   // number of deals saved
-		} catch (Throwable $e) {
-			error_log("addFromExternal: " . $e->getMessage());
-		}
-		return 0;*/
 	}
+	function doGetTriggeredAlerts(){
+		$db = dbConnection();
+		$sql = "SELECT w.id AS alert_id, u.email, u.username, g.title, s.name AS store,
+		               p.sale_price, w.target_price, p.deal_id
+		        FROM price_watch w
+		        JOIN users u ON u.id = w.user_id
+		        JOIN user_settings us ON us.user_id = w.user_id
+		        JOIN games g ON g.id = w.game_id
+		        JOIN game_prices p ON p.game_id = w.game_id
+		        JOIN stores s ON s.id = p.store_id
+		        WHERE w.is_active = 1 AND w.notified_at IS NULL
+		          AND us.email_opt_in = 1 AND p.sale_price <= w.target_price
+		        ORDER BY w.id, p.sale_price ASC"; //Combine the users email, username, opt in settings, game title, game price, store and check if watch list is on
+		try {
+			$result = $db->query($sql);
+			$alerts = []; $seen = [];
+			while ($row = $result->fetch_assoc()) {
+				if (isset($seen[$row['alert_id']])) { continue; } 
+				$seen[$row['alert_id']] = true;
+				$row['alert_type'] = 'price';
+				$alerts[] = $row;
+			}
+			return $alerts;
+		} catch (Exception $e) { return []; }
+	}
+
 
 
 /**	function doGetEmail($session_key) {				//I WAS UNAWARE WE HAD THIS IN DMZFUNCTIONS IGNORE BUT I WILL KEEP HERE IN CASE WE NEED IT
