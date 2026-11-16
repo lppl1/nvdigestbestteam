@@ -35,25 +35,53 @@ function searchDeals($title){
 
 
 //annoying emails
-function sendAlertEmail($to, $subject, $body, $html) {
+function sendAlertEmail($to, $subject, $body, $html = null) {
 	$c = dmzConfig();
 	try {
 		$mail = new PHPMAILER(true);
 		$mail->isSMTP();
 		$mail->Host	= $c['SMTP_HOST'] ?? 'smtp.gmail.com';
-		$mail->Port	= (int)$c['SMTP_PORT'] ?? 587);
+		$mail->Port	= (int)($c['SMTP_PORT'] ?? 587);
 		$mail->SMTPAuth	= true;
 		$mail->Username = $c['SMTP_USER'] ?? '';
 		$mail->Password = $c['SMTP_PASS'] ?? '';
 		$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-		$mail->Subject = $subject;
-		$mail->Body = $html;
-		$mail->AltBody = strip_tags($html);
+		$mail->CharSet	= 'UTF-8';
+		$mail->setFrom($c['FROM_EMAIL'] ?? $mail->Username, $c['FROM_NAME'] ?? 'DealDigest');
+		$mail->addAddress($to);
+		$mail->Subject  = $subject;
+		if ($html !== null) {
+			$mail->isHMTML(true);
+			$mail->Body = $html;
+			$mail->AltBody = $body;
+		} else {
+		$mail->Body = $body; }		
 		return $mail->send();
 	} catch (Throwable $e) {
 		echo "Email failed:( " . $e->getMessage() . "\n";
 		return false;
 	}
 }
+function fetchSteamDetails($appId) {
+	$appId = (int)$appId;
+	if ($appId <= 0) return null;
+ 
+	$json = httpGet(STEAM_STORE . "?appids=$appId&cc=us&l=en");
+	if (empty($json[$appId]['success'])) return null;
+	$d = $json[$appId]['data'];
+ 
+	return [
+		"steam_app_id"     => $appId,
+		"title"            => $d['name'] ?? '',
+		"developers"       => implode(', ', $d['developers'] ?? []),
+		"publishers"       => implode(', ', $d['publishers'] ?? []),
+		"release_date"     => $d['release_date']['date'] ?? '',
+		"metacritic_score" => $d['metacritic']['score'] ?? null,   // many games have none
+		"metacritic_url"   => $d['metacritic']['url'] ?? null,
+		"description"      => trim(strip_tags($d['short_description'] ?? '')),
+		"header_image"     => $d['header_image'] ?? '',
+		"genres"           => implode(', ', array_column($d['genres'] ?? [], 'description')),
+	];
+} 
 
 ?>
