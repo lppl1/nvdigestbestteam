@@ -71,7 +71,7 @@ function doValidate($session_key) {
 
 
 	function doRegister($username, $password, $email){
-		if (trim($username) === '' || trim($password) === '' || trim($email) === '') {
+		if (trim($username) === '' || trim($password) === '' || trim($email) === '') { //Something
 			return False;
 		}
 		$db = dbConnection();
