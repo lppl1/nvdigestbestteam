@@ -71,6 +71,9 @@ function doValidate($session_key) {
 
 
 	function doRegister($username, $password, $email){
+		if (trim($username) === '' || trim($password) === '' || trim($email) === '') {
+			return False;
+		}
 		$db = dbConnection();
 		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 		//This line will add the hashedpassword into password column
