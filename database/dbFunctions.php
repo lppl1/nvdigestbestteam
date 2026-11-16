@@ -592,8 +592,8 @@ function doValidate($session_key) {
 	}
 
 	function doGetMissingDetails(){
-		$db = dbConnection();
-		$sql = "SELECT id, title FROM games WHERE description IS NULL ORDER BY id LIMIT 20";
+		$db = dbConnection();//adding steamappid as replacement since we throw out rawg since it sucks
+		$sql = "SELECT id, title, steamapp_id FROM games WHERE description IS NULL AND steamapp_id IS NOT NULL ORDER BY id LIMIT 20";
 		try {
 			$stmt = $db->prepare($sql);
 			$stmt->execute();
@@ -606,14 +606,13 @@ function doValidate($session_key) {
 	function doSaveDetails($game_id, $details){
 		$db = dbConnection();
 		$game_id = (int)$game_id;
-		$rawg_id = (int)($details['rawg_id'] ?? 0);
 		$description = $details['description'] ?? '';
 		$developer = $details['developer'] ?? null;
 		$publisher = $details['publisher'] ?? null;
-		$sql = "UPDATE games SET rawgame_id = ?, description = ?, developer = ?, publisher = ? WHERE id = ?";
+		$sql = "UPDATE games SET description = ?, developer = ?, publisher = ?, released = COALESCE(?, released) WHERE id = ?";
 		try {
 			$stmt = $db->prepare($sql);
-			$stmt->bind_param("isssi", $rawg_id, $description, $developer, $publisher, $game_id);
+			$stmt->bind_param("ssssi", $description, $developer, $publisher, $released,  $game_id);
 			$stmt->execute();
 			return true;
 		} catch (Exception $e) {
