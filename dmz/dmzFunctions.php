@@ -41,7 +41,7 @@ function sendAlertEmail($to, $subject, $body, $html) {
 		$mail = new PHPMAILER(true);
 		$mail->isSMTP();
 		$mail->Host	= $c['SMTP_HOST'] ?? 'smtp.gmail.com';
-		$mail->Port	= (int)$c['SMTP_PORT'] ?? 587);
+		$mail->Port	= (int)($c['SMTP_PORT'] ?? 587);
 		$mail->SMTPAuth	= true;
 		$mail->Username = $c['SMTP_USER'] ?? '';
 		$mail->Password = $c['SMTP_PASS'] ?? '';
