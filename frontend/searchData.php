@@ -1,4 +1,6 @@
 <?php
+//attempt to get on demand working for frontend
+ini_set('amqp.read_timeout', '10');
 require_once("nvdigestmq/rabbitMQLib.inc");
 header("Content-Type: application/json");
 
