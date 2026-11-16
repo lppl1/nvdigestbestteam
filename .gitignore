@@ -1,3 +1,7 @@
 dmz_config.ini
 vendor/
 
+dmz/dmz_config.ini
+dmz/vendor/
+nvdigestmq/nvRabbitMQ.ini
+nvdigestmq/nvRabbitMQ.ini.working
