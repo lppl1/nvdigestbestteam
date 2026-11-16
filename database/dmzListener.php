@@ -14,7 +14,8 @@ function routeDmz($request) {
         case 'get_tracked':         return doGetTracked();
         case 'save_prices':         return doSavePrices($request['cheapshark_id'], $request['deals']);
         case 'get_missing_details': return doGetMissingDetails();
-        case 'save_details':        return doSaveDetails($request['game_id'], $request['details']);
+	case 'save_details':        return doSaveDetails($request['game_id'], $request['details']);
+	case 'get_triggered_alerts': return doGetTriggeredAlerts();
     }
     return false;
 }
