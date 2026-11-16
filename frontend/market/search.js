@@ -15,9 +15,10 @@ $("#gameSearch").on("submit", function (e) {
             $table.find("tr.result").remove(); 
 
             if (!Array.isArray(games) || games.length === 0) {
-		    //second part of fixing dmz on demand
+		    //second part of fixing frontend on demand
 		if (term.trim().length >= 3 && tries < 2){
-			$table.append('..Looking up requested game..');
+			$table.append('Looking up requested game...');
+			setTimeout(function() { runSearch(term, tries + 1); }, 3000);
 		}else{
                 	$table.append('<tr class="result"><td colspan="2">No games found</td></tr>');
 		}
