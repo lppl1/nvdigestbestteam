@@ -772,6 +772,9 @@ function doValidate($session_key) {
 		$stmt = $db->prepare("UPDATE price_watch SET notified_at = NOW() WHERE id = ?");
 		//this should stop watch from alerting again if I am right
 		$stmt = $db->prepare("INSERT INTO alerts (user_id, price_watch_id, game_id, store_id, price, emailed) SELECT w.user_id, w.id, w.game_id, p.store_id, p.sale_price, 1 FROM price_watch w JOIN game_prices p ON p.game_id = w.game_id WHERE w.id = ? ORDER BY p.sale_price ASC LIMIT 1");
+		$stmt->bind_param("i", $alert_id);
+		$stmt->execute();
+		return true;
 	}
 
 /**	function doGetEmail($session_key) {				//I WAS UNAWARE WE HAD THIS IN DMZFUNCTIONS IGNORE BUT I WILL KEEP HERE IN CASE WE NEED IT
