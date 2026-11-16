@@ -95,8 +95,11 @@
 		}
 		else if ($request['type'] == 'settings'){ //added ?? 0 to stop crashing if email_opt_in left blank hopefully works
 			return doSettings($request['session_key'] ?? '', (float)($request['monthly_budget'] ?? 0), $request['email_opt_in'] ?? 0);
-		}		
+		}
+		//for new email function so that hopefully it populates db		
+		else if (){
 
+		}
 	}
 	$server = new rabbitMQServer("../nvdigestmq/nvRabbitMQ.ini", "nvdServer"); //This line grabs server infromation
 	$server->process_requests('requestRouter'); //This line initiates the connection to the server
