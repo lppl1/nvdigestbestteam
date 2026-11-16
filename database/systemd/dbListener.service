@@ -1,0 +1,15 @@
+[Unit]
+#first attempt at creating systemd then after db replicationn if all goes smoothely
+Description=DealDigest DB Listener (only for nvdServer and all queues associated with)
+After=network-online.target mysql.service rabbitmq-server.service
+Wants=network-online.target
+
+[Service]
+User=lap39
+WorkingDirectory=/home/lap39/git/nvdigestbestteam/database
+ExecStart=/usr/bin/php dbListener.php
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
