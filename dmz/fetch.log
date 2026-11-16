@@ -154,3 +154,71 @@ failed to send message to exchange: Socket error: could not connect to host.
 
 
 
+=== 2026-11-11T17:30:01-05:00 ===
+PHP Parse error:  Unmatched '}' in /home/janrexpanlilio/git/nvdigestbestteam/dmz/dmz_fetchapi.php on line 46
+=== 2026-11-15T19:30:01-05:00 ===
+PHP Parse error:  Unmatched '}' in /home/janrexpanlilio/git/nvdigestbestteam/dmz/dmz_fetchapi.php on line 46
+=== 2026-11-15T19:32:31-05:00 ===
+PHP Parse error:  Unmatched '}' in /home/janrexpanlilio/git/nvdigestbestteam/dmz/dmz_fetchapi.php on line 46
+=== 2026-11-15T19:45:01-05:00 ===
+
+
+
+
+unknown uid
+stores: 35
+unknown uid
+failed to send message to exchange: Library error: channel mismatch
+
+
+
+
+PHP Parse error:  Unclosed '{' on line 40 does not match ')' in /home/janrexpanlilio/git/nvdigestbestteam/dmz/dmzFunctions.php on line 44
+=== 2026-11-15T20:15:01-05:00 ===
+
+
+
+
+PHP Parse error:  Unclosed '{' on line 40 does not match ')' in /home/janrexpanlilio/git/nvdigestbestteam/dmz/dmzFunctions.php on line 44
+=== 2026-11-15T20:30:01-05:00 ===
+
+
+
+
+PHP Parse error:  Unclosed '{' on line 40 does not match ')' in /home/janrexpanlilio/git/nvdigestbestteam/dmz/dmzFunctions.php on line 44
+=== 2026-11-15T20:45:01-05:00 ===
+
+
+
+
+unknown uid
+stores: 35
+Dealio Page 0 : 60
+Dealio Page 1 : 60
+Terminated
+/home/janrexpanlilio/git/nvdigestbestteam/dmz/daily.sh: line 5: p: command not found
+=== 2026-11-16T11:45:01-05:00 ===
+
+
+
+
+stores: 35
+unknown uid
+failed to send message to exchange: Library error: channel mismatch
+
+
+
+
+failed to send message to exchange: Socket error: could not connect to host.
+=== 2026-11-16T12:00:01-05:00 ===
+
+
+
+
+stores: 35
+=== 2026-11-16T12:15:01-05:00 ===
+
+
+
+
+stores: 35
