@@ -1,0 +1,15 @@
+[Unit]
+#MY emphasis on MY dmzListener systemd file if anyone asks not for the actual dmz
+Description=DealDigest DMZ Listener (for databroker/db machine + dmzServer)
+After=network-online.target mysql.service rabbitmq-server.service
+Wants=network-online.target
+
+[Service]
+User=lap39
+WorkingDirectory=/home/lap39/git/nvdigestbestteam/database
+ExecStart=/usr/bin/php dmzListener.php
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
