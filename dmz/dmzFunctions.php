@@ -51,7 +51,7 @@ function sendAlertEmail($to, $subject, $body, $html = null) {
 		$mail->addAddress($to);
 		$mail->Subject  = $subject;
 		if ($html !== null) {
-			$mail->isHMTML(true);
+			$mail->isHTML(true);
 			$mail->Body = $html;
 			$mail->AltBody = $body;
 		} else {
