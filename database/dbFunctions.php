@@ -1,6 +1,6 @@
 <?php
 	require_once("dbConnection.php");
-	require_once(__DIR__ . '/../nvidgestmq/logging.php');
+	require_once(__DIR__ . '/../nvdigestmq/logging.php');
 
 	function doLogin($username, $password){
 		$db = dbConnection();
