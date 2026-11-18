@@ -62,8 +62,9 @@ function testCredentials(data){
 	if(data.type=="login")
 	{
 		if(data.validate!=false){
-	window.location.replace("home.php");
 	document.cookie = "session_key="+data.validate;
+	window.location.replace("home.php");
+	
 	}
 	else if(data.validate==false){
 	showPopup();

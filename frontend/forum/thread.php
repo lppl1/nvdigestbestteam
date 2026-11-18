@@ -47,6 +47,8 @@ require_once("../auth.php")
 		</tbody>
 		</table>	
 
+        <div id="footer">
+        </div>
 
 	</body>
 <script src="viewThreads.js"></script>

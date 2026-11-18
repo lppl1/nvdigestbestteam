@@ -48,6 +48,10 @@ width:25%;
 	<tr>Current Threads</tr>
 	</tbody>
 	</table>
+
+	<div id="footer">
+	</div>
+
 </body>
 </html>
 

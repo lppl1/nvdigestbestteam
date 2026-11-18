@@ -63,6 +63,8 @@ require_once("auth.php")
 <table id="reviews">
 
 </table>
+        <div id="footer">
+        </div>
 
 </body>	
 </html>

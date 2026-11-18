@@ -63,5 +63,9 @@ require_once("auth.php")
 		<script src="squadData.js"></script>
 		<script src="watchList.js"></script>
 		<script src=../loadBanner.js></script>
+	
+	        <div id="footer">
+	        </div>
+
 	</body>
 </html>
