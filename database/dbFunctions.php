@@ -621,7 +621,7 @@ function doValidate($session_key) {
 			$stmt->execute();
 			return true;
 		} catch (Exception $e) {
-			logError('logDB', 'doSaveDetails', $e->getMessage());
+			logError('logs_DB', 'doSaveDetails', $e->getMessage());
 			return false;
 		}
 	}
