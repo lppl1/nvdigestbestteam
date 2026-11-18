@@ -2,7 +2,6 @@
 require_once("../auth.php")
 ?>
 <!-- 
-eiofjwioamk
 <style>
 td{
 border: 2px solid black;
@@ -40,5 +39,8 @@ Search for games:
 		</td>
 	</tr>
 </table>
+        <div id="footer">
+        </div>
+
 <script src="search.js" defer></script>
 <script src="../loadBanner.js" defer></script>

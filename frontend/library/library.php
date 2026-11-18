@@ -26,6 +26,9 @@ require_once("../auth.php")
 		<!--any recommended games-->
 
 		<script src="libraryData.js"></script>
+        	<div id="footer">
+	        </div>
+
 	</body>
 </html>
 <script src=../loadBanner.js></script>

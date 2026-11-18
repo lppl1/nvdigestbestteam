@@ -21,3 +21,5 @@ require_once("auth.php")
   <button type="submit">Log out</button>
 </form>
 
+        <div id="footer">
+        </div>
