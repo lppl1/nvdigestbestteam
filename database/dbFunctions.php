@@ -1,6 +1,6 @@
 <?php
 	require_once("dbConnection.php");
-
+	require_once(__DIR__ . '/../nvidgestmq/logging.php');
 
 	function doLogin($username, $password){
 		$db = dbConnection();
@@ -605,13 +605,15 @@ function doValidate($session_key) {
 			return [];
 		}
 	}
-
+//maybe fix for developer + publisher
 	function doSaveDetails($game_id, $details){
 		$db = dbConnection();
 		$game_id = (int)$game_id;
 		$description = $details['description'] ?? '';
-		$developer = $details['developer'] ?? null;
-		$publisher = $details['publisher'] ?? null;
+		$developer = $details['developers'] ?? null;
+		$publisher = $details['publishers'] ?? null;
+		$ts = strtotime($details['release_date'] ?? '');
+		$released = $ts ? date('Y-m-d', $ts) : null;
 		$sql = "UPDATE games SET description = ?, developer = ?, publisher = ?, released = COALESCE(?, released) WHERE id = ?";
 		try {
 			$stmt = $db->prepare($sql);
@@ -619,6 +621,7 @@ function doValidate($session_key) {
 			$stmt->execute();
 			return true;
 		} catch (Exception $e) {
+			logError('logDB', 'doSaveDetails', $e->getMessage());
 			return false;
 		}
 	}
@@ -727,7 +730,7 @@ function doValidate($session_key) {
     		try {
 			$client = new rabbitMQClient('../nvdigestmq/nvRabbitMQ.ini', 'dmzLookupServer'); //If we keep it as dmzServer that means database will need internet acces and thats a no no
 													 //So now we need dmzLookUpServer in dmz
-        		$details = $client->send_request(["type" => "fetch_rawg", "title" => $title]);
+        		$details = $client->send_request(["type" => "steam_details", "steam_app_id" => $title, "game_id" => $game_id]);
         		if (is_array($details)) { doSaveDetails($game_id, $details); }
     		} catch (Throwable $e) {
         			error_log("refreshDetails: " . $e->getMessage());
