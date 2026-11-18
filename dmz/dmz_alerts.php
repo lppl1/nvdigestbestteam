@@ -36,8 +36,8 @@ foreach ($alerts as $a) {
 	}
 	$body .= "\n- DealDigest\n";
  
-	if (sendEmail($a['email'], $subject, $body)) {
-		$mq->send_request(["type" => "mark_alert_sent", "alert_id" => (int)$a['alert_id']]);
+	if (sendAlertEmail($a['email'], $subject, $body)) {
+		$mq->publish(["type" => "mark_alert_sent", "alert_id" => (int)$a['alert_id']]);
 		echo "sent alert " . $a['alert_id'] . " to " . $a['email'] . "\n";
 	}
 	sleep(1);
