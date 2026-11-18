@@ -16,6 +16,7 @@ function routeDmz($request) {
         case 'get_missing_details': return doGetMissingDetails();
 	case 'save_details':        return doSaveDetails($request['game_id'], $request['details']);
 	case 'get_triggered_alerts': return doGetTriggeredAlerts();
+case 'mark_alert_sent': return doMarkAlertSent($request['alert_id'] ?? 0);
     }
     return false;
 }
