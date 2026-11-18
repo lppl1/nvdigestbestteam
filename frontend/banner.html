@@ -2,27 +2,53 @@
 <head>
 <link href="../css/bootstrap.min.css" rel="stylesheet">
 <style>
-button {
-padding: 5px 10px;
+a{
+line-height:.5;
 }
+
+@media (min-width:1px){
+	.banner{
+	font-size:15px;
+	}
+	button {
+padding: 5px 5px;
+	font-size:15px;
+}
+	
+}
+@media (min-width:780px){
+	.banner{
+	font-size:20px;
+	}
+	button {
+padding: 5px 10px;
+	font-size:20px;
+}
+	
+}
+
 .navbar{
 position: fixed;
 
 }
 .banner{
 color:#696969;	
-position: relative;
+position: static;
+width: 25%;
 }
+
 </style>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 </head>
 
 <nav>
 
-<form method="POST" action="../logout.php" class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar p-3 mb-2 bg-dark text-white container-fluid">
+<form method="POST" action="../logout.php" class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar p-2 mb-2 bg-dark text-white container-fluid navbar-toggler">
 
- <a href="../market/market.php" class="banner">Marketplace</a> | <a href="../library/library.php" class="banner">My Library</a> |
-<a href="../forum/forum.php" class="banner">Discussion Forum</a> | <a href="../profile.php" class="banner">My Profile</a> | <button id="logout" value="Log Out">Log Out</button>
+ <a href="../market/market.php" class="banner w-25">Marketplace</a>  <a href="../library/library.php" class="banner">My Library</a> 
+<a href="../forum/forum.php" class="banner">Discussion Forum</a>  <a href="../profile.php" class="banner">My Profile</a>  <button id="logout" value="Log Out">Log Out</button>
 </form>
+<br>
 <br>
 <br>
 </nav>
