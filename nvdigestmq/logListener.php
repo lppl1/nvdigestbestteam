@@ -4,8 +4,9 @@ require_once(__DIR__ . '/path.inc');
 require_once(__DIR__ . '/get_host_info.inc');
 require_once(__DIR__ . '/rabbitMQLib.inc');
 
-function (){
-
+function writeLog($msg){
+	file_put_contents('/var/log/dealdigest/combined.log', date('Y-m-d H:i:s') . ' ' . json_encode($msg) . "\n", FILE_APPEND);
+	return true;
 }
-$server 
-$server
+$server =
+$server->
