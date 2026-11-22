@@ -8,5 +8,5 @@ function writeLog($msg){
 	file_put_contents('/var/log/dealdigest/combined.log', date('Y-m-d H:i:s') . ' ' . json_encode($msg) . "\n", FILE_APPEND);
 	return true;
 }
-$server =
-$server->
+$server = new rabbitMQServer(__DIR__ . '/nvRabbitMQ.ini', $argv[1]));
+$server->process_requests('writeLog');`
