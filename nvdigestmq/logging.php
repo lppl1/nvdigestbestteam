@@ -6,12 +6,13 @@ require_once(__DIR__ . '/rabbitMQLib.inc');
 // $section: logDB, logFrontend or logDMZ
 function logError($section, $component, $message) {
     try {
-        $ini = __DIR__ . '/nvRabbitMQ.ini';
-        $env = parse_ini_file($ini, true)['environment']['NAME'] ?? 'unknown';
+	$ini = __DIR__ . '/nvRabbitMQ.ini';
+	//I think remove this section since we don't need env since host is in every log line + hosts are gonna be renamed anyway to like db-prod etc. etc.
+       //$env = parse_ini_file($ini, tru)['environment']['NAME'] ?? 'unknown';
         $client = new rabbitMQClient($ini, $section);
         $client->publish([
             'type' => 'log',
-            'env' => $env,
+           // 'env' => $env,
             'host' => gethostname(),
             'component' => $component,
             'message' => $message,
