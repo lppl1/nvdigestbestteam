@@ -1,0 +1,14 @@
+[Unit]
+Description=DealDigest log listener
+After=network-online.target rabbitmq-server.service
+Wants=network-online.target
+
+[Service]
+User=lap39
+WorkingDirectory=/home/lap39/git/nvdigestbestteam/nvdigestmq
+ExecStart=/usr/bin/php logListener.php logDB
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
