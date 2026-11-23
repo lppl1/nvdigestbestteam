@@ -17,3 +17,14 @@ PASSWORD = it490
 VHOST = dmzadmin
 EXCHANGE = dmz_exchange
 QUEUE = dmz_requests
+
+[logDMZ]
+BROKER_HOST = 100.81.31.100
+BROKER_PORT = 5672
+USER = logadmin
+PASSWORD = it490
+VHOST = logadmin
+EXCHANGE = logs
+QUEUE = log_DMZ
+EXCHANGE_TYPE = fanout
+AUTO_DELETE = false
