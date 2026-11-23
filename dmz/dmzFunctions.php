@@ -1,7 +1,9 @@
 <?php
 if (file_exists(__DIR__ . '/vendor/autoload.php')) 
 	require_once(__DIR__ . '/vendor/autoload.php');
+
 use PHPMailer\PHPMailer\PHPMailer;
+require_once(__DIR__ . '/../nvdigestmq/logging.php');
 
 const CHEAPSHARK = "https://www.cheapshark.com/api/1.0/";
 const STEAM_STORE = "https://store.steampowered.com/api/appdetails";
@@ -19,6 +21,7 @@ function httpGet($url) {
 	$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	if ($response === false || $code !== 200) {
 		echo "httpGet failed (HTTP $code): $url\n";
+		logError("logDMZ", "httpGet", "HTTP $code: $url");
 	}
 	return json_decode($response, true);	
 }
@@ -59,6 +62,7 @@ function sendAlertEmail($to, $subject, $body, $html = null) {
 		return $mail->send();
 	} catch (Throwable $e) {
 		echo "Email failed:( " . $e->getMessage() . "\n";
+		logError("logDMZ", "sendAlertEmail", $e->getMessage());
 		return false;
 	}
 }
