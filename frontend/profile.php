@@ -5,7 +5,11 @@ require_once("auth.php")
 ?>
 
 
-	<head><title>Profile</title></head>
+	<head>
+		<title>Profile</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-yEPZ7jP9S0QKiUQ0m3jjsO4ProIW7wvR9gXkI7JOGa2XVsw53Yke2bsdkBbjmmiX" crossorigin="anonymous">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	</head>
 	<body>
 		 <div id="banner"></div>
 
@@ -66,6 +70,7 @@ require_once("auth.php")
 	
 	        <div id="footer">
 	        </div>
-
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js" integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IEB0hGzo9y5Bp9mYanr8Bu" crossorigin="anonymous"></script>
 	</body>
 </html>
