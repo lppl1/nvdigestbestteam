@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 require_once(__DIR__ . '/path.inc');
 require_once(__DIR__ . '/get_host_info.inc');
@@ -22,3 +23,4 @@ function logError($section, $component, $message) {
         error_log("logError failed: " . $e->getMessage());
     }
 }
+?>

@@ -5,7 +5,7 @@ require_once("nvdigestmq/rabbitMQLib.inc");
 $client = new rabbitMQClient("nvdigestmq/nvRabbitMQ.ini","nvdServer");
 if(isset($_COOKIE["session_key"])){
 //manually creating the message to send
-$request=[
+/*$request=[
 "type"=> "validate_session",
 "session_key"=>$_COOKIE["session_key"]
 ];
@@ -21,7 +21,7 @@ header("Location:../login.html");
 }
 
 else{
-header("Location:../login.html");
+header("Location:../login.html");*/
 }
 
 ?>
