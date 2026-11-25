@@ -1,0 +1,14 @@
+[Unit]
+Description=Launches Frontend Listener
+After=network.target remote-fs.target nss-lookup.target tailscale-online.target tailscaled.service
+Wants=tailscaled.service
+StartLimitIntervalSec=3
+[Service]
+Type=simple
+User=hamza
+WorkingDirectory=/home/hamza/web/nvdigestbestteam/nvdigestmq/
+ExecStart=/usr/bin/php /home/hamza/web/nvdigestbestteam/nvdigestmq/logListener.php logFrontend
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
